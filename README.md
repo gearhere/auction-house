@@ -4,9 +4,15 @@
 
 This is the UCL COMP0022 group database project. Yes!
 
-## Progress:
+## Progress
 
-- ✅ Two versions of ER diagram completed
+- [x] Two versions of ER diagram completed
+- [x] Attribute List
+- [x] Revision of ER diagram
+
+
+
+
 
 ## Attribute List
 
@@ -46,34 +52,29 @@ This is the UCL COMP0022 group database project. Yes!
 
 ### @Auction
 
-|   Attribute   |                      What it describes                       | Mandatory |
-| :-----------: | :----------------------------------------------------------: | :-------: |
-|   auctionNo   |               the unique number of the auction               |     T     |
-|   sellerId    |                              -                               |     T     |
-| auctionStatus |                    { 「open」, 「close」}                    |     T     |
-|  watchUserId  |        the id of the user who is watching the auction        |     T     |
-|     title     |                the short title of the auction                |     T     |
-|  description  |            the detail description of the auction             |     T     |
-|     price     | the prices relevant to the auction, including【startingPrice】, 【reservePrice】, 【increments】 |     T     |
-|     time      | the time information relevant to the auction, including【startDate】, 【endDate】 |     T     |
-|     bidNo     |                              -                               |     T     |
-|   /topBidNo   |       the number of the bid whose price is the highest       |     T     |
+|     Attribute      |                      What it describes                       | Mandatory |
+| :----------------: | :----------------------------------------------------------: | :-------: |
+|     auctionNo      |               the unique number of the auction               |     T     |
+|   auctionStatus    |                    { 「open」, 「close」}                    |     T     |
+|       title        |                the short title of the auction                |     T     |
+| auctionDescription |            the detail description of the auction             |     F     |
+|       price        | the prices relevant to the auction, including【startingPrice】, 【reservePrice】, 【increments】 |     T     |
+|    auctionTime     | the time information relevant to the auction, including【startDate】, 【endDate】 |     T     |
+|     /topBidNo      |       the number of the bid whose price is the highest       |     T     |
 
 ### @Items
 
-|  Attribute  |       What it describes       | Mandatory |
-| :---------: | :---------------------------: | :-------: |
-|   itemNo    | the unique number of the item |     T     |
-|  category   |    general types of items     |     T     |
-| subcategory |         detailed type         |     F     |
+|    Attribute    |              What it describes              | Mandatory |
+| :-------------: | :-----------------------------------------: | :-------: |
+|     itemNo      |        the unique number of the item        |     T     |
+|    category     | general types of items: {「certain types」} |     T     |
+| itemDescription |     the detail description of the item      |     T     |
 
 ### @Bids
 
 | Attribute |                      What it describes                       | Mandatory |
 | :-------: | :----------------------------------------------------------: | :-------: |
 |   bidNo   |                 the unique number of the bid                 |     T     |
-|  buyerId  |                              -                               |     T     |
-| auctionNo |                              -                               |     T     |
 | bidStatus |                     { 「win」, 「fail」}                     |     T     |
 | bidAmount | the bid price : ①「> 【startingPrice】」; ② 「> top price + 【increments】」 |     T     |
 |  bidTime  |               the time when the bid is created               |     T     |
@@ -82,8 +83,9 @@ This is the UCL COMP0022 group database project. Yes!
 ## Optional Ideas
 
 1. ratings
-2. multiplicity & price history
 3. administrator
+3. subcategory
+4. combination of items
 
 
 ## Questions
