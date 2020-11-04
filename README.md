@@ -84,7 +84,7 @@ This is the UCL COMP0022 group database project. Yes!
 
 1. ratings
 3. administrator
-3. subcategory
+3. subcategory(use preset categories for noew)
 4. combination of items
 
 
