@@ -115,7 +115,7 @@ passwordConfirmation.addEventListener("keyup", checkMatch);
 email.addEventListener("keyup", checkEmail);
 
 
-function checkForm() { if (passwordMatch && strongPassword && correctEmail) { button.disabled = false;} else {button.disabled = true;};
+function checkForm() { if (passwordMatch && strongPassword && correctEmail) { button.disabled = false;} else {button.disabled = true;};};
 
 </script>
 
