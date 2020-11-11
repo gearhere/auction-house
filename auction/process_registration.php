@@ -32,6 +32,7 @@ if (!$connection) {
     die("Connection failed: " . mysqli_connect_error());
   }
 
+
 // Execute SQL statement to save the
 // input to the database
 $sql = "INSERT INTO user (userId, accountType, email, password)
