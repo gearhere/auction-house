@@ -2,17 +2,36 @@
 <?php require("utilities.php")?>
 
 <?php
+//A function allows for database connection. Could be designed as an individual page.
+function load_query($query){
+    $connection = mysqli_connect('localhost','yangzou','123','auction_13');
+    $result = mysqli_query($connection, $query);
+    mysqli_close($connection);
+    return $result;}?>
+
+<?php
   // Get info from the URL:
-  $item_id = $_GET['item_id'];
+  //TODO: uncomment this when database is ready.
+  //$item_id = $_GET['item_id'];
+  $item_id = 8;//delete this when database is ready.
 
-  // TODO: Use item_id to make a query to the database.
+  // Use item_id to make a query to the database.
+  // first query to fetch tile, description, current highest bid and end date about this auction.
+  $query1 = ("SELECT a.title, a.auctionDescription, MAX(b.bidAmount), a.endDate FROM auction AS a, bid AS b, createbid AS c 
+WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_id'");
+  $result1 = load_query($query1);
+  $row1 = mysqli_fetch_row ($result1);
+  $title = $row1[0];
+  $description = $row1[1];
+  $current_price = $row1[2];
+  $end_time = new DateTime($row1[3]);
 
-  // DELETEME: For now, using placeholder data.
-  $title = "Placeholder title";
-  $description = "Description blah blah blah";
-  $current_price = 30.50;
-  $num_bids = 1;
-  $end_time = new DateTime('2020-11-02T00:00:00');
+  // second query to fetch the number of bids for this auction.
+  $query2 = ("SELECT COUNT(b.bidAmount) FROM auction AS a, bid AS b, createbid AS c
+WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_id'");
+  $result2 = load_query($query2);
+  $row2 = mysqli_fetch_row ($result2);
+  $num_bids = $row2[0];
 
   // TODO: Note: Auctions that have ended may pull a different set of data,
   //       like whether the auction ended in a sale or was cancelled due
@@ -56,13 +75,26 @@
 <?php endif /* Print nothing otherwise */ ?>
   </div>
 </div>
-
 <div class="row"> <!-- Row #2 with auction description + bidding info -->
   <div class="col-sm-8"> <!-- Left col with item info -->
 
     <div class="itemDescription">
     <?php echo($description); ?>
     </div>
+      <!-- TODO: List current bids. -->
+      <?php
+      $query3 = ("SELECT c.buyerId, b.bidAmount, b.bidTime FROM auction AS a, bid AS b, createbid AS c
+WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_id'");
+      $result3 = load_query($query3);
+      $row3 = mysqli_fetch_row ($result3);
+      echo "Current Bids: "."<br>";;
+      while ($row3) {
+          foreach ($row3 as &$value) {
+              echo $value.' ';
+          }
+          echo "<br>";
+          $row3 = mysqli_fetch_row ($result3);
+}?>
 
   </div>
 
@@ -72,6 +104,7 @@
 <?php if ($now > $end_time): ?>
      This auction ended <?php echo(date_format($end_time, 'j M H:i')) ?>
      <!-- TODO: Print the result of the auction here? -->
+
 <?php else: ?>
      Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></p>  
     <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></p>
@@ -84,11 +117,10 @@
         </div>
 	    <input type="number" class="form-control" id="bid">
       </div>
-      <button type="submit" class="btn btn-primary form-control">Place bid</button>
+      <button type="submit" class="btn btn-primary form-control" id="submit" disabled="true">Place bid</button>
     </form>
 <?php endif ?>
 
-  
   </div> <!-- End of right col with bidding info -->
 
 </div> <!-- End of row #2 -->
@@ -106,9 +138,7 @@ function addToWatchlist(button) {
 
   // This performs an asynchronous call to a PHP function using POST method.
   // Sends item ID as an argument to that function.
-  $.ajax('watchlist_funcs.php', {
-    type: "POST",
-    data: {functionname: 'add_to_watchlist', arguments: [<?php echo($item_id);?>]},
+  $.ajax('watchlist_funcs.php', {type: "POST", data: {functionname: 'add_to_watchlist', arguments: [<?php echo($item_id);?>]},
 
     success: 
       function (obj, textstatus) {
@@ -164,6 +194,44 @@ function removeFromWatchlist(button) {
         console.log("Error");
       }
   }); // End of AJAX call
-
 } // End of addToWatchlist func
+
+// check if bid price is lower than current bid price.
+var bid = document.getElementById("bid");
+var button = document.getElementById("submit");
+var bidValid = false;
+var x = parseInt("<?php echo"$current_price"?>");
+
+function checkBid() {
+    if(bid.value > x){
+        bidValid = true;}
+    else {
+        bidValid = false;
+    }
+    checkForm()
+}
+
+function checkForm() {
+    console.log(bidValid.value)
+    if (bidValid) {
+        button.disabled = false;
+    } else {
+        button.disabled = true;}
+}
+
+bid.addEventListener("keyup", checkBid);
+
 </script>
+
+    SET GLOBAL event_scheduler = ON;
+
+    CREATE EVENT IF NOT EXISTS test_event_01
+    ON SCHEDULE
+    EVERY 10 SECOND
+    DO
+    UPDATE auction
+    SET
+    auctionStatus = 0
+    WHERE
+    UNIX_TIMESTAMP(endDate) < UNIX_TIMESTAMP();
+    ;
