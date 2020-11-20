@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 20, 2020 at 11:37 AM
+-- Generation Time: Nov 20, 2020 at 06:45 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS `auction` (
   `startingPrice` int(10) UNSIGNED NOT NULL,
   `reservePrice` int(10) UNSIGNED DEFAULT NULL,
   `increments` int(10) UNSIGNED NOT NULL DEFAULT '1',
-  `startDate` date NOT NULL,
-  `endDate` date NOT NULL,
+  `startDate` datetime NOT NULL,
+  `endDate` datetime NOT NULL,
   `sellerId` int(11) NOT NULL,
   PRIMARY KEY (`auctionNo`),
   KEY `sellerId` (`sellerId`)
@@ -51,13 +51,13 @@ CREATE TABLE IF NOT EXISTS `auction` (
 --
 
 INSERT INTO `auction` (`auctionNo`, `auctionStatus`, `category`, `title`, `auctionDescription`, `startingPrice`, `reservePrice`, `increments`, `startDate`, `endDate`, `sellerId`) VALUES
-(140, 1, 'Category1', '434324', '4324234', 123, 123, 1, '2020-11-18', '2020-11-18', 123456),
-(141, 1, 'Category2', '132', '123', 123, 123, 1, '2020-11-19', '2020-11-19', 123456),
-(142, 1, 'Category1', 'a126', 'a126', 100, 150, 1, '2020-11-18', '2020-11-18', 123456),
-(143, 1, 'Category2', 'b11', 'b11', 50, 123, 1, '2020-11-19', '2020-11-19', 123456),
-(144, 1, 'Category1', 'c61', 'c61', 666, 1000, 1, '2020-11-19', '2020-11-19', 123456),
-(145, 1, 'Category2', 'b323', 'b323', 96, 150, 1, '2020-11-18', '2020-11-18', 123456),
-(146, 1, 'Category3', 'b11', 'b11', 7, 10, 1, '2020-11-19', '2020-11-19', 123456);
+(140, 0, 'Category1', '434324', '4324234', 123, 123, 1, '2020-11-18 00:00:00', '2020-11-18 00:00:00', 123456),
+(141, 0, 'Category2', '132', '123', 123, 123, 1, '2020-11-19 00:00:00', '2020-11-19 00:00:00', 123456),
+(142, 0, 'Category1', 'a126', 'a126', 100, 150, 1, '2020-11-18 00:00:00', '2020-11-18 00:00:00', 123456),
+(143, 1, 'Category2', 'b11', 'b11', 50, 123, 1, '2020-12-01 00:00:00', '2020-12-17 00:00:00', 123456),
+(144, 0, 'Category1', 'c61', 'c61', 666, 1000, 1, '2020-11-19 00:00:00', '2020-11-19 00:00:00', 123456),
+(145, 0, 'Category2', 'b323', 'b323', 96, 150, 1, '2020-11-18 00:00:00', '2020-11-18 00:00:00', 123456),
+(146, 1, 'Category3', 'b11', 'b11', 7, 10, 1, '2020-11-26 00:00:00', '2020-11-29 00:00:00', 123456);
 
 -- --------------------------------------------------------
 
@@ -72,7 +72,17 @@ CREATE TABLE IF NOT EXISTS `bid` (
   `bidAmount` int(10) UNSIGNED NOT NULL,
   `bidTime` datetime NOT NULL,
   PRIMARY KEY (`bidNo`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `bid`
+--
+
+INSERT INTO `bid` (`bidNo`, `bidStatus`, `bidAmount`, `bidTime`) VALUES
+(1, 1, 999, '2020-11-16 12:28:23'),
+(2, 1, 1001, '2020-11-17 08:36:29'),
+(3, 1, 2077, '2020-11-16 07:25:33'),
+(4, 1, 666, '2020-11-17 18:37:35');
 
 -- --------------------------------------------------------
 
@@ -138,6 +148,16 @@ CREATE TABLE IF NOT EXISTS `createbid` (
   KEY `auctionNo` (`auctionNo`),
   KEY `buyerId` (`buyerId`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `createbid`
+--
+
+INSERT INTO `createbid` (`bidNo`, `auctionNo`, `buyerId`) VALUES
+(1, 140, 1),
+(2, 140, 1),
+(3, 141, 2),
+(4, 140, 3);
 
 -- --------------------------------------------------------
 

@@ -209,20 +209,20 @@ auction_house
 
 ### Auction
 
-|       Field        |    Type     | Null |   Key   |     Default     |                            Extra                             |
-| :----------------: | :---------: | :--: | :-----: | :-------------: | :----------------------------------------------------------: |
-|     auctionNo      |     int     |  NO  | Primary |      NULL       |               unsigned; auto_increment by one                |
-|   auctionStatus    |   Boolean   |  NO  |         |      True       |                                                              |
-|      category      | varchar(35) | NOT  |         |      Other      |                           trigger                            |
-|       title        | varchar(35) |  NO  |         | Unnamed Auction |                                                              |
-| auctionDescription | text(2000)  | YES  |         |                 |                                                              |
-|   startingPrice    |     int     |  NO  |         |                 |                           unsigned                           |
-|    reservePrice    |     int     | YES  |         |                 |                           unsigned                           |
-|     increments     |     int     |  NO  |         |        1        |                           unsigned                           |
-|     startDate      |  datetime   |  NO  |         |      today      |                                                              |
-|      endDate       |  datetime   |  NO  |         |                 |                          \>= today                           |
-|    ~~topBidNo~~    |     int     |  NO  | Foreign |                 |            ON UPDATE CASCADE ON DELETE NO ACTION             |
-|      sellerId      |     int     |  NO  | Foreign |                 | Seller(sellerId); ON UPDATE CASCADE ON DELETE NO ACTION; unsigned |
+|       Field        |     Type     | Null |   Key   |     Default     |                            Extra                             |
+| :----------------: | :----------: | :--: | :-----: | :-------------: | :----------------------------------------------------------: |
+|     auctionNo      |     int      |  NO  | Primary |      NULL       |               unsigned; auto_increment by one                |
+|   auctionStatus    |   Boolean    |  NO  |         |      True       |                                                              |
+|      category      | varchar(35)  | NOT  |         |      Other      |                           trigger                            |
+|       title        | varchar(35)  |  NO  |         | Unnamed Auction |                                                              |
+| auctionDescription |  text(2000)  | YES  |         |                 |                                                              |
+|   startingPrice    |     int      |  NO  |         |                 |                           unsigned                           |
+|    reservePrice    |     int      | YES  |         |                 |                           unsigned                           |
+|     increments     |     int      |  NO  |         |        1        |                           unsigned                           |
+|     startDate      | ==datetime== |  NO  |         |      today      |                                                              |
+|      endDate       | ==datetime== |  NO  |         |                 |                          \>= today                           |
+|    ~~topBidNo~~    |     int      |  NO  | Foreign |                 |            ON UPDATE CASCADE ON DELETE NO ACTION             |
+|      sellerId      |     int      |  NO  | Foreign |                 | Seller(sellerId); ON UPDATE CASCADE ON DELETE NO ACTION; unsigned |
 
 ### Bid
 
