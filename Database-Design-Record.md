@@ -150,12 +150,19 @@ auction_house
 |  password  | varchar(255) |  NO  |           |         | md5 encryption, ==other requirements?== |
 | firstName  | varchar(35)  |  NO  |           |         |                                         |
 |  lastName  | varchar(35)  |  NO  |           |         |                                         |
-|   street   | varchar(35)  |  NO  |           |         |                                         |
-|    city    | varchar(35)  |  NO  |           |         |                                         |
-|  postcode  |  varchar(8)  |  NO  |           |         |             6 ≦ length ≦ 8              |
 |  ~~age~~   |   tinyint    |  NO  |           |         |                unsigned                 |
 | ~~gender~~ |   char(1)    | YES  |           |  NULL   |                  M, F                   |
 |   level    |   tinyint    |  NO  |           |    0    |                unsigned                 |
+
+### BuyerAddress
+
+|   Field   |    Type     | Null |   Key   | Default |                            Extra                             |
+| :-------: | :---------: | :--: | :-----: | :-----: | :----------------------------------------------------------: |
+| addressId |     int     |  NO  | Primary |         |               unsigned; auto_increment by one                |
+|  street   | varchar(35) |  NO  |         |         |                                                              |
+|   city    | varchar(35) |  NO  |         |         |                                                              |
+| postcode  | varchar(8)  |  NO  |         |         |                        6 ≦ length ≦ 8                        |
+|  buyerId  |     int     |  NO  | Foreign |    -    | buyer(buyerId); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
 
 ### BuyerTel
 
@@ -164,7 +171,6 @@ auction_house
 |   buyerId   |     int     |  NO  | Primary, Foreign |    -    | buyer(buyerId); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
 |    telNo    | varchar(15) | YES  |                  |  NULL   |                       10 ≦ length ≦ 15                       |
 | backupTelNo | varchar(15) | YES  |                  |  NULL   |                       10 ≦ length ≦ 15                       |
-|             |             |      |                  |         |                                                              |
 
 ### Seller
 
@@ -183,6 +189,16 @@ auction_house
 |  gender   |   char(1)    | YES  |           |  NULL   |              M, F               |
 |   level   |   tinyint    |  NO  |           |    0    |            unsigned             |
 
+### SellerAddress
+
+|   Field   |    Type     | Null |   Key   | Default |                            Extra                             |
+| :-------: | :---------: | :--: | :-----: | :-----: | :----------------------------------------------------------: |
+| addressId |     int     |  NO  | Primary |         |               unsigned; auto_increment by one                |
+|  street   | varchar(35) |  NO  |         |         |                                                              |
+|   city    | varchar(35) |  NO  |         |         |                                                              |
+| postcode  | varchar(8)  |  NO  |         |         |                        6 ≦ length ≦ 8                        |
+| sellerId  |     int     |  NO  | Foreign |    -    | seller(sellerId); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
+
 ### SellerTel
 
 |    Field    |    Type     | Null |       Key        | Default |                            Extra                             |
@@ -190,7 +206,6 @@ auction_house
 |  sellerId   |     int     |  NO  | Primary, Foreign |    -    | buyer(buyerId); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
 |    telNo    | varchar(15) | YES  |                  |  NULL   |                       10 ≦ length ≦ 15                       |
 | backupTelNo | varchar(15) | YES  |                  |  NULL   |                       10 ≦ length ≦ 15                       |
-|             |             |      |                  |         |                                                              |
 
 ### Auction
 
@@ -208,7 +223,6 @@ auction_house
 |      endDate       |  datetime   |  NO  |         |                 |                          \>= today                           |
 |    ~~topBidNo~~    |     int     |  NO  | Foreign |                 |            ON UPDATE CASCADE ON DELETE NO ACTION             |
 |      sellerId      |     int     |  NO  | Foreign |                 | Seller(sellerId); ON UPDATE CASCADE ON DELETE NO ACTION; unsigned |
-|                    |             |      |         |                 |                                                              |
 
 ### Bid
 
@@ -218,7 +232,6 @@ auction_house
 | bidStatus | Boolean  |  NO  |         |  True   |                                 |
 | bidAmount |   int    |  NO  |         |         |            unsigned             |
 |  bidTime  | datetime |  NO  |         |         |          current time?          |
-|           |          |      |         |         |                                 |
 
 ### CreateBid
 
@@ -227,7 +240,6 @@ auction_house
 |   bidNo   | int  |  NO  | Primary, Foreign |    -    |  bid(bidNo); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned  |
 | auctionNo | int  |  NO  | Foreign |    -    | auctionNo(auctionNo); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
 |  buyerId  | int  |  NO  | Foreign |    -    | buyer(buyerId); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
-|           |      |      |         |         |                                                              |
 
 ### Watching
 
@@ -235,7 +247,6 @@ auction_house
 | :-------: | :--: | :--: | :-----: | :-----: | :----------------------------------------------------------: |
 |  buyerId  | int  |  NO  | Primary, Foreign |    -    | buyer(buyerId); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
 | auctionNo | int  |  NO  | Primary, Foreign |    -    | auctionNo(auctionNo); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
-|           |      |      |         |         |                                                              |
 
 # MySQL Examples
 
@@ -314,12 +325,13 @@ auction_house
 3. [Shall we allow **Category** hold NULL?](#category null) *
 4. [ Values of  **Category**, **Level**...](#domain constraints) *
 5. TEXT or VARCHAR for **auctionDescription**? *
-6. DATETIME or TIMESTAMP？
-7. [Does auctionStatus & endDate violate 3NF?](#3NF)
-8. Data input check *
-9. Shall we use `DEFAULT` together with `NOT NULL`？
-10. `OUTPUT` in MySQL?
-11. **INDEX**
+6. Individual address table? *
+7. DATETIME or TIMESTAMP？
+8. [Does auctionStatus & endDate violate 3NF?](#3NF)
+9. Data input check *
+10. Shall we use `DEFAULT` together with `NOT NULL`？
+11. `OUTPUT` in MySQL?
+12. **INDEX**
 
 
 
