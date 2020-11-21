@@ -7,18 +7,25 @@ This is the UCL COMP0022 group database project. Yes!
 ## Progress
 
 - [x] Two versions of ER diagram
-
 - [x] Attribute list
-
 - [x] Revision of ER diagram
-
 - [x] Database first design
+- [ ] dummy data
 
-Coding to implement features
+### Coding progress
 
-- [ ] log in
-- [ ] registration
-- [ ] create auction
+| &#9744; Feature 1  | &#9745; Feature 2 | &#9744; Feature3 | &#9744; Feature4 |
+| -------------------------- | ----------------- | ---------------- | ---------------- |
+| &#9745; log in <br>&#9745; regirstration <br>&#9744; roles (privileges)     | &#9745; create auction <br>&#9745; input auction data <br>&#9745; store auction data | &#9745; search auction <br/>&#9745; sort <br/> | &#9744; create bid <br/>&#9744; list bids <br/>&#9744; close auction |
+
+**browse.php**
+
+- [ ] placeholder
+- [ ] arrow
+- [ ] price default value (without bid)
+- [ ] Sort by None
+- [ ] display total number of auctions that meet conditions
+- [ ] `print an informative message`
 
 ## Optional Ideas
 
