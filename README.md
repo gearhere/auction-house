@@ -1,8 +1,14 @@
 # auction-house-g13
 
-[toc]
-
 This is the UCL COMP0022 group database project. Yes!
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+- [auction-house-g13](#auction-house-g13)
+  * [Progress](#progress)
+    + [Coding progress](#coding-progress)
+  * [Optional Ideas](#optional-ideas)
+  * [Questions](#questions)
 
 ## Progress
 
