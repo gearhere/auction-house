@@ -20,39 +20,81 @@
               <i class="fa fa-search"></i>
             </span>
           </div>
-          <input type="text" class="form-control border-left-0" id="keyword" placeholder="Search for anything" name='keyword'>
+          <input type="text" class="form-control border-left-0" id="keyword" placeholder="Search for anything" value="<?= (isset($_GET['keyword'])) ? strip_tags($_GET['keyword']) : '' ?>" name='keyword'>
         </div>
       </div>
     </div>
     <div class="col-md-3 pr-0">
       <div class="form-group">
         <label for="cat" class="sr-only">Search within:</label>
+        <?php
+          // get selected value
+          $select_cat = isset($_GET['cat']) ? $_GET['cat'] : '';
+        ?>
         <select class="form-control" id="cat" name="cat">
           <option selected value="all">All categories</option>
-          <option value="Category1">Category 1</option>
-          <option value="Category2">Category 2</option>
-          <option value="Category3">Category 3</option>
-          <option value="Fashion">Fashion</option>
-          <option value="Electronics">Electronics</option>
-          <option value="Sports, Hobbies & Leisure">Sports, Hobbies & Leisure</option>
-          <option value="Home & Garden">Home & Garden</option>
-          <option value="Motors">Motors</option>
-          <option value="Collectables & Art">Collectables & Art</option>
-          <option value="Business, Office & Industrial Supplies">Business, Office & Industrial Supplies</option>
-          <option value="Health">Health</option>
-          <option value="Media">Media</option>
-          <option value=">Others">Others</option>
+          <option value="Category1"
+            <?php echo $select_cat == 'Category1' ? 'selected' : '' ?>
+            >Category 1</option>
+          <option value="Category2"
+            <?php if($select_cat == 'Category2') { ?> selected <?php } ?>
+            >Category 2</option>
+          <option value="Category3"
+            <?php echo $select_cat == 'Category3' ? 'selected' : '' ?>
+            >Category 3</option>
+          <option value="Fashion"
+            <?php echo $select_cat == 'Fashion' ? 'selected' : '' ?>
+            >Fashion</option>
+          <option value="Electronics"
+            <?php echo $select_cat == 'Electronics' ? 'selected' : '' ?>
+            >Electronics</option>
+          <option value="Sports, Hobbies & Leisure"
+            <?php echo $select_cat == 'Sports, Hobbies & Leisure' ? 'selected' : '' ?>
+            >Sports, Hobbies & Leisure</option>
+          <option value="Home & Garden"
+            <?php echo $select_cat == 'Home & Garden' ? 'selected' : '' ?>
+            >Home & Garden</option>
+          <option value="Motors"
+            <?php echo $select_cat == 'Motors' ? 'selected' : '' ?>
+            >Motors</option>
+          <option value="Collectables & Art"
+            <?php echo $select_cat == 'Collectables & Art' ? 'selected' : '' ?>
+            >Collectables & Art</option>
+          <option value="Business, Office & Industrial Supplies"
+            <?php echo $select_cat == 'Business, Office & Industrial Supplies' ? 'selected' : '' ?>
+            >Business, Office & Industrial Supplies</option>
+          <option value="Health"
+            <?php echo $select_cat == 'Health' ? 'selected' : '' ?>
+            >Health</option>
+          <option value="Media"
+            <?php echo $select_cat == 'Media' ? 'selected' : '' ?>
+            >Media</option>
+          <option value=">Others"
+            <?php echo $select_cat == 'Others' ? 'selected' : '' ?>
+            >Others</option>
         </select>
       </div>
     </div>
     <div class="col-md-3 pr-0">
       <div class="form-inline">
         <label class="mx-2" for="order_by">Sort by:</label>
+        <?php
+          $select_order = isset($_GET['order_by']) ? $_GET['order_by'] : '';
+        ?>
         <select class="form-control" id="order_by" name="order_by">
-          <option selected value="createtime">New to old</option>
-          <option value="pricelow">Price (low to high)</option>
-          <option value="pricehigh">Price (high to low)</option>
-          <option value="date">Soonest expiry</option>
+          <option selected value="selected">None</option>
+          <option value="createtime"
+            <?php echo $select_order == 'createtime' ? 'selected' : '' ?>
+            >New to old</option>
+          <option value="pricelow"
+            <?php echo $select_order == 'pricelow' ? 'selected' : '' ?>
+            >Price (low to high)</option>
+          <option value="pricehigh"
+            <?php echo $select_order == 'pricehigh' ? 'selected' : '' ?>
+            >Price (high to low)</option>
+          <option value="date"
+            <?php echo $select_order == 'date' ? 'selected' : '' ?>
+            >Soonest expiry</option>
         </select>
       </div>
     </div>
@@ -112,7 +154,7 @@
 
   if (!isset($_GET['order_by'])) {
     // TODO: Define behavior if an order_by value has not been specified.
-    $query_cond = " auctionNo DESC";
+    $query_cond = " auctionNo";
     $query .= " ORDER BY ";
     $query .= $query_cond;
   }
@@ -162,6 +204,8 @@
     // TODO: number of bids
     // TODO: fix choice display
   }
+
+  //echo $query;
 
   $result = mysqli_query($connection, $query) or die('result.' . mysql_error());
   

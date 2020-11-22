@@ -32,6 +32,7 @@ This is the UCL COMP0022 group database project. Yes!
 - [ ] Sort by None
 - [ ] display total number of auctions that meet conditions
 - [ ] `print an informative message`
+- [ ] bug: unable to search &
 
 ## Optional Ideas
 
