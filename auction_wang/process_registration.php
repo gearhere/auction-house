@@ -9,7 +9,7 @@
 
 
 <?php
-$connection = mysqli_connect('localhost', 'root', '', 'auctionhouse') or die ('Error connecting to MySQL server.' . mysqli_error());
+    include 'database.php';
 
 if (!isset($_POST['emailReg']) || !isset($_POST['passwordReg']) || !isset($_POST['passwordConfirmationReg']) || !isset($_POST['firstName']) ||
 !isset($_POST['lastName']) || !isset($_POST['streetAddress']) || !isset($_POST['city']) || !isset($_POST['postcode'])) {

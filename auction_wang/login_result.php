@@ -9,7 +9,7 @@
 
 
 <?php
-$connection = mysqli_connect('localhost', 'root', '', 'auctionhouse') or die ('Error connecting to MySQL server.' . mysql_error());
+include 'database.php';
 if (isset($_POST["email"]) & isset($_POST["password"]) & !empty($_POST["email"]) & !empty($_POST["password"])) {
 $email= trim($_POST["email"]);
 $password = $_POST["password"];
