@@ -33,35 +33,26 @@
         ?>
         <select class="form-control" id="cat" name="cat">
           <option selected value="all">All categories</option>
-          <option value="Category1"
-            <?php echo $select_cat == 'Category1' ? 'selected' : '' ?>
-            >Category 1</option>
-          <option value="Category2"
-            <?php if($select_cat == 'Category2') { ?> selected <?php } ?>
-            >Category 2</option>
-          <option value="Category3"
-            <?php echo $select_cat == 'Category3' ? 'selected' : '' ?>
-            >Category 3</option>
           <option value="Fashion"
             <?php echo $select_cat == 'Fashion' ? 'selected' : '' ?>
             >Fashion</option>
           <option value="Electronics"
             <?php echo $select_cat == 'Electronics' ? 'selected' : '' ?>
             >Electronics</option>
-          <option value="Sports, Hobbies & Leisure"
-            <?php echo $select_cat == 'Sports, Hobbies & Leisure' ? 'selected' : '' ?>
+          <option value="SportsandHobbies"
+            <?php echo $select_cat == 'SportsandHobbies' ? 'selected' : '' ?>
             >Sports, Hobbies & Leisure</option>
-          <option value="Home & Garden"
-            <?php echo $select_cat == 'Home & Garden' ? 'selected' : '' ?>
+          <option value="HomeandGarden"
+            <?php echo $select_cat == 'HomeandGarden' ? 'selected' : '' ?>
             >Home & Garden</option>
           <option value="Motors"
             <?php echo $select_cat == 'Motors' ? 'selected' : '' ?>
             >Motors</option>
-          <option value="Collectables & Art"
-            <?php echo $select_cat == 'Collectables & Art' ? 'selected' : '' ?>
+          <option value="CollectablesandArt"
+            <?php echo $select_cat == 'CollectablesandArt' ? 'selected' : '' ?>
             >Collectables & Art</option>
-          <option value="Business, Office & Industrial Supplies"
-            <?php echo $select_cat == 'Business, Office & Industrial Supplies' ? 'selected' : '' ?>
+          <option value="BusiandIndu"
+            <?php echo $select_cat == 'BusiandIndu' ? 'selected' : '' ?>
             >Business, Office & Industrial Supplies</option>
           <option value="Health"
             <?php echo $select_cat == 'Health' ? 'selected' : '' ?>
@@ -190,7 +181,10 @@
       $num_results ++;
       
   }
-  echo($num_results);
+
+  echo('
+    <div class="p-2 mr-5"><h6>The are ' . $num_results . ' result for this search </h6>'  . '</div>');
+
   $results_per_page = 3;
   $max_page = ceil($num_results / $results_per_page);
   
@@ -199,7 +193,7 @@
     $curr_page = 1;
     $query_cond = " LIMIT 0,3 " ;
     $query .= $query_cond;
-    echo($query_cond);
+    // echo($query_cond);
     $result = mysqli_query($connection, $query) or die('result.' . mysql_error());
 
     // Use a while loop to print a list item for each auction listing retrieved from the query
@@ -222,15 +216,9 @@
   else 
   {
       $curr_page = $_GET['page'];
-      #$query_cond .= "limit" . ($page-1) * 5 . ",5" ;
-      #$query_cond = " LIMIT" . ($curr_page-1) * 3 . ",3" ;
-      #$query_cond = " LIMIT (".$curr_page."-1)*3,3 " ;
-      #$query_cond = " LIMIT "."2"."*3,3 " ;
       $index = ($curr_page-1)*3;
-      #$query_cond = " LIMIT (".$curr_page."-1)*3,3 " ;
       $query_cond = " LIMIT ".$index.",3" ;
-      echo($query_cond);
-      #$query_cond = " LIMIT 0,3 " ;
+      // echo($query_cond);
       $query .= $query_cond;
       $result = mysqli_query($connection, $query) or die('result.' . mysql_error());
       while ($row = mysqli_fetch_assoc($result))
@@ -260,12 +248,9 @@
   // TODO: Calculate me for real
 ?>
 
-<!-- <div class="container mt-5"> -->
-
 <!-- TODO: If result set is empty, print an informative message. Otherwise... -->
 
 <ul class="list-group">
-
 </ul>
 
 <!-- Pagination for results listings -->
@@ -328,10 +313,6 @@
 
   </ul>
 </nav>
-
-
 </div>
-
-
 
 <?php include_once("footer.php")?>
