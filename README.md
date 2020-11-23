@@ -16,7 +16,14 @@ This is the UCL COMP0022 group database project. Yes!
 - [x] Attribute list
 - [x] Revision of ER diagram
 - [x] Database first design
-- [ ] dummy data
+- [x] dummy data
+
+
+
+
+
+- [ ] report
+- [ ] demo vedio
 
 ### Coding progress
 
@@ -26,13 +33,29 @@ This is the UCL COMP0022 group database project. Yes!
 
 **browse.php**
 
-- [ ] placeholder
+- [x] placeholder
 - [ ] arrow
 - [ ] price default value (without bid)
-- [ ] Sort by None
-- [ ] display total number of auctions that meet conditions
-- [ ] `print an informative message`
+- [x] Sort by None
+- [x] display total number of auctions that meet conditions
+- [x] `print an informative message`
 - [ ] bug: unable to search &
+- [ ] the bid out of date
+- [ ] the way of category value: can not use blank, ',',and'&', need to change the $post[cat] because on the page after successfully create auction, it will show value like "category: SportsandHobbies"
+- [ ] (change the CSS of the line showing total number of reslults )
+
+**create_auction.php**
+
+- [ ] ( can not give float when giving price )
+- [ ] (have the same "name" for category, it can work well with out this change, just may make the code looks more consistent )
+
+**create_auction_result.php**
+
+- [ ] (make pop a function)
+
+**function.php**
+
+- [ ] make it could be use by register and create auction
 
 ## Optional Ideas
 
