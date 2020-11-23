@@ -27,7 +27,8 @@ This is the UCL COMP0022 group database project. Yes!
 - [ ] trigger
 - [ ] system event
 - [ ] engine
-- [ ] email & ransaction hash
+- [ ] email & transaction hash
+- [ ] winner
 
 ### Coding progress
 
@@ -43,10 +44,11 @@ This is the UCL COMP0022 group database project. Yes!
 - [x] display total number of auctions that meet conditions
 - [x] `print an informative message`
 - [ ] pagination arrow wrong display
-- [ ] bug: unable to search &
-- [ ] the bid out of date
-- [ ] the way of category value: can not use blank, ',',and'&', need to change the $post[cat] because on the page after successfully create auction, it will show value like "category: SportsandHobbies"
+- [ ] ~~the bid out of date~~
+- [x] the way of category value: can not use blank, ',',and'&', need to change the $post[cat] because on the page after successfully create auction, it will show value like "category: SportsandHobbies"
 - [ ] (change the CSS of the line showing total number of reslults )
+- [ ] user can input page number to switch
+- [ ] user can choose how many auctions listed in one page
 
 **create_auction.php**
 

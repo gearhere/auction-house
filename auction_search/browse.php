@@ -20,6 +20,7 @@
               <i class="fa fa-search"></i>
             </span>
           </div>
+          <!-- keep the input value display -->
           <input type="text" class="form-control border-left-0" id="keyword" placeholder="Search for anything" value="<?= (isset($_GET['keyword'])) ? strip_tags($_GET['keyword']) : '' ?>" name='keyword'>
         </div>
       </div>
@@ -34,7 +35,10 @@
         <select class="form-control" id="cat" name="cat">
           <option selected value="all">All categories</option>
           <option value="Fashion"
-            <?php echo $select_cat == 'Fashion' ? 'selected' : '' ?>
+            <?php
+            // keep selected value display
+              echo $select_cat == 'Fashion' ? 'selected' : '' 
+            ?>
             >Fashion</option>
           <option value="Electronics"
             <?php echo $select_cat == 'Electronics' ? 'selected' : '' ?>
@@ -104,6 +108,7 @@
   
   include 'database.php';
   
+  // the query as base
   $query = "SELECT title, auctionNo, auctionDescription, category, endDate, bidNo,
                 CASE WHEN startingPrice>=max(bidAmount) OR max(bidAmount) IS NULL
                 THEN startingPrice
@@ -112,7 +117,10 @@
                 FROM (SELECT title,auction.auctionNo,auctionDescription,category, endDate, createbid.bidNo, bid.bidAmount, startingPrice
                       FROM (auction LEFT JOIN createbid ON createbid.auctionNo=auction.auctionNo)
                       LEFT JOIN bid ON createbid.bidNo=bid.bidNo";
+  // any sql condition except for ORDER BY
   $query_cond = "";
+  // conditions of ORDER BY
+  $order_cond = "";
 
   if(!isset($_GET['keyword'])) {
   }
@@ -120,7 +128,6 @@
     $keyword = $_GET['keyword'];
     $query_cond .= " title like '%$keyword%'";
     if ($_GET['cat'] == "all") {
-      // TODO: Define behavior if a category has not been specified.
     }
     else {
       if (!empty($query_cond)){
@@ -132,76 +139,61 @@
   }
 
   if (!empty($query_cond)){
-    $query .= " WHERE ";
-    $query .= $query_cond;
+    $query_cond = " WHERE ". $query_cond;
   }
 
   if (!isset($_GET['order_by'])) {
-    $query_cond .= ") AS comprehensive
-    GROUP BY auctionNo";
-    $query .= $query_cond;
   }
   else {
     $ordering = $_GET['order_by'];
-
-    if ($ordering === "date") {
-      $query_cond = ") AS comprehensive WHERE endDtae > NOW() GROUP BY auctionNo ORDER BY endDate";
-      $query .= $query_cond;
-    }
-
-    else {
-    $query_cond = ") AS comprehensive
-    GROUP BY auctionNo";
-    $query .= $query_cond;
-
     if ($ordering === "createtime") {
-      $query_cond = " ORDER BY auctionNo DESC";
-      $query .= $query_cond;
+      $order_cond = " ORDER BY auctionNo DESC";
     }
 
-    // TODO: add ended auctions
     if ($ordering === "date") {
-      $query_cond = " ORDER BY endDate";
-      $query .= $query_cond;
+      // remove ended auctions
+      $query_cond = $query_cond." AND endDate > NOW()";
+      $order_cond = " ORDER BY endDate";
     }
 
     if ($ordering == "pricelow") {
-      $query_cond = " ORDER BY maxJoinPrice";
-      $query .= $query_cond;
+      $order_cond = " ORDER BY maxJoinPrice";
     }
+
     if ($ordering == "pricehigh") {
-      $query_cond = " ORDER BY maxJoinPrice DESC";
-      $query .= $query_cond;
+      $order_cond = " ORDER BY maxJoinPrice DESC";
     }
-  }
     // TODO: display if same price order (Alphabetically?)
   }
+  
+  $query_cond .= ") AS comprehensive
+  GROUP BY auctionNo";
+  $query .= $query_cond;
+  $query .= $order_cond;
 
-  echo 'Final: '.$query;
-
+  // DEBUG: print the final sql statement used
+  // echo 'Final: '.$query;
   $result = mysqli_query($connection, $query) or die('result.' . mysql_error());
   
   // pagination
   $num_results = 0; 
   while ($row = mysqli_fetch_assoc($result))
   {
-    
       $num_results ++;
-      
   }
 
   echo('
     <div class="p-2 mr-5"><h6>The are ' . $num_results . ' result for this search </h6>'  . '</div>');
 
-  $results_per_page = 3;
+  $results_per_page = 10;
   $max_page = ceil($num_results / $results_per_page);
   
+  //! could be simple! a function maybe 
   if (!isset($_GET['page'])) 
   {
     $curr_page = 1;
-    $query_cond = " LIMIT 0,3 " ;
+    $query_cond = " LIMIT 0,10 " ;
     $query .= $query_cond;
-    // echo($query_cond);
     $result = mysqli_query($connection, $query) or die('result.' . mysql_error());
 
     // Use a while loop to print a list item for each auction listing retrieved from the query
@@ -224,9 +216,8 @@
   else 
   {
       $curr_page = $_GET['page'];
-      $index = ($curr_page-1)*3;
-      $query_cond = " LIMIT ".$index.",3" ;
-      // echo($query_cond);
+      $index = ($curr_page-1)*10;
+      $query_cond = " LIMIT ".$index.",10" ;
       $query .= $query_cond;
       $result = mysqli_query($connection, $query) or die('result.' . mysql_error());
       while ($row = mysqli_fetch_assoc($result))
@@ -245,15 +236,6 @@
         print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
       }    
   }
-  /* TODO: Use above values to construct a query. Use this query to 
-     retrieve data from the database. (If there is no form data entered,
-     decide on appropriate default value/default query to make. */
-
-  //! could be simple!
-  
-  /* For the purposes of pagination, it would also be helpful to know the
-     total number of results that satisfy the above query */
-  // TODO: Calculate me for real
 ?>
 
 <!-- TODO: If result set is empty, print an informative message. Otherwise... -->
