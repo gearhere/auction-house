@@ -29,7 +29,6 @@ This is the UCL COMP0022 group database project. Yes!
 - [ ] placeholder
 - [ ] arrow
 - [ ] price default value (without bid)
-- [ ] Sort by None
 - [ ] display total number of auctions that meet conditions
 - [ ] `print an informative message`
 - [ ] bug: unable to search &

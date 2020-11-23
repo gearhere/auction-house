@@ -69,9 +69,9 @@
           <option value="Media"
             <?php echo $select_cat == 'Media' ? 'selected' : '' ?>
             >Media</option>
-          <option value=">Others"
+          <option value="Others"
             <?php echo $select_cat == 'Others' ? 'selected' : '' ?>
-            >Others</option>
+          >Others</option>
         </select>
       </div>
     </div>
@@ -110,29 +110,24 @@
 
 <div class="container mt-5">
 <?php
-  // Retrieve these from the URL
-  // $item_id='';
-  // $title='';
-  // $description='';
-  // $current_price='30';
-  // $num_bids='';
-  // $end_date='';
   
   include 'database.php';
-  $query = "SELECT title,auctionNo,auctionDescription,category, endDate FROM auction";
+  
+  $query = "SELECT title, auctionNo, auctionDescription, category, endDate, bidNo,
+                CASE WHEN startingPrice>=max(bidAmount) OR max(bidAmount) IS NULL
+                THEN startingPrice
+                ELSE max(bidAmount)
+                END maxJoinPrice
+                FROM (SELECT title,auction.auctionNo,auctionDescription,category, endDate, createbid.bidNo, bid.bidAmount, startingPrice
+                      FROM (auction LEFT JOIN createbid ON createbid.auctionNo=auction.auctionNo)
+                      LEFT JOIN bid ON createbid.bidNo=bid.bidNo";
   $query_cond = "";
-
-  if (!isset($_GET['keyword'])) {
-    // TODO: Define behavior if a keyword has not been specified.
-  }
-  else {
-    $keyword = $_GET['keyword'];
-    $query_cond .= " title like '%$keyword%'";
-  }
 
   if(!isset($_GET['keyword'])) {
   }
   else {
+    $keyword = $_GET['keyword'];
+    $query_cond .= " title like '%$keyword%'";
     if ($_GET['cat'] == "all") {
       // TODO: Define behavior if a category has not been specified.
     }
@@ -146,66 +141,44 @@
   }
 
   if (!empty($query_cond)){
-    // echo "query_cond: $query_cond <br>";
     $query .= " WHERE ";
     $query .= $query_cond;
-    // echo"query: $query";
   }
 
   if (!isset($_GET['order_by'])) {
-    // TODO: Define behavior if an order_by value has not been specified.
-    $query_cond = " auctionNo";
-    $query .= " ORDER BY ";
+    $query_cond .= ") AS comprehensive
+    GROUP BY auctionNo";
     $query .= $query_cond;
   }
   else {
+    $query_cond = ") AS comprehensive
+    GROUP BY auctionNo";
+    $query .= $query_cond;
+
     $ordering = $_GET['order_by'];
     if ($ordering === "createtime") {
-      $query_cond = " auctionNo DESC";
+      $query_cond = " ORDER BY auctionNo DESC";
+      $query .= $query_cond;
     }
 
     // TODO: add ended auctions
     if ($ordering === "date") {
-      $query_cond = " endDate";
-      $query .= " AND auctionStatus = 1 ORDER BY ";
-      $query .= $query_cond;
-    }
-    else {
-      $query .= " ORDER BY ";
+      $query_cond = " ORDER BY endDate";
       $query .= $query_cond;
     }
 
-    // Order by price
     if ($ordering == "pricelow") {
-      $query = "SELECT title,auctionNo,auctionDescription,category, endDate, bidNo, max(bidAmount)
-                FROM (SELECT title,auction.auctionNo,auctionDescription,category, endDate, createbid.bidNo, bid.bidAmount
-                      FROM (auction LEFT JOIN createbid ON createbid.auctionNo=auction.auctionNo)
-                      LEFT JOIN bid ON createbid.bidNo=bid.bidNo";
-      $query .= " WHERE ";
+      $query_cond = " ORDER BY maxJoinPrice";
       $query .= $query_cond;
-      $query .= ") AS comprehensive
-                 GROUP BY auctionNo
-                 ORDER BY max(bidAmount)";
     }
     if ($ordering == "pricehigh") {
-      $query = "SELECT title,auctionNo,auctionDescription,category, endDate, bidNo,max(bidAmount)
-                FROM (SELECT title,auction.auctionNo,auctionDescription,category, endDate, createbid.bidNo, bid.bidAmount
-                      FROM (auction LEFT JOIN createbid ON createbid.auctionNo=auction.auctionNo)
-                      LEFT JOIN bid ON createbid.bidNo=bid.bidNo";
-      $query .= " WHERE ";
+      $query_cond = " ORDER BY maxJoinPrice DESC";
       $query .= $query_cond;
-      $query .= ") AS comprehensive
-                 GROUP BY auctionNo
-                 ORDER BY max(bidAmount) DESC";
     }
-
-    // TODO: Current bid Price instead of startPrice
     // TODO: display if same price order (Alphabetically?)
-    // TODO: number of bids
-    // TODO: fix choice display
   }
 
-  //echo $query;
+  // echo 'Final: '.$query;
 
   $result = mysqli_query($connection, $query) or die('result.' . mysql_error());
   
@@ -224,24 +197,18 @@
   if (!isset($_GET['page'])) 
   {
     $curr_page = 1;
-    #$query_cond .= "limit" . ($curr_page-1) * 5 . ",5" ;
     $query_cond = " LIMIT 0,3 " ;
     $query .= $query_cond;
     echo($query_cond);
     $result = mysqli_query($connection, $query) or die('result.' . mysql_error());
+
+    // Use a while loop to print a list item for each auction listing retrieved from the query
     while ($row = mysqli_fetch_assoc($result))
     {
       $item_id = $row['auctionNo'];
       $title = $row['title'];
       $description = $row['auctionDescription'];
-
-      $price_query = "SELECT MAX(bidAmount)
-                      FROM bid INNER JOIN createbid
-                      ON createbid.bidNo=bid.bidNo
-                      WHERE auctionNo='$item_id'";
-      $price_result = mysqli_query($connection, $price_query) or die('result.' . mysql_error());
-      $price_row = mysqli_fetch_assoc($price_result);
-      $current_price = $price_row['MAX(bidAmount)'];
+      $current_price = $row['maxJoinPrice'];
 
       $bid_num_query = "SELECT COUNT(bidNo) FROM createbid WHERE auctionNo='$item_id'";
       $bid_num_result = mysqli_query($connection, $bid_num_query) or die('result.' . mysql_error());
@@ -271,14 +238,7 @@
         $item_id = $row['auctionNo'];
         $title = $row['title'];
         $description = $row['auctionDescription'];
-
-        $price_query = "SELECT MAX(bidAmount)
-                        FROM bid INNER JOIN createbid
-                        ON createbid.bidNo=bid.bidNo
-                        WHERE auctionNo='$item_id'";
-        $price_result = mysqli_query($connection, $price_query) or die('result.' . mysql_error());
-        $price_row = mysqli_fetch_assoc($price_result);
-        $current_price = $price_row['MAX(bidAmount)'];
+        $current_price = $row['maxJoinPrice'];
 
         $bid_num_query = "SELECT COUNT(bidNo) FROM createbid WHERE auctionNo='$item_id'";
         $bid_num_result = mysqli_query($connection, $bid_num_query) or die('result.' . mysql_error());
@@ -305,29 +265,6 @@
 <!-- TODO: If result set is empty, print an informative message. Otherwise... -->
 
 <ul class="list-group">
-
-<!-- TODO: Use a while loop to print a list item for each auction listing
-     retrieved from the query -->
-
-<?php
-  // Demonstration of what listings will look like using dummy data.
-  // $item_id = "87021";
-  // $title = "Dummy title";
-  // $description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum eget rutrum ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Phasellus feugiat, ipsum vel egestas elementum, sem mi vestibulum eros, et facilisis dui nisi eget metus. In non elit felis. Ut lacus sem, pulvinar ultricies pretium sed, viverra ac sapien. Vivamus condimentum aliquam rutrum. Phasellus iaculis faucibus pellentesque. Sed sem urna, maximus vitae cursus id, malesuada nec lectus. Vestibulum scelerisque vulputate elit ut laoreet. Praesent vitae orci sed metus varius posuere sagittis non mi.";
-  // $current_price = 30;
-  // $num_bids = 1;
-  // $end_date = new DateTime('2020-09-16T11:00:00');
-  
-  // This uses a function defined in utilities.php
-  // $item_id = "516";
-  // $title = "Different title";
-  // $description = "Very short description.";
-  // $current_price = 13.50;
-  // $num_bids = 3;
-  // $end_date = new DateTime('2020-11-02T00:00:00');
-  
-  //print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);
-?>
 
 </ul>
 
