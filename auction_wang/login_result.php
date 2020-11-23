@@ -1,55 +1,78 @@
+<?php include_once("header.php")?>
+<?php include_once("footer.php")?>
+
+<script type="text/javascript">
+    $(window).on('load',function(){
+        $('#logResult').modal('show');
+    });
+</script>
+
+
 <?php
+$connection = mysqli_connect('localhost', 'root', '', 'auctionhouse') or die ('Error connecting to MySQL server.' . mysql_error());
+if (isset($_POST["email"]) & isset($_POST["password"]) & !empty($_POST["email"]) & !empty($_POST["password"])) {
+$email= trim($_POST["email"]);
+$password = $_POST["password"];
 
-// TODO: Extract $_POST variables, check they're OK, and attempt to login.
-// Notify user of success/failure and redirect/give navigation options.
+$buyerQuery = "SELECT email, hash FROM buyer WHERE email = '$email' ";
+$sellerQuery = "SELECT email, hash FROM seller WHERE email = '$email' ";
+$fetchBuyer = mysqli_query($connection, $buyerQuery) ? mysqli_fetch_array(mysqli_query($connection, $buyerQuery)) : false;
+$fetchSeller = mysqli_query($connection, $sellerQuery) ? mysqli_fetch_array(mysqli_query($connection, $sellerQuery)) : false;
 
-// For now, I will just set session variables and redirect.
- $x = 0;
-session_start();
-$_SESSION['logged_in'] = true;
-$_SESSION['username'] = "test";
-$_SESSION['account_type'] = "buyer";
+if ($fetchBuyer) {
 
-    
-    $connection = mysqli_connect("localhost","auction_house","ucl", "auction_house");
-    if (mysqli_connect_errno()){
-        echo 'Failed to connect to the MySQL';
-    }
-   
-
-    $query = "SELECT * FROM user ";
-    $result = mysqli_query($connection, $query);
-    
-    echo '<table border="1">';
-    while ($row = mysqli_fetch_array($result))
-    {
-    
-        if ($row['username'] == $_POST["uname"] & $row['userpassword'] == $_POST["ups"])# fdsf
-        {
-
-            #echo $row['username'];
-            #echo $_POST["uname"];
-            echo('<div class="text-center">You are now logged in! You will be redirected shortly.</div>');
-            header("refresh:5;url=index.php");
-            $x= 1;
-        }
-        #echo '<tr><td>' . $row['username']. '</td><td>' .
-        #$row['userpassword']. '</tr></td>';
-        #echo '</table>';
+    if (password_verify($password, $fetchBuyer["hash"])) {
+        $_SESSION['logged_in'] = true;
+        $_SESSION['username'] = $email;
+        $_SESSION['account_type'] = "buyer" ;
+        $message = 'Logged in successfully! Redirecting...';
     }
 
-    if ($x==0)
-    {
-    echo('<div class="text-center">Wrong, try again.</div>');
+    else {
+        $message='Password incorrect! Redirecting...';
     }
-           
 
-    
-#echo('<div class="text-center">You are now logged in! You will be redirected shortly.</div>');
+}
 
-// Redirect to index after 5 seconds
+else if ($fetchSeller) {
+    if (password_verify($password, $fetchSeller["hash"])) {
+        $_SESSION['logged_in'] = true;
+        $_SESSION['username'] = $email;
+        $_SESSION['account_type'] = "seller" ;
+        $message = 'Logged in successfully! Redirecting...';
+    }
 
-   
+    else {
+        $message='Password incorrect! Redirecting...';
+    }
+}
+else {
+    $message='User not found... Redirecting...';
 
+
+
+}
+echo "<div class=\"modal hide fade\" id=\"logResult\" role=\"dialog\">
+   <div class=\"modal-dialog\">
+     <div class=\"modal-content\">
+ 
+       <!-- Modal Header -->
+       <div class=\"modal-header\">
+         <h4 class=\"modal-title\">Registration Result</h4>
+       </div>
+ 
+       <!-- Modal body -->
+       <div class=\"modal-body\">
+         <p>$message</p>
+       </div>
+ 
+     </div>
+   </div>
+ </div>";
+ header("refresh:3;url=browse.php");
+
+
+
+}
 
 ?>

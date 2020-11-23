@@ -49,16 +49,16 @@
           <div class="col-sm-10">
             <select class="form-control" id="auctionCategory" name = 'auctionCategory'>
               <option selected>Choose...</option>
-              <option value="Category1">Fashion</option>
-              <option value="Category2">Electronics</option>
-              <option value="Category3">Sports, Hobbies & Leisure</option>
-              <option value="Category4">Home & Garden</option>
-              <option value="Category5">Motors</option>
-              <option value="Category6">Collectables & Art</option>
-              <option value="Category7">Business, Office & Industrial Supplies</option>
-              <option value="Category8">Health</option>
-              <option value="Category9">Media</option>
-              <option value="Category9">Others</option>
+              <option value="Fashion">Fashion</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Sports, Hobbies & Leisure">Sports, Hobbies & Leisure</option>
+              <option value="Home & Garden">Home & Garden</option>
+              <option value="Motors">Motors</option>
+              <option value="Collectables & Art">Collectables & Art</option>
+              <option value="Busi, Offi & Indu">Business, Office & Industrial Supplies</option>
+              <option value="Health">Health</option>
+              <option value="Media">Media</option>
+              <option value="Others">Others</option>
             </select>
   <!--             <option value="Category5">Motors</option>
               <option value="Category6">Collectables & Art</option>
