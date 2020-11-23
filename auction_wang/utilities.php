@@ -43,6 +43,20 @@ function print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time)
   
   // Calculate time to auction end
   $now = new DateTime();
+  
+  // DEBUG
+  // echo "end time: $end_time ";
+  // echo 'type: '.gettype($end_time).'<br>';
+  $end_time = new DateTime($end_time);
+  // $endtime = $end_time->format('Y-m-d H:i:s');
+  // echo "end time: $endtime ";
+  // echo 'end_time type: '.gettype($end_time).'<br>';
+  // echo strtotime("2009-10-21 16:00:10")
+  // $nowtime = $now->format('Y-m-d H:i:s');
+  // echo "current time: $nowtime ";
+  // echo gettype($now).'<br>';
+  //
+  
   if ($now > $end_time) {
     $time_remaining = 'This auction has ended';
   }

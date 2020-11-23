@@ -34,6 +34,9 @@ function getItem()
     $item['auctionStartPrice'] = $_POST['auctionStartPrice'];
     $item['auctionReservePrice'] = $_POST['auctionReservePrice'];
     $item['auctionEndDate'] = $_POST['auctionEndDate'];
+    
+    $item['auctionStartDate'] = date("Y-m-d H:i:s");
+ 
     return $item;
 }
 
@@ -45,6 +48,7 @@ function printItem($item)
     echo "<p>auctionStartPrice: ${item['auctionStartPrice']}</p>";
     echo "<p>auctionReservePrice: ${item['auctionReservePrice']}</p>";
     echo "<p>auctionEndDate: ${item['auctionEndDate']}</p>";
+    echo "<p>auctionStarDate: ${item['auctionStartDate']}</p>";
 }
 
 function saveToDatabase($item)
@@ -52,10 +56,13 @@ function saveToDatabase($item)
     #$connection = mysqli_connect("localhost","auction_house","ucl", "auction_house")
     #or die('Error connecting to MySQL server.' . mysql_error());
     include 'database.php';
-    $query = "INSERT INTO auction (title,auctionDescription,category,startingPrice,reservePrice,endDate)".
-    "VALUES ('${item['auctionTitle']}','${item['auctionDetails']}','${item['auctionCategory']}','${item['auctionStartPrice']}','${item['auctionReservePrice']}','${item['auctionEndDate']}')";
-    $result = mysqli_query($connection,$query);
-
+    $query = "INSERT INTO auction (title,auctionDescription,category,startingPrice,reservePrice,startDate,endDate,sellerId)".
+    "VALUES ('${item['auctionTitle']}','${item['auctionDetails']}','${item['auctionCategory']}','${item['auctionStartPrice']}','${item['auctionReservePrice']}','${item['auctionStartDate']}','${item['auctionEndDate']}','123456')";
+    #echo( $query);
+    
+    $result = mysqli_query($connection,$query)
+    or die('Error connecting to MySQL server.' . mysql_error()); 
+   
 }
 
 function checkRepetition($item)
@@ -70,7 +77,25 @@ function checkRepetition($item)
     {
     if ($item['auctionTitle']==$row['title'] && $item['auctionDetails']==$row['auctionDescription'] &&$item['auctionCategory']==$row['category'] &&$item['auctionStartPrice']==$row['startingPrice'] )
     {
-        echo 'repeat, try again';
+        #echo 'repeat, try again';
+        $message = 'repeat, try again';
+        echo "<div class=\"modal hide fade\" id=\"auctionResult\" role=\"dialog\">
+            <div class=\"modal-dialog\">
+            <div class=\"modal-content\">
+            
+            <!-- Modal Header -->
+            <div class=\"modal-header\">
+            <h4 class=\"modal-title\">repeat auction result</h4>
+            </div>
+            
+            <!-- Modal body -->
+            <div class=\"modal-body\">
+            <p>$message</p>
+            </div>
+            
+            </div>
+            </div>
+            </div>";
         return NULL;
     }
     }

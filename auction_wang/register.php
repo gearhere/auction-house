@@ -10,7 +10,7 @@
     <label for="accountType" class="col-sm-2 col-form-label text-right">Registering as a:</label>
 	<div class="col-sm-10">
 	  <div class="form-check form-check-inline">
-        <input class="form-check-input" type="radio" name="accountType" id="accountBuyer" value="buyer" checked>
+        <input class="form-check-input" type="radio" name="accountType" id="accountBuyer" value="buyer">
         <label class="form-check-label" for="accountBuyer">Buyer</label>
       </div>
       <div class="form-check form-check-inline">
@@ -23,26 +23,61 @@
   <div class="form-group row">
     <label for="emailReg" class="col-sm-2 col-form-label text-right">Email</label>
 	<div class="col-sm-10">
-      <input type="text" class="form-control" id="emailReg" name="email" placeholder="Email">
+      <input type="text" class="form-control" id="emailReg" name="emailReg" placeholder="Email">
       <small id="emailHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+	</div>
+  </div>
+  <div class="form-group row">
+    <label for="firstName" class="col-sm-2 col-form-label text-right">First Name</label>
+	<div class="col-sm-10">
+      <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First Name">
+      <small id="firstNameHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+	</div>
+  </div>
+  <div class="form-group row">
+    <label for="lastName" class="col-sm-2 col-form-label text-right">Last Name</label>
+	<div class="col-sm-10">
+      <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last Name">
+      <small id="lastNameHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+	</div>
+  </div>
+  <div class="form-group row">
+    <label for="streetAddress" class="col-sm-2 col-form-label text-right">Address</label>
+	<div class="col-sm-10">
+      <input type="text" class="form-control" id="streetAddress" name="streetAddress" placeholder="Street Address">
+      <small id="streetAddressHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+	</div>
+  </div>
+  <div class="form-group row">
+    <label for="city" class="col-sm-2 col-form-label text-right">City</label>
+	<div class="col-sm-10">
+      <input type="text" class="form-control" id="city" name="city" placeholder="City">
+      <small id="cityHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+	</div>
+  </div>
+  <div class="form-group row">
+    <label for="postcode" class="col-sm-2 col-form-label text-right">Postcode</label>
+	<div class="col-sm-10">
+      <input type="text" class="form-control" id="postcode" name="postcode" placeholder="Postcode">
+      <small id="postcodeHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
 	</div>
   </div>
   <div class="form-group row">
     <label for="passwordReg" class="col-sm-2 col-form-label text-right">Password</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" id="passwordReg" name="password" placeholder="Password">
-      <small id="passwordHelp" class="form-text text-muted"><span class="text-danger">* Must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number. 8 characters minimum</span></small>
+      <input type="password" class="form-control" id="passwordReg" name="passwordReg" placeholder="Password">
+      <small id="passwordHelp" class="form-text text-muted"><span class="text-danger">* Must contain at least 1 uppercase letter, 1 lowercase letter, and 1 number. 8 characters minimum.</span></small>
     </div>
   </div>
   <div class="form-group row">
     <label for="passwordConfirmationReg" class="col-sm-2 col-form-label text-right">Repeat password</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" id="passwordConfirmationReg" name="confpassword" placeholder="Enter password again">
+      <input type="password" class="form-control" id="passwordConfirmationReg" name="passwordConfirmationReg" placeholder="Enter password again">
       <small id="passwordConfirmationHelp" class="form-text text-muted"><span class="text-danger">* Passwords don't match.</span></small>
     </div>
   </div>
   <div class="form-group row">
-    <button type="submit" class="btn btn-primary form-control" id="submitReg" disabled="true">Register</button>
+    <button type="submit" class="btn btn-primary form-control" id="submitReg" disabled  >Register</button>
   </div>
 </form>
 
@@ -50,72 +85,105 @@
 
 </div>
 <script>
-var email = document.getElementById("emailReg");
-var password = document.getElementById("passwordReg");
-var passwordConfirmation = document.getElementById("passwordConfirmationReg");
-var button = document.getElementById("submitReg");
-var strongPassword = false;
-var passwordMatch = false;
-var correctEmail = false;
 
+inputs = document.getElementsByTagName('input');
+
+for (i = 0; i<inputs.length; ++i ) {
+  inputs[i].addEventListener("keyup",checkForm);
+}
+
+document.getElementById("accountBuyer").addEventListener("click", checkForm);
+document.getElementById("accountSeller").addEventListener("click", checkForm);
 
 function checkEmail() { 
-  var warning = document.getElementById("emailHelp");
   var correctEmailEx = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-  if (correctEmailEx.test(email.value)) { correctEmail = true; warning.style.display = "none"; }
-  else {correctEmail = false; warning.style.display = "block";}
-checkForm();
+  if (correctEmailEx.test(inputs.namedItem("emailReg").value)) { document.getElementById("emailHelp").style.display = "none"; return true }
+  else {document.getElementById("emailHelp").style.display = "block"; return false}
+
+}
+
+function checkOther(element) {
+if (element.value.length >= 3) {
+  document.getElementById(element.id.concat("Help")).style.display = "none";
+  return true;}
+else {
+  document.getElementById(element.id.concat("Help")).style.display = "block";
+  return false;}
+
 
 }
 
 function checkPassword() { 
-  var passwordChars = password.value.split('');
+  var passwordChars = inputs.namedItem("passwordReg").value.split('');
   var scores = {
       uppercase: 0,
       lowercase: 0,
       number: 0,
   }
 
-  var Uppercase = /[ABCDEFGHIJKLMNOPRQSTUVWXYZ]/;
-  var Lowercase = /[abcdefghijklmnoprqstuvwxyz]/;
-  var Numbers = /[0123456789]/;
-
   for (var i=0; i<passwordChars.length; i++) {
-    if (Uppercase.test(passwordChars[i])) {scores.uppercase += 1;}
-    else if (Lowercase.test(passwordChars[i])) {scores.lowercase += 1;}
-    else if (Numbers.test(passwordChars[i])) {scores.number += 1; } 
+    if (/[ABCDEFGHIJKLMNOPRQSTUVWXYZ]/.test(passwordChars[i])) {scores.uppercase += 1;}
+    else if (/[abcdefghijklmnoprqstuvwxyz]/.test(passwordChars[i])) {scores.lowercase += 1;}
+    else if (/[0123456789]/.test(passwordChars[i])) {scores.number += 1; } 
   }
-  var warning = document.getElementById("passwordHelp");
   if (scores.uppercase > 0 && scores.lowercase > 0 && scores.number > 0 && passwordChars.length > 8) {
-    warning.style.display = "none";
-    strongPassword = true; }
+    document.getElementById("passwordHelp").style.display = "none";
+    return true;}
   else {
-    warning.style.display = "block";
-    strongPassword = false;
+    document.getElementById("passwordHelp").style.display = "block";
+    return false;
   }
-checkForm();
-checkMatch();
 }
 
 function checkMatch() {
-  var warning = document.getElementById("passwordConfirmationHelp");
-  if (password.value == passwordConfirmation.value) {
-      warning.style.display = "none";
-      passwordMatch = true;
+  if (inputs.namedItem("passwordReg").value == inputs.namedItem("passwordConfirmationReg").value && inputs.namedItem("passwordReg").value != '') {
+    document.getElementById("passwordConfirmationHelp").style.display = "none";
+    return true;
   }
   else {
-    warning.style.display = "block";
-    passwordMatch = false;
+    document.getElementById("passwordConfirmationHelp").style.display = "block";
+    return false;
   }
-  checkForm();
 }
 
-password.addEventListener("keyup", checkPassword);
-passwordConfirmation.addEventListener("keyup", checkMatch);
-email.addEventListener("keyup", checkEmail);
+function checkRadio() {
+  if (document.getElementById("accountBuyer").checked || document.getElementById("accountSeller").checked) {
+    document.getElementById("accountTypeHelp").style.display = "none";
+    return true;
+  }
+  else {
+    document.getElementById("accountTypeHelp").style.display = "block";
+    return false;
+  }
 
 
-function checkForm() { if (passwordMatch && strongPassword && correctEmail) { button.disabled = false;} else {button.disabled = true;};};
+  }
+
+
+
+function checkForm() { 
+  checkPassword();
+  checkMatch();
+  checkEmail();
+  checkRadio();
+  checkOther(inputs.namedItem("firstName"));
+  checkOther(inputs.namedItem("lastName"));
+  checkOther(inputs.namedItem("streetAddress"));
+  checkOther(inputs.namedItem("city"));
+  checkOther(inputs.namedItem("postcode"));
+  var completeCheck =   checkPassword() &&
+                        checkMatch() &&
+                        checkEmail() &&
+                        checkRadio() &&
+                        checkOther(inputs.namedItem("firstName")) &&
+                        checkOther(inputs.namedItem("lastName")) &&
+                        checkOther(inputs.namedItem("streetAddress")) &&
+                        checkOther(inputs.namedItem("city")) &&
+                        checkOther(inputs.namedItem("postcode"));
+  
+  if (completeCheck) { document.getElementById("submitReg").disabled = 
+false;} else {document.getElementById("submitReg").disabled = true;};};
+
 
 </script>
 
