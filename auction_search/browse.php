@@ -142,11 +142,18 @@
     $query .= $query_cond;
   }
   else {
+    $ordering = $_GET['order_by'];
+
+    if ($ordering === "date") {
+      $query_cond = ") AS comprehensive WHERE endDtae > NOW() GROUP BY auctionNo ORDER BY endDate";
+      $query .= $query_cond;
+    }
+
+    else {
     $query_cond = ") AS comprehensive
     GROUP BY auctionNo";
     $query .= $query_cond;
 
-    $ordering = $_GET['order_by'];
     if ($ordering === "createtime") {
       $query_cond = " ORDER BY auctionNo DESC";
       $query .= $query_cond;
@@ -166,10 +173,11 @@
       $query_cond = " ORDER BY maxJoinPrice DESC";
       $query .= $query_cond;
     }
+  }
     // TODO: display if same price order (Alphabetically?)
   }
 
-  // echo 'Final: '.$query;
+  echo 'Final: '.$query;
 
   $result = mysqli_query($connection, $query) or die('result.' . mysql_error());
   
