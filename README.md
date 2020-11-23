@@ -48,6 +48,7 @@ This is the UCL COMP0022 group database project. Yes!
 
 - [ ] ( can not give float when giving price )
 - [ ] (have the same "name" for category, it can work well with out this change, just may make the code looks more consistent )
+- [ ] for register and auction creating, it doesn't work smoothly for move forward and backword( sometimes the '* Required.'  doesn't  disappear)
 
 **create_auction_result.php**
 
