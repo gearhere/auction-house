@@ -17,25 +17,32 @@ This is the UCL COMP0022 group database project. Yes!
 - [x] Attribute list
 - [x] Revision of ER diagram
 - [x] Database first design
-- [ ] dummy data (Yang's)
-
 - [ ] report
 - [ ] demo vedio
 
 ### Database progress
 
+- [x] referential integrity
 - [ ] trigger
 - [ ] system event
-- [ ] engine
+- [ ] complete dummy data
+- [x] engine
 - [ ] email & transaction hash
-- [ ] winner
+- [x] winner
 - [ ] query optimization
+- [ ] spam
 
 ### Coding progress
 
 | &#9744; Feature 1  | &#9745; Feature 2 | &#9744; Feature3 | &#9744; Feature4 |
 | -------------------------- | ----------------- | ---------------- | ---------------- |
 | &#9745; log in <br>&#9745; regirstration <br>&#9744; roles (privileges)     | &#9745; create auction <br>&#9745; input auction data <br>&#9745; store auction data | &#9745; search auction <br/>&#9745; sort <br/>&#9744; bugs | &#9744; create bid <br/>&#9744; list bids <br/>&#9744; close auction |
+
+**Cross**
+
+- [ ] session variable --> user id
+- [ ] remove seller watchlist
+- [ ] where to put buyer watchlist
 
 **browse.php**
 
@@ -50,6 +57,7 @@ This is the UCL COMP0022 group database project. Yes!
 - [ ] (change the CSS of the line showing total number of reslults )
 - [ ] user can input page number to switch
 - [ ] user can choose how many auctions listed in one page
+- [ ] Garbled
 
 **create_auction.php**
 
@@ -64,6 +72,10 @@ This is the UCL COMP0022 group database project. Yes!
 **function.php**
 
 - [ ] make it could be use by register and create auction
+
+**process_registration.php**
+
+- [ ] registration detail requirements wrong
 
 ## Optional Ideas
 

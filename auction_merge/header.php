@@ -4,8 +4,10 @@
   // ONLY after the user's login credentials have been verified via a 
   // database query.
   session_start();
-  $_SESSION['logged_in'] = false;
-  $_SESSION['account_type'] = 'seller';
+  if(!isset($_SESSION['logged_in'])) {
+      $_SESSION['logged_in'] = false;
+      $_SESSION['account_type'] = 'buyer';
+  }
 ?>
 
 
@@ -22,7 +24,7 @@
   <!-- Custom CSS file -->
   <link rel="stylesheet" href="css/custom.css">
 
-  <title>[My Auction Site] <!--CHANGEME!--></title>
+  <title>Auction House</title>
 </head>
 
 
@@ -30,7 +32,9 @@
 
 <!-- Navbars -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light mx-2">
-  <a class="navbar-brand" href="#">Site Name <!--CHANGEME!--></a>
+  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bag" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M8 1a2.5 2.5 0 0 0-2.5 2.5V4h5v-.5A2.5 2.5 0 0 0 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5v9a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V5H2z"/></svg>
+  <a class="navbar-brand" href="#">&nbsp; GROUP 13 </a>
   <ul class="navbar-nav ml-auto">
     <li class="nav-item">
     
@@ -91,11 +95,11 @@
         <form method="POST" action="login_result.php">
           <div class="form-group">
             <label for="email">Email</label>
-            <input type="text" class="form-control" id="email" placeholder="Email">
+            <input type="text" class="form-control" id="email" name = "email" placeholder="Email">
           </div>
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password">
+            <input type="password" class="form-control" id="password" name = "password" placeholder="Password">
           </div>
           <button type="submit" class="btn btn-primary form-control">Sign in</button>
         </form>
