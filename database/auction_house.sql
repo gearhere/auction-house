@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `auction` (
   `auctionNo` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `auctionStatus` tinyint(1) NOT NULL DEFAULT '1',
   `category` varchar(35) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Other',
-  `title` varchar(35) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Unnamed Auction',
+  `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Unnamed Auction',
   `auctionDescription` mediumtext COLLATE utf8mb4_unicode_ci,
   `startingPrice` int(10) UNSIGNED NOT NULL,
   `reservePrice` int(10) UNSIGNED DEFAULT NULL,
@@ -46,18 +46,6 @@ CREATE TABLE IF NOT EXISTS `auction` (
   KEY `sellerId` (`sellerId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `auction`
---
-
-INSERT INTO `auction` (`auctionNo`, `auctionStatus`, `category`, `title`, `auctionDescription`, `startingPrice`, `reservePrice`, `increments`, `startDate`, `endDate`, `sellerId`) VALUES
-(140, 0, 'Category1', '434324', '4324234', 123, 123, 1, '2020-11-18 00:00:00', '2020-11-18 00:00:00', 123456),
-(141, 0, 'Category2', '132', '123', 123, 123, 1, '2020-11-19 00:00:00', '2020-11-19 00:00:00', 123456),
-(142, 0, 'Category1', 'a126', 'a126', 100, 150, 1, '2020-11-18 00:00:00', '2020-11-18 00:00:00', 123456),
-(143, 1, 'Category2', 'b11', 'b11', 50, 123, 1, '2020-12-01 00:00:00', '2020-12-17 00:00:00', 123456),
-(144, 0, 'Category1', 'c61', 'c61', 666, 1000, 1, '2020-11-19 00:00:00', '2020-11-19 00:00:00', 123456),
-(145, 0, 'Category2', 'b323', 'b323', 96, 150, 1, '2020-11-18 00:00:00', '2020-11-18 00:00:00', 123456),
-(146, 1, 'Category3', 'b11', 'b11', 7, 10, 1, '2020-11-26 00:00:00', '2020-11-29 00:00:00', 123456);
 
 -- --------------------------------------------------------
 
@@ -73,16 +61,6 @@ CREATE TABLE IF NOT EXISTS `bid` (
   `bidTime` datetime NOT NULL,
   PRIMARY KEY (`bidNo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `bid`
---
-
-INSERT INTO `bid` (`bidNo`, `bidStatus`, `bidAmount`, `bidTime`) VALUES
-(1, 1, 999, '2020-11-16 12:28:23'),
-(2, 1, 1001, '2020-11-17 08:36:29'),
-(3, 1, 2077, '2020-11-16 07:25:33'),
-(4, 1, 666, '2020-11-17 18:37:35');
 
 -- --------------------------------------------------------
 
@@ -149,15 +127,6 @@ CREATE TABLE IF NOT EXISTS `createbid` (
   KEY `buyerId` (`buyerId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `createbid`
---
-
-INSERT INTO `createbid` (`bidNo`, `auctionNo`, `buyerId`) VALUES
-(1, 140, 1),
-(2, 140, 1),
-(3, 141, 2),
-(4, 140, 3);
 
 -- --------------------------------------------------------
 
@@ -221,6 +190,20 @@ CREATE TABLE IF NOT EXISTS `watching` (
   PRIMARY KEY (`buyerId`,`auctionNo`),
   KEY `auctionNo` (`auctionNo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+--
+-- Table structure for table `auctionWinner, auctionNo, buyerNo`
+--
+
+DROP TABLE IF EXISTS `auctionWinner`;
+CREATE TABLE IF NOT EXISTS `auctionWinner` (
+  `auctionNo` int(10) UNSIGNED NOT NULL,
+  `buyerId` int(10) UNSIGNED NOT NULL,
+  PRIMARY KEY (`auctionNo`),
+  KEY `auctionNo` (`auctionNo`),
+  KEY `buyerId` (`buyerId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
