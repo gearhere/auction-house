@@ -66,7 +66,7 @@ else if ($_POST['accountType'] == 'buyer') {
     $result = mysqli_fetch_array(mysqli_query($connection, $checkSeller)) ? true : false;
 
     if (!$result) {
-    $addUser = "INSERT INTO buyer(email,hash,firstName,lastName,street,city,postcode) VALUES ('$email','$hash','$firstName','$lastName','$street','$city','$postcode')";
+    $addUser = "INSERT INTO buyer(email,password,firstName,lastName) VALUES ('$email','$hash','$firstName','$lastName')";
     $processRegistration = mysqli_query($connection, $addUser);
         if(!empty(mysqli_error($connection))) { $message = 'User under this e-mail already exists! You will be redirected back to the registration page.'; header("refresh:5,url=register.php");}
         else { $message = 'You have registered successfully! Redirecting...'; header("refresh:5;url=browse.php");}
@@ -85,7 +85,7 @@ else if ($_POST['accountType'] == 'seller') {
     $result = mysqli_fetch_array(mysqli_query($connection, $checkBuyer)) ? true : false;
 
     if (!$result) {
-    $addUser = "INSERT INTO seller(email,hash,firstName,lastName,street,city,postcode) VALUES ('$email','$hash','$firstName','$lastName','$street','$city','$postcode')";
+    $addUser = "INSERT INTO seller(email,password,firstName,lastName) VALUES ('$email','$hash','$firstName','$lastName')";
     $processRegistration = mysqli_query($connection, $addUser);
         if(!empty(mysqli_error($connection))) { echo mysqli_error($connection); $message = 'User under this e-mail already exists! You will be redirected back to the registration page.'; header("refresh:5,url=register.php");}
         else { $message = 'You have registered successfully! Redirecting...'; header("refresh:5;url=browse.php");}
