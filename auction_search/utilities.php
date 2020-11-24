@@ -1,5 +1,4 @@
 <?php
-
 // display_time_remaining:
 // Helper function to help figure out what time to display
 function display_time_remaining($interval) {

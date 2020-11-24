@@ -210,7 +210,7 @@
       $num_bids = $bid_num_row['COUNT(bidNo)'];
 
       $end_date = $row['endDate'];
-      print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);     
+      print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date);  
     }
   }  
   else 

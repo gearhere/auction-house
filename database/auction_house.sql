@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 22, 2020 at 07:18 PM
+-- Generation Time: Nov 24, 2020 at 06:17 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -20,6 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `auction_house`
 --
+DROP DATABASE IF EXISTS `auction_house`;
 CREATE DATABASE IF NOT EXISTS `auction_house` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `auction_house`;
 
@@ -35,17 +36,30 @@ CREATE TABLE IF NOT EXISTS `auction` (
   `auctionStatus` tinyint(1) NOT NULL DEFAULT '1',
   `category` varchar(35) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Other',
   `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Unnamed Auction',
-  `auctionDescription` mediumtext COLLATE utf8mb4_unicode_ci,
+  `auctionDescription` text COLLATE utf8mb4_unicode_ci,
   `startingPrice` int(10) UNSIGNED NOT NULL,
   `reservePrice` int(10) UNSIGNED DEFAULT NULL,
   `increments` int(10) UNSIGNED NOT NULL DEFAULT '1',
   `startDate` datetime NOT NULL,
   `endDate` datetime NOT NULL,
-  `sellerId` int(11) NOT NULL,
+  `sellerId` int(11) UNSIGNED NOT NULL,
   PRIMARY KEY (`auctionNo`),
   KEY `sellerId` (`sellerId`)
-) ENGINE=InnoDB AUTO_INCREMENT=147 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `auctionwinner`
+--
+
+DROP TABLE IF EXISTS `auctionwinner`;
+CREATE TABLE IF NOT EXISTS `auctionwinner` (
+  `auctionNo` int(10) UNSIGNED NOT NULL,
+  `buyerId` int(10) UNSIGNED NOT NULL,
+  PRIMARY KEY (`auctionNo`),
+  KEY `buyerId` (`buyerId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -60,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `bid` (
   `bidAmount` int(10) UNSIGNED NOT NULL,
   `bidTime` datetime NOT NULL,
   PRIMARY KEY (`bidNo`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -127,7 +141,6 @@ CREATE TABLE IF NOT EXISTS `createbid` (
   KEY `buyerId` (`buyerId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-
 -- --------------------------------------------------------
 
 --
@@ -191,26 +204,61 @@ CREATE TABLE IF NOT EXISTS `watching` (
   KEY `auctionNo` (`auctionNo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Constraints for dumped tables
+--
 
 --
--- Table structure for table `auctionWinner, auctionNo, buyerNo`
+-- Constraints for table `auction`
 --
+ALTER TABLE `auction`
+  ADD CONSTRAINT `auction_ibfk_1` FOREIGN KEY (`sellerId`) REFERENCES `seller` (`sellerId`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
-DROP TABLE IF EXISTS `auctionWinner`;
-CREATE TABLE IF NOT EXISTS `auctionWinner` (
-  `auctionNo` int(10) UNSIGNED NOT NULL,
-  `buyerId` int(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`auctionNo`),
-  KEY `auctionNo` (`auctionNo`),
-  KEY `buyerId` (`buyerId`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+--
+-- Constraints for table `auctionwinner`
+--
+ALTER TABLE `auctionwinner`
+  ADD CONSTRAINT `auctionwinner_ibfk_1` FOREIGN KEY (`buyerId`) REFERENCES `buyer` (`buyerId`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `auctionwinner_ibfk_2` FOREIGN KEY (`auctionNo`) REFERENCES `auction` (`auctionNo`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
+--
+-- Constraints for table `buyeraddress`
+--
+ALTER TABLE `buyeraddress`
+  ADD CONSTRAINT `buyeraddress_ibfk_1` FOREIGN KEY (`buyerId`) REFERENCES `buyer` (`buyerId`) ON DELETE NO ACTION ON UPDATE CASCADE;
 
-CREATE DEFINER=`root`@`localhost` EVENT `test_event_01` ON SCHEDULE EVERY 10 SECOND STARTS '2020-11-19 16:07:51' ON COMPLETION NOT PRESERVE ENABLE DO UPDATE auction
-SET
-auctionStatus = 0
-WHERE
-UNIX_TIMESTAMP(endDate) < UNIX_TIMESTAMP();
+--
+-- Constraints for table `buyertel`
+--
+ALTER TABLE `buyertel`
+  ADD CONSTRAINT `buyertel_ibfk_1` FOREIGN KEY (`buyerId`) REFERENCES `buyer` (`buyerId`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Constraints for table `createbid`
+--
+ALTER TABLE `createbid`
+  ADD CONSTRAINT `createbid_ibfk_1` FOREIGN KEY (`bidNo`) REFERENCES `bid` (`bidNo`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `createbid_ibfk_2` FOREIGN KEY (`auctionNo`) REFERENCES `auction` (`auctionNo`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `createbid_ibfk_3` FOREIGN KEY (`buyerId`) REFERENCES `buyer` (`buyerId`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Constraints for table `selleraddress`
+--
+ALTER TABLE `selleraddress`
+  ADD CONSTRAINT `selleraddress_ibfk_1` FOREIGN KEY (`sellerId`) REFERENCES `seller` (`sellerId`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Constraints for table `sellertel`
+--
+ALTER TABLE `sellertel`
+  ADD CONSTRAINT `sellertel_ibfk_1` FOREIGN KEY (`sellerId`) REFERENCES `seller` (`sellerId`) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+--
+-- Constraints for table `watching`
+--
+ALTER TABLE `watching`
+  ADD CONSTRAINT `watching_ibfk_1` FOREIGN KEY (`buyerId`) REFERENCES `buyer` (`buyerId`) ON DELETE NO ACTION ON UPDATE CASCADE,
+  ADD CONSTRAINT `watching_ibfk_2` FOREIGN KEY (`auctionNo`) REFERENCES `auction` (`auctionNo`) ON DELETE NO ACTION ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

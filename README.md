@@ -29,6 +29,7 @@ This is the UCL COMP0022 group database project. Yes!
 - [ ] engine
 - [ ] email & transaction hash
 - [ ] winner
+- [ ] query optimization
 
 ### Coding progress
 
