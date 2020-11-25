@@ -40,9 +40,9 @@ This is the UCL COMP0022 group database project. Yes!
 
 **Cross**
 
-- [ ] session variable --> user id
-- [ ] remove seller watchlist
-- [ ] where to put buyer watchlist
+- [x] session variable --> user id
+- [x] remove seller watchlist
+- [x] where to put buyer watchlist
 
 **browse.php**
 
@@ -68,14 +68,19 @@ This is the UCL COMP0022 group database project. Yes!
 **create_auction_result.php**
 
 - [ ] (make pop a function)
+- [ ] first insert into create auction table, then insert then auction table.
+- [ ] replace
 
 **function.php**
 
 - [ ] make it could be use by register and create auction
+- [x] move to create_auction_result.php
+- [x] in save_to_database, modify sellerId to real value based on session variable and connection to database.
 
 **process_registration.php**
 
 - [ ] registration detail requirements wrong
+- [ ] address and tel not inserted into database.
 
 ## Optional Ideas
 
