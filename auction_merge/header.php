@@ -6,7 +6,7 @@
   session_start();
   if(!isset($_SESSION['logged_in'])) {
       $_SESSION['logged_in'] = false;
-      $_SESSION['account_type'] = 'buyer';
+      $_SESSION['account_type'] = 'seller';
   }
 ?>
 
@@ -58,16 +58,23 @@
       <a class="nav-link" href="browse.php">Browse</a>
     </li>
 <?php
-  if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyer') {
+//echo $_SESSION['logged_in'];
+//echo $_SESSION['account_type'];
+  if ($_SESSION['logged_in'] == true && isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyer') {
   echo('
 	<li class="nav-item mx-1">
       <a class="nav-link" href="mybids.php">My Bids</a>
     </li>
+    
+	<li class="nav-item mx-1">
+      <a class="nav-link" href="mywatchlist.php">My Watchlist</a>
+    </li>    
+    
 	<li class="nav-item mx-1">
       <a class="nav-link" href="recommendations.php">Recommended</a>
     </li>');
   }
-  if (isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller') {
+  if ($_SESSION['logged_in'] == true && isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller') {
   echo('
 	<li class="nav-item mx-1">
       <a class="nav-link" href="mylistings.php">My Listings</a>

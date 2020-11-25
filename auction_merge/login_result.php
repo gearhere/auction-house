@@ -16,11 +16,9 @@ $password = $_POST["password"];
 
 $buyerQuery = "SELECT email, password FROM buyer WHERE email = '$email' ";
 $sellerQuery = "SELECT email, password FROM seller WHERE email = '$email' ";
-echo $buyerQuery;
+
 $fetchBuyer = mysqli_query($connection, $buyerQuery) ? mysqli_fetch_array(mysqli_query($connection, $buyerQuery)) : false;
 $fetchSeller = mysqli_query($connection, $sellerQuery) ? mysqli_fetch_array(mysqli_query($connection, $sellerQuery)) : false;
-
-print_r($fetchBuyer);
 
 if ($fetchBuyer) {
 

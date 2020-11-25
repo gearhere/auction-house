@@ -1,6 +1,6 @@
 <?php
 
-$connection = mysqli_connect("localhost","root","", "auction_house")
+$connection = mysqli_connect("localhost","yang","123", "auction_house")
              or die('Error connecting to MySQL server.' . mysql_error());
 
 // function load_query($query){

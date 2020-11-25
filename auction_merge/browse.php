@@ -1,6 +1,6 @@
 <?php include_once("header.php")?>
 <?php require("utilities.php")?>
-
+<?php include 'database.php'?>
 <div class="container">
 
 <h2 class="my-3">Browse listings</h2>
@@ -105,9 +105,6 @@
 
 <div class="container mt-5">
 <?php
-  
-  include 'database.php';
-  
   // the query as base
   $query = "SELECT title, auctionNo, auctionDescription, category, endDate, bidNo,
                 CASE WHEN startingPrice>=max(bidAmount) OR max(bidAmount) IS NULL
@@ -166,15 +163,13 @@
     // TODO: display if same price order (Alphabetically?)
   }
   
-  $query_cond .= ") AS comprehensive
-  GROUP BY auctionNo";
+  $query_cond .= ") AS comprehensive GROUP BY auctionNo";
   $query .= $query_cond;
   $query .= $order_cond;
 
   // DEBUG: print the final sql statement used
-  // echo 'Final: '.$query;
-  $result = mysqli_query($connection, $query) or die('result.' . mysql_error());
-  
+  //echo 'Final: '.$query;
+  $result = mysqli_query($connection, $query) or die('Error connecting to SQL server.');
   // pagination
   $num_results = 0; 
   while ($row = mysqli_fetch_assoc($result))

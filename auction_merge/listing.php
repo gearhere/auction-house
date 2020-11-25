@@ -1,13 +1,6 @@
 <?php include_once("header.php")?>
 <?php require("utilities.php")?>
-
-<?php
-//A function allows for database connection. Could be designed as an individual page.
-function load_query($query){
-    $connection = mysqli_connect('localhost','root','','auction_house');
-    $result = mysqli_query($connection, $query);
-    mysqli_close($connection);
-    return $result;}?>
+<?php include_once("database.php")?>
 
 <?php
   // Get info from the URL:
@@ -18,7 +11,7 @@ function load_query($query){
   // first query to fetch tile, description, current highest bid and end date about this auction.
   $query1 = ("SELECT a.title, a.auctionDescription, MAX(b.bidAmount), a.endDate, startingPrice FROM auction AS a, bid AS b, createbid AS c 
 WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_id'");
-  $result1 = load_query($query1);
+  $result1 = mysqli_query($connection, $query1);
   $row1 = mysqli_fetch_row ($result1);
   $title = $row1[0];
   $description = $row1[1];
@@ -28,7 +21,7 @@ WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_i
   // second query to fetch the number of bids for this auction.
   $query2 = ("SELECT COUNT(b.bidAmount) FROM auction AS a, bid AS b, createbid AS c
 WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_id'");
-  $result2 = load_query($query2);
+  $result2 = mysqli_query($connection, $query2);
   $row2 = mysqli_fetch_row ($result2);
   $num_bids = $row2[0];
 
@@ -84,7 +77,7 @@ WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_i
       <?php
       $query3 = "SELECT d.email , b.bidAmount, b.bidTime FROM auction AS a, bid AS b, createbid AS c, buyer AS d
 WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_id' and c.buyerId = d.buyerId ORDER BY b.bidTime DESC";
-      $result3 = load_query($query3);
+      $result3 = mysqli_query($connection, $query3);;
       $row3 = mysqli_fetch_row ($result3);
       echo "<br><hr><h4>Current Bids: </h4>"."<br><table class=\"table\"><tr><td><strong>User</strong></td><td><strong>Bid value</strong></td><td><strong>Bid time</strong></td></tr>";;
       $counter = 0;

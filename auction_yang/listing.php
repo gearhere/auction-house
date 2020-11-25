@@ -4,7 +4,7 @@
 <?php
 //A function allows for database connection. Could be designed as an individual page.
 function load_query($query){
-    $connection = mysqli_connect('localhost','yangzou','123','auction_13');
+    $connection = mysqli_connect('localhost','root','','auctionhouse');
     $result = mysqli_query($connection, $query);
     mysqli_close($connection);
     return $result;}?>
@@ -12,18 +12,17 @@ function load_query($query){
 <?php
   // Get info from the URL:
   //TODO: uncomment this when database is ready.
-  //$item_id = $_GET['item_id'];
-  $item_id = 8;//delete this when database is ready.
+  $item_id = $_GET['item_id'];
 
   // Use item_id to make a query to the database.
   // first query to fetch tile, description, current highest bid and end date about this auction.
-  $query1 = ("SELECT a.title, a.auctionDescription, MAX(b.bidAmount), a.endDate FROM auction AS a, bid AS b, createbid AS c 
+  $query1 = ("SELECT a.title, a.auctionDescription, MAX(b.bidAmount), a.endDate, startingPrice FROM auction AS a, bid AS b, createbid AS c 
 WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_id'");
   $result1 = load_query($query1);
   $row1 = mysqli_fetch_row ($result1);
   $title = $row1[0];
   $description = $row1[1];
-  $current_price = $row1[2];
+  if ($row1[2] == 0) {$current_price = $row1[4];} else {$current_price = $row1[2];}
   $end_time = new DateTime($row1[3]);
 
   // second query to fetch the number of bids for this auction.
@@ -83,18 +82,29 @@ WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_i
     </div>
       <!-- TODO: List current bids. -->
       <?php
-      $query3 = ("SELECT c.buyerId, b.bidAmount, b.bidTime FROM auction AS a, bid AS b, createbid AS c
-WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_id'");
+      $query3 = "SELECT d.email , b.bidAmount, b.bidTime FROM auction AS a, bid AS b, createbid AS c, buyer AS d
+WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_id' and c.buyerId = d.buyerId ORDER BY b.bidTime DESC";
       $result3 = load_query($query3);
       $row3 = mysqli_fetch_row ($result3);
-      echo "Current Bids: "."<br>";;
+      echo "<br><hr><h4>Current Bids: </h4>"."<br><table class=\"table\"><tr><td><strong>User</strong></td><td><strong>Bid value</strong></td><td><strong>Bid time</strong></td></tr>";;
+      $counter = 0;
       while ($row3) {
-          foreach ($row3 as &$value) {
-              echo $value.' ';
+          if ($counter == 0 ) {
+
+          
+              echo "<tr><td><strong>$row3[0]</strong></td><td><strong>$row3[1]</strong></td><td><strong>$row3[2]</strong></td></tr>";
           }
-          echo "<br>";
+          else {
+
+            echo "<tr><td>$row3[0]</td><td>$row3[1]</td><td>$row3[2]</td></tr>";
+          }
+
+        
           $row3 = mysqli_fetch_row ($result3);
-}?>
+          $counter = $counter+1; 
+        }
+          echo "</table><br>";
+?>
 
   </div>
 
@@ -102,23 +112,30 @@ WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_i
 
     <p>
 <?php if ($now > $end_time): ?>
-     This auction ended <?php echo(date_format($end_time, 'j M H:i')) ?>
+     <h5>This auction ended <?php echo(date_format($end_time, 'j M H:i')) ?></h5>
      <!-- TODO: Print the result of the auction here? -->
 
 <?php else: ?>
-     Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></p>  
-    <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></p>
+     <h5>Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></h5><hr></p>  
+    <p class="lead">Current price: £<?php echo(number_format($current_price, 2)) ?></p>
 
     <!-- Bidding form -->
+    <?php if(isset($_SESSION['account_type']) && $_SESSION['logged_in']==true &&$_SESSION['account_type'] == "buyer"): ?>
     <form method="POST" action="place_bid.php">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text">£</span>
         </div>
-	    <input type="number" class="form-control" id="bid">
+        <?php echo "<input type=\"hidden\" value=\"$item_id\" name=\"itemID\"><input type=\"hidden\" value=\"$current_price\" name=\"currentPrice\">";?>
+	    <input type="number" class="form-control" id="bid" name="bid">
       </div>
       <button type="submit" class="btn btn-primary form-control" id="submit" disabled="true">Place bid</button>
     </form>
+    <?php elseif (isset($_SESSION['account_type']) &&  $_SESSION['logged_in']==true && $_SESSION['account_type'] == "seller") :?>
+    You're logged in with a seller account. Please login with a buyer account to place your bid.
+    <?php else: ?>
+    Please login to place a bid.
+    <?php endif ?>
 <?php endif ?>
 
   </div> <!-- End of right col with bidding info -->
@@ -222,16 +239,3 @@ function checkForm() {
 bid.addEventListener("keyup", checkBid);
 
 </script>
-
-    SET GLOBAL event_scheduler = ON;
-
-    CREATE EVENT IF NOT EXISTS test_event_01
-    ON SCHEDULE
-    EVERY 10 SECOND
-    DO
-    UPDATE auction
-    SET
-    auctionStatus = 0
-    WHERE
-    UNIX_TIMESTAMP(endDate) < UNIX_TIMESTAMP();
-    ;
