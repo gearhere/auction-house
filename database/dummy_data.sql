@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 4.9.3
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Nov 24, 2020 at 06:17 PM
--- Server version: 5.7.31
--- PHP Version: 7.3.21
+-- Host: localhost:8889
+-- Generation Time: Nov 25, 2020 at 08:40 PM
+-- Server version: 5.7.26
+-- PHP Version: 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -20,16 +19,13 @@ SET time_zone = "+00:00";
 --
 -- Database: `auction_house`
 --
-DROP DATABASE IF EXISTS `auction_house`;
-CREATE DATABASE IF NOT EXISTS `auction_house` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `auction_house`;
 
 --
 -- Dumping data for table `auction`
 --
 
 INSERT INTO `auction` (`auctionNo`, `auctionStatus`, `category`, `title`, `auctionDescription`, `startingPrice`, `reservePrice`, `increments`, `startDate`, `endDate`, `sellerId`) VALUES
-(1, 1, 'HomeandGarden', 'Crushed Velvet Shell Scallop Accent Occasional Chair Armchair Dining Furniture', 'Perfect for a lounge, dining or bedroom setting, the chair is upholstered in crushed velvet with colour options of Grey, Midnight Blue, Teal and Dusky Pink. A great feature for any home, very comfortable with extra padded cushioning in the seat and back rest. The chair comes with deep cushioning on the seat and back providing you with comfort and style.', 58, NULL, 1, '2020-11-16 00:00:00', '2020-12-07 00:00:00', 2),
+(1, 1, 'HomeandGarden', 'Crushed Velvet Shell Scallop Accent Occasional Chair Armchair Dining Furniture', 'Perfect for a lounge, dining or bedroom setting, the chair is upholstered in crushed velvet with colour options of Grey, Midnight Blue, Teal and Dusky Pink. A great feature for any home, very comfortable with extra padded cushioning in the seat and back rest. The chair comes with deep cushioning on the seat and back providing you with comfort and style.', 58, NULL, 1, '2020-11-16 00:00:00', '2020-12-24 23:12:00', 2),
 (2, 1, 'Fashion', 'Bridesmaid Dress Size 12', 'Brand new with tags size 12 purchased from bhs rrp 80 Exquisitely elegant the Daisy bridesmaid dress features a strapless bodice with flattering ruching and a gem embellished satin waistband trim. With delicate gathering at the waistband.', 20, NULL, 1, '2020-10-01 15:40:11', '2020-11-30 10:00:00', 2),
 (3, 1, 'Electronics', 'Shark DuoClean Cordless Vacuum', 'Shark Manufacturer Refurbished products are returned products which have been professionally checked, cleaned and restored. Refurbished products may have minor cosmetic imperfections and may not be in their original packaging.', 185, 300, 1, '2020-11-10 00:11:00', '2020-12-28 19:11:19', 3),
 (4, 1, 'CollectablesandArt', 'Inspirational Prints A3/A4/A5', 'Printed on 260gsm satin paper used in art galleries. Money back guarantee if you \'re in any way unhappy. Frame option available shown at the bottom of the size dropdown. ', 10, 50, 1, '2020-11-01 00:11:44', '2020-12-25 00:00:00', 4),
@@ -48,7 +44,20 @@ INSERT INTO `auction` (`auctionNo`, `auctionStatus`, `category`, `title`, `aucti
 (154, 0, 'Electronics', 'Apple iMac Core i5 3.4GHz 21.5 inch Retina 4K Mid 2017 1TB Fusion 8GB Ram A1418', 'Seller notes:	“Sourced from Apple then fully tested and graded by our on-site technicians. We run 80 functional tests on each product to ensure the best quality for your device”; The Apple iMac desktop computer with 4K retina display renders performance and multi-tasking efficiencies with the integrated 8 GB memory. This PC is powered by a reliable 3.0 GHz processor. The 1 TB provides storage space for digital content. This Apple desktop features Mac OS Sierra operation system and a convenient 21.5-inch display.', 899, NULL, 1, '2020-11-16 00:00:00', '2020-11-20 00:00:00', 3),
 (155, 0, 'Electronics', 'Razer Raiju Ultimate Wireless & Wired Gaming Controller - Mecha-Tactile Button', 'The Razer Raiju Ultimate is the wireless PS4 controller that allows advanced customization via our own mobile app. Whether it’s remapping multi-function buttons or adjusting sensitivity options, you have full control from the palm of your hand. Take it further with interchangeable thumbsticks, and choose either a tilting or individual D-Pad button layout. Enable functions on the fly with a quick control panel, and activate Hair Trigger Mode for quick-firing action. Comes with 3 connectivity modes: PS4, USB and PC without manual repairing for optimal efficiency. Also features wired mode.', 200, NULL, 1, '2020-11-16 00:00:00', '2020-11-19 00:00:00', 4),
 (156, 1, 'Electronics', 'FIFA 21 (Xbox One) In Stock Now Brand New & Sealed Free UK P&P	WIN AS ONE in EA SPORTS™', 'FIFA 21 on PlayStationⓇ4, Xbox One, and PC with new ways to team up and express yourself on the streets and in the stadium. Powered by Frostbite™, FIFA 21 raises the game with fresh features that let you enjoy even bigger victories together in VOLTA FOOTBALL and FIFA Ultimate Team™, feel a new level of gameplay realism that rewards you for your creativity and control, manage every moment in Career Mode, and experience unrivaled authenticity that gives you the most true-to-life experience of The World’s Game.', 50, NULL, 1, '2020-11-16 00:00:00', '2020-12-25 00:00:00', 5),
-(157, 1, 'Electronics', 'Microsoft Official Xbox Armed Forces II Controller Special Edition 12M Warranty', 'Condition:Opened – never used; Own the battlefield with the Xbox Wireless Controller - Armed Forces II Special Edition featuring a modern camouflage pattern and textured grip for enhanced comfort. Enjoy custom button mapping and plug in any compatible headset with the 3.5mm stereo headset jack. And with Bluetooth technology, play your favourite games on Windows 10 PCs and tablets.', 50, 20, 1, '2020-11-05 00:00:00', '2020-12-29 00:00:00', 1);
+(157, 1, 'Electronics', 'Microsoft Official Xbox Armed Forces II Controller Special Edition 12M Warranty', 'Condition:Opened – never used; Own the battlefield with the Xbox Wireless Controller - Armed Forces II Special Edition featuring a modern camouflage pattern and textured grip for enhanced comfort. Enjoy custom button mapping and plug in any compatible headset with the 3.5mm stereo headset jack. And with Bluetooth technology, play your favourite games on Windows 10 PCs and tablets.', 50, 20, 1, '2020-11-05 00:00:00', '2020-12-29 00:00:00', 1),
+(159, 0, 'Others', 'Emmi Coffee', 'coffe', 1, 3, 1, '2020-11-24 21:29:09', '2020-11-24 01:33:00', 1),
+(162, 0, 'Others', 'Tesco Milk', 'organic', 5, 10, 1, '2020-11-24 22:57:14', '2020-11-25 19:30:00', 1),
+(163, 0, 'Electronics', 'Macbook pro 2020', '', 200, NULL, 1, '2020-11-25 18:32:11', '2020-11-25 19:11:00', 9),
+(164, 0, 'Media', 'uuu', '222', 8, 4, 1, '2020-11-25 18:49:38', '2020-11-25 19:28:00', 9),
+(165, 0, 'Electronics', 'aaaa', '', 22, 0, 1, '2020-11-25 18:59:06', '2020-11-20 01:57:00', 9);
+
+--
+-- Dumping data for table `auctionwinner`
+--
+
+INSERT INTO `auctionwinner` (`auctionNo`, `buyerId`) VALUES
+(155, 1),
+(150, 3);
 
 --
 -- Dumping data for table `bid`
@@ -57,14 +66,19 @@ INSERT INTO `auction` (`auctionNo`, `auctionStatus`, `category`, `title`, `aucti
 INSERT INTO `bid` (`bidNo`, `bidStatus`, `bidAmount`, `bidTime`) VALUES
 (1, 1, 250, '2020-11-22 12:28:23'),
 (2, 1, 60, '2020-11-17 08:36:29'),
-(3, 0, 210, '2020-11-18 07:25:33');
+(3, 1, 210, '2020-11-18 07:25:33'),
+(4, 1, 300, '2020-11-25 17:18:01'),
+(5, 1, 200, '2020-11-25 17:20:39'),
+(6, 1, 300, '2020-11-25 19:28:40');
 
 --
 -- Dumping data for table `buyer`
 --
 
 INSERT INTO `buyer` (`buyerId`, `email`, `password`, `firstName`, `lastName`, `level`) VALUES
-(1, 'yang.zou@ucl.ac.uk', '11111', 'yang', 'zou', 0);
+(1, 'yang.zou@ucl.ac.uk', '11111', 'yang', 'zou', 0),
+(2, 'ex@qq.com', '$2y$10$Ni40b6/zoCXiRtxG6.x07e7QPvNS1aboQT7aDvmPr7vSzKa/3h7X6', 'John', 'Joe', 0),
+(3, '285@gmail.com', '$2y$10$NlN95bZe67B.NreA.2S8FeJlDp2gX5df7XTNs.nU7jx02BQjvz2hm', 'yyy', 'zzz', 0);
 
 --
 -- Dumping data for table `createbid`
@@ -73,19 +87,32 @@ INSERT INTO `buyer` (`buyerId`, `email`, `password`, `firstName`, `lastName`, `l
 INSERT INTO `createbid` (`bidNo`, `auctionNo`, `buyerId`) VALUES
 (1, 151, 1),
 (2, 157, 1),
-(3, 155, 1);
+(3, 155, 1),
+(4, 156, 3),
+(5, 150, 3),
+(6, 162, 2);
 
 --
 -- Dumping data for table `seller`
 --
 
 INSERT INTO `seller` (`sellerId`, `email`, `password`, `firstName`, `lastName`, `level`) VALUES
-(1, 'ao.chen@gmail.com', '123', 'ao', 'chen', 0),
-(2, 'alex123@gmail.com', '111', 'star', 'alexander', 0),
-(3, 'bondxx@163.com', '101', 'Bond', 'James', 0),
-(4, 'hugh@gmail.com', '111', 'Hugh', 'Tander', 0),
-(5, 'alice.pi@ucl.ac.uk', '111', 'puma', 'alice', 0);
-COMMIT;
+(1, 'ao.chen@gmail.com', '$2y$10$Ni40b6/zoCXiRtxG6.x07e7QPvNS1aboQT7aDvmPr7vSzKa/3h7X6', 'ao', 'chen', 0),
+(2, '$2y$10$Ni40b6/zoCXiRtxG6.x07e7QPvNS1aboQT7aDvmPr7vSzKa/3h7X6', '111', 'star', 'alexander', 0),
+(3, 'bondxx@163.com', '$2y$10$Ni40b6/zoCXiRtxG6.x07e7QPvNS1aboQT7aDvmPr7vSzKa/3h7X6', 'Bond', 'James', 0),
+(4, 'hugh@gmail.com', '$2y$10$Ni40b6/zoCXiRtxG6.x07e7QPvNS1aboQT7aDvmPr7vSzKa/3h7X6', 'Hugh', 'Tander', 0),
+(5, 'alice.pi@ucl.ac.uk', '$2y$10$Ni40b6/zoCXiRtxG6.x07e7QPvNS1aboQT7aDvmPr7vSzKa/3h7X6', 'puma', 'alice', 0),
+(6, 'y@z.com', '$2y$10$ELSpy5PJ9Nqj/oigla9KzOtpjNJNXLDpWk4BOhFtKBOWySipDWLiC', 'yzz', 'zzzz', 0),
+(7, '282@gmail.com', '$2y$10$0t7WiIXEtkSVhfxuh.ld4eDQUG.uRXag0zXJfYbwouMhxtZgrOzze', 'yang', 'zou', 0),
+(9, '284@gmail.com', '$2y$10$P4xXtBwdLqt5coi111VPS.MhjcP1Q2tNBAjZVaDzao720UcxcNcDu', 'yang', 'zou', 0);
+
+--
+-- Dumping data for table `watching`
+--
+
+INSERT INTO `watching` (`buyerId`, `auctionNo`) VALUES
+(3, 6),
+(3, 153);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
