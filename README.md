@@ -19,7 +19,7 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 - [x] Revision of ER diagram
 - [x] Database first design
 - [ ] report
-- [ ] demo vedio
+- [ ] demo video
 
 ### Database progress
 
