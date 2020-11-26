@@ -143,16 +143,16 @@ auction_house
 
 ### Buyer
 
-|   Field    |     Type     | Null |    Key    | Default |                 Extra                  |
-| :--------: | :----------: | :--: | :-------: | :-----: | :------------------------------------: |
-|  buyerId   |     int      |  NO  |  Primary  |         |    unsigned; auto_increment by one     |
-|   email    | varchar(255) |  NO  | Candidate |         |                ==hash==                |
-|  password  | varchar(255) |  NO  |           |         | md5 encryption, ==other requirements== |
-| firstName  | varchar(35)  |  NO  |           |         |                                        |
-|  lastName  | varchar(35)  |  NO  |           |         |                                        |
-|  ~~age~~   |   tinyint    |  NO  |           |         |                unsigned                |
-| ~~gender~~ |   char(1)    | YES  |           |  NULL   |                ==M, F==                |
-|   level    |   tinyint    |  NO  |           |    0    |                unsigned                |
+|   Field    |     Type     | Null |    Key    | Default |                    Extra                     |
+| :--------: | :----------: | :--: | :-------: | :-----: | :------------------------------------------: |
+|  buyerId   |     int      |  NO  |  Primary  |         |       unsigned; auto_increment by one        |
+|   email    | varchar(255) |  NO  | Candidate |         |                   ==hash==                   |
+|  password  | varchar(255) |  NO  |           |         | ==md5 encryption, other requirements== hash? |
+| firstName  | varchar(35)  |  NO  |           |         |                                              |
+|  lastName  | varchar(35)  |  NO  |           |         |                                              |
+|  ~~age~~   |   tinyint    |  NO  |           |         |                   unsigned                   |
+| ~~gender~~ |   char(1)    | YES  |           |  NULL   |                   ==M, F==                   |
+|   level    |   tinyint    |  NO  |           |    0    |                   unsigned                   |
 
 ### BuyerAddress
 

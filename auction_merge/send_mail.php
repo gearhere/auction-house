@@ -1,6 +1,5 @@
 <?php
 $to       = 'jade.wang729@gmail.com';
-// $to       = 'zongyuehou@outlook.com';
 $subject  = 'Watchlist Upadte';
 $message  = 'A mail from Auction House';
 $headers  = 'From: UCL Auction_House Database Project <mailexper20@gmail.com>' . PHP_EOL.

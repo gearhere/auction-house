@@ -1,15 +1,16 @@
-# auction-house-g13
+# Auction House
 
-This is the UCL COMP0022 group database project. Yes!
+This is the UCL COMP0022 group database project. Keep calm and bid high!
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
-- [auction-house-g13](#auction-house-g13)
+- [Auction House](#auction-house)
   * [Progress](#progress)
     + [Database progress](#database-progress)
     + [Coding progress](#coding-progress)
-  * [Optional Ideas](#optional-ideas)
-  * [Questions](#questions)
+  * [Tricks](#tricks)
+  * [Optional Features](#optional-features)
+  * [Additional Resources](#additional-resources)
 
 ## Progress
 
@@ -24,7 +25,7 @@ This is the UCL COMP0022 group database project. Yes!
 
 - [x] referential integrity
 - [ ] trigger
-- [ ] system event
+- [x] system event
 - [ ] complete dummy data
 - [x] engine
 - [ ] email & transaction hash
@@ -50,10 +51,10 @@ This is the UCL COMP0022 group database project. Yes!
 - [x] price default value (without bid)
 - [x] Sort by None
 - [x] display total number of auctions that meet conditions
-- [x] `print an informative message`
-- [ ] pagination arrow wrong display
 - [ ] ~~the bid out of date~~
 - [x] the way of category value: can not use blank, ',',and'&', need to change the $post[cat] because on the page after successfully create auction, it will show value like "category: SportsandHobbies"
+- [ ] `print an informative message`
+- [ ] pagination arrow wrong display
 - [ ] (change the CSS of the line showing total number of reslults )
 - [ ] user can input page number to switch
 - [ ] user can choose how many auctions listed in one page
@@ -82,14 +83,44 @@ This is the UCL COMP0022 group database project. Yes!
 - [ ] registration detail requirements wrong
 - [ ] address and tel not inserted into database.
 
-## Optional Ideas
+## Tricks
+
+**1. MySQL Event Scheduler does not work**
+
+- First check the event scheduler status:
+
+```sql
+select @@event_scheduler;
+
+show variables like 'event_scheduler';
+
+show events;
+
+show processlist;
+```
+
+- One-time open:
+
+```sql
+SET GLOBAL event_scheduler = ON;
+```
+
+- Permanent open:
+
+  For **WAMP** , add `event_scheduler=on` under `[mysqld]` in `my.ini`. Restart the WAMP services, the event shall begin to execute.
+
+## Optional Features
 
 1. ratings
 3. administrator
-3. subcategory
-4. combination of items
+3. user as superclass
+4. subcategory
+5. combination of items
+6. dynamic page (Countdown, immediate new bid notification)
+7. current account and account data update
 
 
-## Questions
+## Additional Resources
 
-1. What attributes should be assigned to relationships and what for entities?
+1. [What attributes should be assigned to relationships and what for entities?](https://www.geeksforgeeks.org/attributes-to-relationships-in-er-model/#:~:text=In%20ER%20model%2C%20entities%20have,have%20attributes%20associated%20to%20them.)
+2. [Choosing a Primary Key: Natural or Surrogate?](http://www.agiledata.org/essays/keys.html)
