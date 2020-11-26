@@ -21,7 +21,7 @@ if (isset($_SESSION['username']) && $_SESSION['account_type'] == 'buyer') {
 
         $max_price_query = "SELECT MAX(bidAmount) FROM createbid, bid, auction WHERE auction.auctionNo = createbid.auctionNo
                             AND createbid.bidNo = bid.bidNo AND auction.auctionNo='$item_id'";
-        $max_price = mysqli_fetch_row(mysqli_query($connection, $max_price_query))[0] or die('result.' . mysql_error());
+        $max_price = mysqli_fetch_row(mysqli_query($connection, $max_price_query))[0] ?: 0;
 
         $current_price = $row['startingPrice'] > $max_price ? $row['startingPrice'] : $max_price; //Decide what price to display depending on whether there are bids
             
