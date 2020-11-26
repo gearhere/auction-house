@@ -1,18 +1,29 @@
 <?php include_once("header.php")?>
 <?php require("utilities.php")?>
+<?php include_once("database.php")?>
 
 <?php
   // Get info from the URL:
+  //TODO: uncomment this when database is ready.
   $item_id = $_GET['item_id'];
 
-  // TODO: Use item_id to make a query to the database.
+  // Use item_id to make a query to the database.
+  // first query to fetch tile, description, current highest bid and end date about this auction.
+  $query1 = ("SELECT a.title, a.auctionDescription, MAX(b.bidAmount), a.endDate, startingPrice FROM auction AS a, bid AS b, createbid AS c 
+WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_id'");
+  $result1 = mysqli_query($connection, $query1);
+  $row1 = mysqli_fetch_row ($result1);
+  $title = $row1[0];
+  $description = $row1[1];
+  if ($row1[2] == 0) {$current_price = $row1[4];} else {$current_price = $row1[2];}
+  $end_time = new DateTime($row1[3]);
 
-  // DELETEME: For now, using placeholder data.
-  $title = "Placeholder title";
-  $description = "Description blah blah blah";
-  $current_price = 30.50;
-  $num_bids = 1;
-  $end_time = new DateTime('2020-11-02T00:00:00');
+  // second query to fetch the number of bids for this auction.
+  $query2 = ("SELECT COUNT(b.bidAmount) FROM auction AS a, bid AS b, createbid AS c
+WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_id'");
+  $result2 = mysqli_query($connection, $query2);
+  $row2 = mysqli_fetch_row ($result2);
+  $num_bids = $row2[0];
 
   // TODO: Note: Auctions that have ended may pull a different set of data,
   //       like whether the auction ended in a sale or was cancelled due
@@ -31,6 +42,9 @@
   //       For now, this is hardcoded.
   $has_session = true;
   $watching = false;
+
+
+
 ?>
 
 
@@ -56,42 +70,108 @@
 <?php endif /* Print nothing otherwise */ ?>
   </div>
 </div>
-
 <div class="row"> <!-- Row #2 with auction description + bidding info -->
   <div class="col-sm-8"> <!-- Left col with item info -->
 
     <div class="itemDescription">
     <?php echo($description); ?>
     </div>
+      <!-- TODO: List current bids. -->
+      <?php
+      $query3 = "SELECT d.email , b.bidAmount, b.bidTime FROM auction AS a, bid AS b, createbid AS c, buyer AS d
+WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_id' and c.buyerId = d.buyerId ORDER BY b.bidTime DESC";
+      $result3 = mysqli_query($connection, $query3);;
+      $row3 = mysqli_fetch_row ($result3);
+      echo "<br><hr><h4>Current Bids: </h4>"."<br><table class=\"table\"><tr><td><strong>User</strong></td><td><strong>Bid value</strong></td><td><strong>Bid time</strong></td></tr>";;
+      $counter = 0;
+      while ($row3) {
+          if ($counter == 0 ) {
 
+          
+              echo "<tr><td><strong>$row3[0]</strong></td><td><strong>$row3[1]</strong></td><td><strong>$row3[2]</strong></td></tr>";
+          }
+          else {
+
+            echo "<tr><td>$row3[0]</td><td>$row3[1]</td><td>$row3[2]</td></tr>";
+          }
+
+        
+          $row3 = mysqli_fetch_row ($result3);
+          $counter = $counter+1; 
+        }
+          echo "</table><br>";
+      ?>
   </div>
 
   <div class="col-sm-4"> <!-- Right col with bidding info -->
 
     <p>
 <?php if ($now > $end_time): ?>
-     This auction ended <?php echo(date_format($end_time, 'j M H:i')) ?>
+     <h5>This auction ended <?php echo(date_format($end_time, 'j M H:i')) ?></h5>
      <!-- TODO: Print the result of the auction here? -->
+
 <?php else: ?>
-     Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></p>  
-    <p class="lead">Current bid: £<?php echo(number_format($current_price, 2)) ?></p>
+     <h5>Auction ends <?php echo(date_format($end_time, 'j M H:i') . $time_remaining) ?></h5><hr></p>  
+    <p class="lead">Current price: £<?php echo(number_format($current_price, 2)) ?></p>
 
     <!-- Bidding form -->
+    <?php if(isset($_SESSION['account_type']) && $_SESSION['logged_in']==true &&$_SESSION['account_type'] == "buyer"): ?>
     <form method="POST" action="place_bid.php">
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text">£</span>
         </div>
-	    <input type="number" class="form-control" id="bid">
+        <?php echo "<input type=\"hidden\" value=\"$item_id\" name=\"itemID\"><input type=\"hidden\" value=\"$current_price\" name=\"currentPrice\">";?>
+	    <input type="number" class="form-control" id="bid" name="bid">
       </div>
-      <button type="submit" class="btn btn-primary form-control">Place bid</button>
+      <button type="submit" class="btn btn-primary form-control" id="submit" disabled="true">Place bid</button>
     </form>
+    <?php elseif (isset($_SESSION['account_type']) &&  $_SESSION['logged_in']==true && $_SESSION['account_type'] == "seller") :?>
+    You're logged in with a seller account. Please login with a buyer account to place your bid.
+    <?php else: ?>
+    Please login to place a bid.
+    <?php endif ?>
 <?php endif ?>
 
-  
   </div> <!-- End of right col with bidding info -->
 
 </div> <!-- End of row #2 -->
+
+<?php
+if(isset($_SESSION['account_type']) && $_SESSION['logged_in']==true &&$_SESSION['account_type'] == "buyer")
+{
+  $buyName = $_SESSION['username'];
+
+    include 'database.php';
+    $query_a = "SELECT buyerId FROM buyer WHERE email = '$buyName'";
+    $result_a = mysqli_query($connection,$query_a)
+    or die('Error connecting to MySQL server.' . mysql_error());
+    $buyerId = mysqli_fetch_assoc($result_a)['buyerId'];
+
+    $query_b = "SELECT * FROM watching";
+    $result_b = mysqli_query($connection,$query_b)
+    or die('Error connecting to MySQL server.' . mysql_error());
+    $check = 0;
+    if ($result_b)
+    {
+  
+        while ($row = mysqli_fetch_array($result_b))
+      {
+          if ($item_id==$row['auctionNo'] && $buyerId==$row['buyerId'])
+          {
+              
+              $check = 1;
+              break;
+          }
+          
+            $check = 0;
+              
+      }
+    }
+    
+}
+?>
+
 
 
 
@@ -101,21 +181,39 @@
 <script> 
 // JavaScript functions: addToWatchlist and removeFromWatchlist.
 
+
+
+var itemId = '<?php echo($item_id);?>';
+var buyId = '<?php echo($buyerId);?>';
+
+var check = '<?php echo($check);?>';
+
+console.log(check,itemId,buyId);
+
+if (check==1) 
+{
+  $("#watch_nowatch").hide();
+  $("#watch_watching").show();       // $("#watch_nowatch").hide();         
+          // $("#watch_watching").show();
+  console.log('1');
+}
+
+
 function addToWatchlist(button) {
   console.log("These print statements are helpful for debugging btw");
-
+  //php echo($item_id);?>
+  //[?php echo($item_id);?>]
+  console.log(itemId,buyId);
   // This performs an asynchronous call to a PHP function using POST method.
   // Sends item ID as an argument to that function.
-  $.ajax('watchlist_funcs.php', {
-    type: "POST",
-    data: {functionname: 'add_to_watchlist', arguments: [<?php echo($item_id);?>]},
-
+  //$.ajax('watchlist_funcs.php', {type: "POST", data: {functionname: 'add_to_watchlist', arguments: [?php echo($item_id);?>]},
+  $.ajax('watchlist_funcs.php', {type: "POST", data: {functionname: 'add_to_watchlist', itemid: itemId, userid: buyId},
     success: 
       function (obj, textstatus) {
         // Callback function for when call is successful and returns obj
         console.log("Success");
         var objT = obj.trim();
- 
+        console.log(objT);
         if (objT == "success") {
           $("#watch_nowatch").hide();
           $("#watch_watching").show();
@@ -140,14 +238,16 @@ function removeFromWatchlist(button) {
   // Sends item ID as an argument to that function.
   $.ajax('watchlist_funcs.php', {
     type: "POST",
-    data: {functionname: 'remove_from_watchlist', arguments: [<?php echo($item_id);?>]},
+    data: {functionname: 'remove_from_watchlist', itemid: itemId, userid: buyId},
 
     success: 
       function (obj, textstatus) {
         // Callback function for when call is successful and returns obj
         console.log("Success");
+        
         var objT = obj.trim();
- 
+        console.log(objT);
+
         if (objT == "success") {
           $("#watch_watching").hide();
           $("#watch_nowatch").show();
@@ -164,6 +264,31 @@ function removeFromWatchlist(button) {
         console.log("Error");
       }
   }); // End of AJAX call
-
 } // End of addToWatchlist func
+
+// check if bid price is lower than current bid price.
+var bid = document.getElementById("bid");
+var button = document.getElementById("submit");
+var bidValid = false;
+var x = parseInt("<?php echo"$current_price"?>");
+
+function checkBid() {
+    if(bid.value > x){
+        bidValid = true;}
+    else {
+        bidValid = false;
+    }
+    checkForm()
+}
+
+function checkForm() {
+    console.log(bidValid.value)
+    if (bidValid) {
+        button.disabled = false;
+    } else {
+        button.disabled = true;}
+}
+
+bid.addEventListener("keyup", checkBid);
+
 </script>
