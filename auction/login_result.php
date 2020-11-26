@@ -1,18 +1,55 @@
+<?php require_once("header.php")?>
+
+
+
+
 <?php
+if (isset($_POST["email"]) & isset($_POST["password"]) & !empty($_POST["email"]) & !empty($_POST["password"])) { //Check if login information submitted
+$email= filter_var($_POST['email'],FILTER_VALIDATE_EMAIL) ? trim($_POST["email"]) : null; //Additional check for e-mail validity
+$password = $_POST["password"];
 
-// TODO: Extract $_POST variables, check they're OK, and attempt to login.
-// Notify user of success/failure and redirect/give navigation options.
+$buyerQuery = "SELECT password FROM buyer WHERE email = '$email' ";
+$sellerQuery = "SELECT password FROM seller WHERE email = '$email' ";
 
-// For now, I will just set session variables and redirect.
+$fetchBuyer = mysqli_query($connection, $buyerQuery) ? mysqli_fetch_array(mysqli_query($connection, $buyerQuery)) : false; //Check if there exists a buyer account under given email
+$fetchSeller = mysqli_query($connection, $sellerQuery) ? mysqli_fetch_array(mysqli_query($connection, $sellerQuery)) : false; //Like above but for a seller account
 
-session_start();
-$_SESSION['logged_in'] = true;
-$_SESSION['username'] = "test";
-$_SESSION['account_type'] = "buyer";
+if ($fetchBuyer) {
 
-echo('<div class="text-center">You are now logged in! You will be redirected shortly.</div>');
+    if (password_verify($password, $fetchBuyer["password"])) {
+        $_SESSION['logged_in'] = true;
+        $_SESSION['username'] = $email;
+        $_SESSION['account_type'] = "buyer" ;
+        runModal('Logged in successfully! Redirecting...','browse.php');
+    }
 
-// Redirect to index after 5 seconds
-header("refresh:5;url=index.php");
+    else {
+        runModal('Password incorrect! Redirecting...','browse.php');
+    }
+
+}
+
+else if ($fetchSeller) {
+    if (password_verify($password, $fetchSeller["password"])) {
+        $_SESSION['logged_in'] = true;
+        $_SESSION['username'] = $email;
+        $_SESSION['account_type'] = "seller" ;
+        runModal('Logged in successfully! Redirecting...','browse.php');
+
+    }
+
+    else {
+        runModal('Password incorrect! Redirecting...','browse.php');
+    }
+}
+else {
+    runModal('User not found... Redirecting...','browse.php');
+}
+
+}
+else {
+
+  header("Location: browse.php");
+}
 
 ?>
