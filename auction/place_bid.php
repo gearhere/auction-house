@@ -1,7 +1,5 @@
-<?php include_once("header.php")?>
-<?php require("utilities.php")?>
-<?php include_once("footer.php")?>
-<?php include_once("database.php")?>
+<?php require_once("header.php")?>
+
 <script type="text/javascript">
     $(window).on('load',function(){
         $('#regResult').modal('show');
@@ -18,7 +16,7 @@
     $auction_info = mysqli_query($connection,$auction_query);
     if (mysqli_num_rows($auction_info) != 1 || mysqli_fetch_row($auction_info)[1] != "1") {
         $message = "Fatal error - auction does not exist or has ended. ";
-        runModal($message,$auction_number);
+        runModal($message,"listing.php?item_id=$auction_number");
     }
     $current_price = $_POST["currentPrice"];
     $buyer_username = $_SESSION['username'];
@@ -31,6 +29,5 @@
     $query = "START TRANSACTION; INSERT INTO bid (bidAmount, bidTime) VALUES ('$bid', now()); SET @last_id_in_bid = LAST_INSERT_ID(); INSERT INTO createbid(bidNo, auctionNo, buyerId) VALUES (@last_id_in_bid, '$auction_number', '$buyer_id'); COMMIT;";
     $message = "Bid placed successfully. Redirecting you back...";
     $create_bid = mysqli_multi_query($connection, $query);
-    runModal($message,$auction_number);
-
+        runModal($message,"listing.php?item_id=$auction_number");
 ?>
