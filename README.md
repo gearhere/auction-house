@@ -1,93 +1,126 @@
-# auction-house-g13
+# Auction House
 
-[toc]
+This is the UCL COMP0022 group database project. Keep calm and bid high!
 
-This is the UCL COMP0022 group database project. Yes!
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+- [Auction House](#auction-house)
+  * [Progress](#progress)
+    + [Database progress](#database-progress)
+    + [Coding progress](#coding-progress)
+  * [Tricks](#tricks)
+  * [Optional Features](#optional-features)
+  * [Additional Resources](#additional-resources)
 
 ## Progress
 
-- [x] Two versions of ER diagram completed
-- [x] Attribute List
+- [x] Two versions of ER diagram
+- [x] Attribute list
 - [x] Revision of ER diagram
+- [x] Database first design
+- [ ] report
+- [ ] demo video
 
+### Database progress
 
+- [x] referential integrity
+- [ ] trigger
+- [x] system event
+- [ ] complete dummy data
+- [x] engine
+- [ ] email & transaction hash
+- [x] winner
+- [ ] query optimization
+- [ ] spam
 
+### Coding progress
 
+| &#9744; Feature 1  | &#9745; Feature 2 | &#9744; Feature3 | &#9744; Feature4 |
+| -------------------------- | ----------------- | ---------------- | ---------------- |
+| &#9745; log in <br>&#9745; regirstration <br>&#9744; roles (privileges)     | &#9745; create auction <br>&#9745; input auction data <br>&#9745; store auction data | &#9745; search auction <br/>&#9745; sort <br/>&#9744; bugs | &#9744; create bid <br/>&#9744; list bids <br/>&#9744; close auction |
 
-## Attribute List
+**Cross**
 
-**Annotation**
+- [x] session variable --> user id
+- [x] remove seller watchlist
+- [x] where to put buyer watchlist
 
-- 【composite attribute】
+**browse.php**
 
-- {possible value of the attribute:「value range」}
+- [x] Keep the input and selected value
+- [x] price default value (without bid)
+- [x] Sort by None
+- [x] display total number of auctions that meet conditions
+- [ ] ~~the bid out of date~~
+- [x] the way of category value: can not use blank, ',',and'&', need to change the $post[cat] because on the page after successfully create auction, it will show value like "category: SportsandHobbies"
+- [ ] `print an informative message`
+- [ ] pagination arrow wrong display
+- [ ] (change the CSS of the line showing total number of reslults )
+- [ ] user can input page number to switch
+- [ ] user can choose how many auctions listed in one page
+- [ ] Garbled
 
-### @User
+**create_auction.php**
 
-| Attribute |                      What it describes                       | Mandatory |
-| :-------: | :----------------------------------------------------------: | :-------: |
-|  userId   |                  the unique id of the user                   |     T     |
-|   email   |                  email address of the user                   |     T     |
-|   telNo   |               the telephone number of the user               |     T     |
-| userName  | the name of the user, including the 【first name】 and the 【last name】 |     T     |
-| password  |                   the password of the user                   |     T     |
-|  address  | the address of the user, including【street】, 【city】, 【postcode】 |     T     |
-|    age    |                     the age of the user                      |     T     |
-|  gender   |  the age of the user: { 「{male」, 「female」, 「secret」}   |     F     |
-|   level   |               the level of the user: {「1-5」}               |     T     |
+- [ ] ( can not give float when giving price )
+- [ ] (have the same "name" for category, it can work well with out this change, just may make the code looks more consistent )
+- [ ] for register and auction creating, it doesn't work smoothly for move forward and backword( sometimes the '* Required.'  doesn't  disappear)
 
-#### @Seller
+**create_auction_result.php**
 
-| Attribute |          What it describes          | Mandatory |
-| :-------: | :---------------------------------: | :-------: |
-| sellerId  | the unique id referring to a seller |     T     |
+- [ ] (make pop a function)
+- [ ] first insert into create auction table, then insert then auction table.
+- [ ] replace
 
+**function.php**
 
+- [ ] make it could be use by register and create auction
+- [x] move to create_auction_result.php
+- [x] in save_to_database, modify sellerId to real value based on session variable and connection to database.
 
-#### @ Buyer
+**process_registration.php**
 
-| Attribute |         What it describes          | Mandatory |
-| :-------: | :--------------------------------: | :-------: |
-|  buyerId  | the unique id referring to a buyer |     T     |
+- [ ] registration detail requirements wrong
+- [ ] address and tel not inserted into database.
 
-### @Auction
+## Tricks
 
-|     Attribute      |                      What it describes                       | Mandatory |
-| :----------------: | :----------------------------------------------------------: | :-------: |
-|     auctionNo      |               the unique number of the auction               |     T     |
-|   auctionStatus    |                    { 「open」, 「close」}                    |     T     |
-|       title        |                the short title of the auction                |     T     |
-| auctionDescription |            the detail description of the auction             |     F     |
-|       price        | the prices relevant to the auction, including【startingPrice】, 【reservePrice】, 【increments】 |     T     |
-|    auctionTime     | the time information relevant to the auction, including【startDate】, 【endDate】 |     T     |
-|     /topBidNo      |       the number of the bid whose price is the highest       |     T     |
+**1. MySQL Event Scheduler does not work**
 
-### @Items
+- First check the event scheduler status:
 
-|    Attribute    |              What it describes              | Mandatory |
-| :-------------: | :-----------------------------------------: | :-------: |
-|     itemNo      |        the unique number of the item        |     T     |
-|    category     | general types of items: {「certain types」} |     T     |
-| itemDescription |     the detail description of the item      |     T     |
+```sql
+select @@event_scheduler;
 
-### @Bids
+show variables like 'event_scheduler';
 
-| Attribute |                      What it describes                       | Mandatory |
-| :-------: | :----------------------------------------------------------: | :-------: |
-|   bidNo   |                 the unique number of the bid                 |     T     |
-| bidStatus |                     { 「win」, 「fail」}                     |     T     |
-| bidAmount | the bid price : ①「> 【startingPrice】」; ② 「> top price + 【increments】」 |     T     |
-|  bidTime  |               the time when the bid is created               |     T     |
+show events;
 
+show processlist;
+```
 
-## Optional Ideas
+- One-time open:
+
+```sql
+SET GLOBAL event_scheduler = ON;
+```
+
+- Permanent open:
+
+  For **WAMP** , add `event_scheduler=on` under `[mysqld]` in `my.ini`. Restart the WAMP services, the event shall begin to execute.
+
+## Optional Features
 
 1. ratings
 3. administrator
-3. subcategory(use preset categories for noew)
-4. combination of items
+3. user as superclass
+4. subcategory
+5. combination of items
+6. dynamic page (Countdown, immediate new bid notification)
+7. current account and account data update
 
 
-## Questions
+## Additional Resources
 
-1. What attributes should be assigned to relationships and what for entities?
+1. [What attributes should be assigned to relationships and what for entities?](https://www.geeksforgeeks.org/attributes-to-relationships-in-er-model/#:~:text=In%20ER%20model%2C%20entities%20have,have%20attributes%20associated%20to%20them.)
+2. [Choosing a Primary Key: Natural or Surrogate?](http://www.agiledata.org/essays/keys.html)
