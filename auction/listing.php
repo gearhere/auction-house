@@ -54,7 +54,7 @@ WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_i
 <?php
   /* The following watchlist functionality uses JavaScript, but could
      just as easily use PHP as in other places in the code */
-  if ($now < $end_time):
+  if ($now < $end_time && isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'buyer' ): 
 ?>
     <div id="watch_nowatch" <?php if ($has_session && $watching) echo('style="display: none"');?> >
       <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addToWatchlist()">+ Add to watchlist</button>
