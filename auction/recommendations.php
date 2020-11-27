@@ -1,5 +1,5 @@
-<?php include_once("header.php")?>
-<?php require("utilities.php")?>
+<?php require_once("header.php")?>
+
 
 <div class="container">
 
