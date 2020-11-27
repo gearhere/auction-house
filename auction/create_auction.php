@@ -60,13 +60,6 @@
               <option value="Media">Media</option>
               <option value="Others">Others</option>
             </select>
-  <!--             <option value="Category5">Motors</option>
-              <option value="Category6">Collectables & Art</option>
-              <option value="Category7">Business, Office & Industrial Supplies</option>
-              <option value="Category8">Health</option>
-              <option value="Category9">Media</option>
-              <option value="Category10">Others</option> -->
-            </select>
             <small id="categoryHelp" class="form-text text-muted"><span class="text-danger">* Required.</span> Select a category for this item.</small>
           </div>
         </div>
@@ -91,7 +84,8 @@
               </div>
               <input type="number" class="form-control" id="auctionReservePrice" name = 'auctionReservePrice'>
             </div>
-            <small id="reservePriceHelp" class="form-text text-muted">Optional. Auctions that end below this price will not go through. This value is not displayed in the auction listing.</small>
+            <small id="reservePriceHelpa" class="form-text text-muted">Optional. Auctions that end below this price will not go through. This value is not displayed in the auction listing.</small>
+            <small id="reservePriceHelpb" class="form-text text-muted" style="display: none;">This price should higher than starting price</small>
           </div>
         </div>
         <div class="form-group row">
@@ -113,12 +107,14 @@
 var title = document.getElementById("auctionTitle");
 var category = document.getElementById("auctionCategory");
 var sPrice = document.getElementById("auctionStartPrice");
+var rPrice = document.getElementById("auctionReservePrice");
 var date = document.getElementById("auctionEndDate");
 var button = document.getElementById("submitAuc");
 
 var hasTitle = false;
 var hasCategory = false;
 var hasSPrice = false;
+var goodRPrice = true;
 var hasDate = false;
 
 function checkTitle() {
@@ -170,6 +166,24 @@ function checkStartPrice() {
     checkForm();
 }
 
+function checkReservePrice() {
+  var warning1 = document.getElementById("reservePriceHelpa");
+  var warning = document.getElementById("reservePriceHelpb");
+  if(rPrice.value){
+    warning1.style.display = "none";
+    if(rPrice.value <= sPrice.value){
+       warning.style.display = "block";
+       goodRPrice = false;
+    }else{
+      warning.style.display = "none";
+      goodRPrice = true;
+    }
+  }else{
+    warning1.style.display = "block";
+  }
+    checkForm();
+}
+
 function checkDate() {
     var warning = document.getElementById("endDateHelp");
     if(date.value){
@@ -185,10 +199,11 @@ function checkDate() {
 title.addEventListener("keyup", checkTitle);
 category.addEventListener("change", checkCategory);
 sPrice.addEventListener("keyup", checkStartPrice);
+rPrice.addEventListener("keyup", checkReservePrice);
 date.addEventListener("change", checkDate);
 
 function checkForm() {
-    if (hasTitle && hasSPrice && hasCategory && hasDate) {
+    if (hasTitle && hasSPrice && hasCategory && hasDate && goodRPrice) {
         button.disabled = false;
     } else {button.disabled = true;}
 }
