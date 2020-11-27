@@ -76,7 +76,7 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
   - [ ] (optional) once bid for an auction on watchlist, it should be removed from the list
 - auction
   - [x] missing auctions on mylisting
-- [x] error message after creating auction
+  - [x] error message after creating auction
   - [x] reserve price check fails when placing a new bid
   - [x] auction pass
   - [ ] calendar language does not match with other parts and calendar does not like Safari
