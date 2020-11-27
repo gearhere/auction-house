@@ -41,47 +41,53 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 
 **Cross**
 
-- [x] session variable --> user id
-- [x] remove seller watchlist
-- [x] where to put buyer watchlist
+
 
 **browse.php**
 
-- [x] Keep the input and selected value
-- [x] price default value (without bid)
-- [x] Sort by None
-- [x] display total number of auctions that meet conditions
 - [ ] ~~the bid out of date~~
-- [x] the way of category value: can not use blank, ',',and'&', need to change the $post[cat] because on the page after successfully create auction, it will show value like "category: SportsandHobbies"
+- [ ] the way of category value: can not use blank, ',',and'&', need to change the $post[cat] because on the page after successfully create auction, it will show value like "category: SportsandHobbies"
 - [ ] `print an informative message`
-- [ ] pagination arrow wrong display
 - [ ] (change the CSS of the line showing total number of reslults )
 - [ ] user can input page number to switch
 - [ ] user can choose how many auctions listed in one page
-- [ ] Garbled
 
 **create_auction.php**
 
-- [ ] ( can not give float when giving price )
-- [ ] (have the same "name" for category, it can work well with out this change, just may make the code looks more consistent )
-- [ ] for register and auction creating, it doesn't work smoothly for move forward and backword( sometimes the '* Required.'  doesn't  disappear)
+- [ ] (can not give float when giving price)
 
 **create_auction_result.php**
 
 - [ ] (make pop a function)
-- [ ] first insert into create auction table, then insert then auction table.
-- [ ] replace
 
-**function.php**
+## Killing Bugs
 
-- [ ] make it could be use by register and create auction
-- [x] move to create_auction_result.php
-- [x] in save_to_database, modify sellerId to real value based on session variable and connection to database.
-
-**process_registration.php**
-
-- [ ] registration detail requirements wrong
-- [ ] address and tel not inserted into database.
+- [x] fail to place a bid (fixed by change "require 'utilities.php'" to "require_once")
+- [x] recommend page `redeclare runModal()`
+- [x] missing bids for buyer 1 & 2
+- [x] pagination arrow wrong display when there's no result for a search
+- [x] registration password requirements wrong
+- watchlist
+  - [x] remove it from seller perspective
+  - [x] existing auctions on watchlist can be seen, but they cannot be removed
+  - [x] auctions cannot be added into watchlist
+  - [ ] (optional) once bid for an auction on watchlist, it should be removed from the list
+- auction
+  - [x] missing auctions on mylisting
+- [x] error message after creating auction
+  - [x] reserve price check fails when placing a new bid
+  - [x] auction pass
+  - [ ] calendar language does not match with other parts and calendar does not like Safari
+- winner & bid status
+  - [x] winner event does not work
+  - [ ] bid status 1 to 0 when placing a new bid
+- trigger
+  - [ ] watching trigger
+  - [x] reserve price trigger
+  - [x] cat trigger
+- [ ] garbled chracters
+- [ ] increment is not used
+- [ ] address and telNo are not inserted into the database
 
 ## Tricks
 
@@ -123,4 +129,6 @@ SET GLOBAL event_scheduler = ON;
 ## Additional Resources
 
 1. [What attributes should be assigned to relationships and what for entities?](https://www.geeksforgeeks.org/attributes-to-relationships-in-er-model/#:~:text=In%20ER%20model%2C%20entities%20have,have%20attributes%20associated%20to%20them.)
+
 2. [Choosing a Primary Key: Natural or Surrogate?](http://www.agiledata.org/essays/keys.html)
+

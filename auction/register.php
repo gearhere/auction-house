@@ -126,7 +126,7 @@ function checkPassword() {
     else if (/[abcdefghijklmnoprqstuvwxyz]/.test(passwordChars[i])) {scores.lowercase += 1;}
     else if (/[0123456789]/.test(passwordChars[i])) {scores.number += 1; } 
   }
-  if (scores.uppercase > 0 && scores.lowercase > 0 && scores.number > 0 && passwordChars.length > 8) {
+  if (scores.uppercase > 0 && scores.lowercase > 0 && scores.number > 0 && passwordChars.length >= 8) {
     document.getElementById("passwordHelp").style.display = "none";
     return true;}
   else {
