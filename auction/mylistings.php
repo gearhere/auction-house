@@ -41,7 +41,7 @@ while ($listing) {
   $listing = mysqli_fetch_row($fetch_listings);
   
 }
-echo '<hr><br><h4>Past listings</h4></hr>';
+if ($listing) { echo '<hr><br><h4>Past listings</h4></hr>';}
 while ($listing) {
   $bid_num_query = "SELECT COUNT(bidNo) FROM createbid WHERE auctionNo='$listing[1]'";
   $num_bids = mysqli_fetch_row(mysqli_query($connection, $bid_num_query));
