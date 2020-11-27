@@ -45,7 +45,7 @@
           print_listing_li($item_id, $title, $description, $current_price, $num_bids, $end_date, $auction_status);
           $row = mysqli_fetch_assoc($result);
       }
-      echo '<hr><br><h4>Past listings</h4></hr>';
+      if ($row) {echo '<hr><br><h4>Past listings</h4></hr>';}
       while ($row) {
         $item_id = $row['auctionNo'];
         $title = $row['title'];
