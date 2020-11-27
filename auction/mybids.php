@@ -21,7 +21,6 @@
         $now = new Datetime();
         $end_date = new Datetime($row['endDate']);
         if ($now > $end_date && $row['auctionStatus'] == 0) {
-          $listing = mysqli_fetch_assoc($result);
         break;
     }
           $item_id = $row['auctionNo'];
