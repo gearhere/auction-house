@@ -30,7 +30,6 @@ while ($listing) {
   $now = new Datetime();
   $end_time = new Datetime($listing[4]);
   if ($now > $end_time && $listing[7] == 0) {
-    $listing = mysqli_fetch_row($fetch_listings);
   break;
   }
   $bid_num_query = "SELECT COUNT(bidNo) FROM createbid WHERE auctionNo='$listing[1]'";
