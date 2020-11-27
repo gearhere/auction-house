@@ -8,6 +8,7 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
   * [Progress](#progress)
     + [Database progress](#database-progress)
     + [Coding progress](#coding-progress)
+  * [Killing Bugs](#killing-bugs)
   * [Tricks](#tricks)
   * [Optional Features](#optional-features)
   * [Additional Resources](#additional-resources)
