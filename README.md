@@ -68,6 +68,7 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 - [x] missing bids for buyer 1 & 2
 - [x] pagination arrow wrong display when there's no result for a search
 - [x] registration password requirements wrong
+- [x] triggers
 - watchlist
   - [x] remove it from seller perspective
   - [x] existing auctions on watchlist can be seen, but they cannot be removed
@@ -82,12 +83,8 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 - winner & bid status
   - [x] winner event does not work
   - [ ] bid status 1 to 0 when placing a new bid
-- trigger
-  - [ ] watching trigger
-  - [x] reserve price trigger
-  - [x] cat trigger
 - [ ] garbled chracters
-- [ ] increment is not used
+- [ ] increment, level is not used
 - [ ] address and telNo are not inserted into the database
 
 ## Tricks
