@@ -1,6 +1,5 @@
-<?php include_once("header.php")?>
-<?php require("utilities.php")?>
-<?php include_once("database.php")?>
+<?php require_once("header.php")?>
+
 <div class="container">
 
 <h2 class="my-3">My bids</h2><hr>
@@ -14,9 +13,8 @@
   // TODO: Check user's credentials (cookie/session).
 
   if (isset($_SESSION['username']) && $_SESSION['account_type'] == 'buyer') {
-      $uname = $_SESSION['username'];
-      $query = "SELECT * FROM createbid, buyer, auction WHERE auction.auctionNo = createbid.auctionNo AND createbid.buyerId = buyer.buyerId AND buyer.email = '$uname' ORDER BY endDate DESC";
-      $result = mysqli_query($connection, $query)or die('result.' . mysql_error());;
+      $username = $_SESSION['username'];
+      $query = "SELECT title, auction.auctionNo, auctionDescription, category, endDate, c.maxBid, startingPrice, auctionStatus FROM (auction LEFT JOIN (SELECT auctionNo, max(bidAmount) AS maxBid FROM (createbid JOIN bid ON createbid.bidNo = bid.bidNo) GROUP BY auctionNo) c ON auction.auctionNo = c.auctionNo) WHERE auction.auctionNo IN (SELECT auctionNo FROM createbid WHERE createbid.buyerId = (SELECT buyerId FROM buyer WHERE email = '$username')) ORDER BY endDate DESC";        $result = mysqli_query($connection, $query)or die('result.' . mysql_error());;
       $row = mysqli_fetch_assoc($result);
       echo '<h4>Current bids</h4>';
       while ($row) {
