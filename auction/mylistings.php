@@ -1,7 +1,4 @@
 <?php require_once("header.php")?>
-<?php require_once("database.php")?>
-<?php require_once("utilities.php")?>
-<?php require_once("footer.php")?>
 
 <div class="container">
 
