@@ -51,11 +51,11 @@
               <option selected>Choose...</option>
               <option value="Fashion">Fashion</option>
               <option value="Electronics">Electronics</option>
-              <option value="Sports, Hobbies & Leisure">Sports, Hobbies & Leisure</option>
-              <option value="Home & Garden">Home & Garden</option>
+              <option value="SportsandHobbies">Sports, Hobbies & Leisure</option>
+              <option value="HomeandGarden">Home & Garden</option>
               <option value="Motors">Motors</option>
-              <option value="Collectables & Art">Collectables & Art</option>
-              <option value="Busi, Offi & Indu">Business, Office & Industrial Supplies</option>
+              <option value="CollectablesandArt">Collectables & Art</option>
+              <option value="BusiandIndu">Business, Office & Industrial Supplies</option>
               <option value="Health">Health</option>
               <option value="Media">Media</option>
               <option value="Others">Others</option>
