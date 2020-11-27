@@ -1,7 +1,4 @@
-<?php include_once("header.php")?>
-<?php include_once("footer.php")?>
-<?php include_once 'database.php';?>
-
+<?php require_once("header.php")?>
 <script type="text/javascript">
  $(window).on('load',function(){
  $('#auctionResult').modal('show');
@@ -63,10 +60,9 @@ function printItem($item)
 }
 
 function saveToDatabase($item){
-    global $connection;
     $sMail = $_SESSION['username'];
     $query0 = "SELECT * FROM seller WHERE seller.email = '$sMail'";
-    $result0 = mysqli_query($connection,$query0);
+    $result0 = mysqli_query($GLOBALS['connection'],$query0);
     $sellerId = mysqli_fetch_assoc($result0)['sellerId'];
     $item['auctionReservePrice']  = (int)$item['auctionReservePrice'];
     $query = "INSERT INTO auction (title,auctionDescription,category,startingPrice,reservePrice,startDate,endDate,sellerId)".
@@ -74,17 +70,15 @@ function saveToDatabase($item){
         '${item['auctionStartPrice']}','{$item['auctionReservePrice']}','${item['auctionStartDate']}',
         '${item['auctionEndDate']}','$sellerId')";
 
-    $result = mysqli_query($connection,$query)
+    $result = mysqli_query($GLOBALS['connection'],$query)
     or die('Error connecting to MySQL server.' . mysql_error());
 }
 
 function checkRepetition($item)
 {
-    #$connection = mysqli_connect("localhost","auction_house","ucl", "auction_house")
-    #or die('Error connecting to MySQL server.' . mysql_error());
-    include 'database.php';
+
     $query = "SELECT title,auctionDescription,category,startingPrice FROM auction";
-    $result = mysqli_query($connection,$query);
+    $result = mysqli_query($GLOBALS['connection'],$query);
 
     while ($row = mysqli_fetch_array($result))
     {
@@ -152,6 +146,6 @@ echo('<div class="text-center">Auction successfully created! <a href="mylistings
 ?>
 
 </div>
-<?php include_once("footer.php")?>
+
 
 
