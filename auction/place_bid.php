@@ -37,5 +37,5 @@
 
     $message = "Bid placed successfully. Redirecting you back...";
     $create_bid = mysqli_multi_query($connection, $query);
-        runModal("Bidding result",$message,"listing.php?item_id=$auction_number");
+        runModal($message, "listing.php?item_id=$auction_number", "Bidding result");
 ?>
