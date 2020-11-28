@@ -70,7 +70,7 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 - [x] registration password requirements wrong
 - [x] triggers
 - [ ] watching trigger
-- [ ] Change info after placing bid. (currently shows 'registration result.')
+- [x] Change info after placing bid. (currently shows 'registration result.')
 - watchlist
   - [x] remove it from seller perspective
   - [x] existing auctions on watchlist can be seen, but they cannot be removed
@@ -84,7 +84,7 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
   - [ ] calendar language does not match with other parts and calendar does not like Safari
 - winner & bid status
   - [x] winner event does not work
-  - [ ] bid status 1 to 0 when placing a new bid
+  - [x] bid status 1 to 0 when placing a new bid
 - [ ] garbled chracters
 - [ ] increment, level is not used
 - [ ] address and telNo are not inserted into the database
