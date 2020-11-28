@@ -177,7 +177,7 @@
   }
 
   echo('
-    <div class="p-2 mr-5"><h6>The are ' . $num_results . ' result for this search </h6>'  . '</div>');
+    <div class="p-2 mr-5"><h6>There are ' . $num_results . ' results for this search </h6>'  . '</div>');
 
   $results_per_page = 10;
   $max_page = ceil($num_results / $results_per_page);
