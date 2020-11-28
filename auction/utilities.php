@@ -79,7 +79,7 @@ function print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time,
 ?>
 <?php
 
-function runModal($message, $redirect) {
+function runModal($title = "Registration Result",$message, $redirect) {
   echo "<script type=\"text/javascript\">
   $(window).on('load',function(){
       $('#messageModal').modal('show');
@@ -92,7 +92,7 @@ echo "<div class=\"modal fade\" id=\"messageModal\" role=\"dialog\">
  
        <!-- Modal Header -->
        <div class=\"modal-header\">
-         <h4 class=\"modal-title\">Registration Result</h4>
+         <h4 class=\"modal-title\">$title</h4>
        </div>
  
        <!-- Modal body -->
