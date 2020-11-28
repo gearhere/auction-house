@@ -1,4 +1,5 @@
 <?php require_once("header.php")?>
+<?php include_once("send_mail.php");?>
 
 <script type="text/javascript">
     $(window).on('load',function(){
@@ -25,17 +26,28 @@
     $buyer_id_query = "SELECT buyerId FROM buyer WHERE email='$buyer_username'";
     $buyer_id = intval(mysqli_fetch_row(mysqli_query($connection, $buyer_id_query))[0]);
     
-
-
-    $query = "START TRANSACTION; UPDATE bid
-    SET bid.bidStatus = 0
-    WHERE bid.bidNo IN
+    $update_query = 
+    "SELECT email FROM buyer 
+    WHERE buyerId = (SELECT cb.buyerId FROM bid AS b JOIN createbid AS cb ON b.bidNo = cb.bidNo WHERE cb.auctionNo='$auction_number' AND b.bidStatus = 1 )";
+    $result_update = mysqli_query($connection,$update_query) or die('result.' . mysql_error());
+    $fetch_buyer = mysqli_fetch_row($result_update);
+    send_email_update($fetch_buyer[0],$bid);
+    
+    
+    $query = "
+    START TRANSACTION; 
+    UPDATE bid 
+    SET bid.bidStatus = 0 
+    WHERE bid.bidNo IN 
     (SELECT * FROM 
-    (SELECT bid.bidNo AS matchingBids FROM createbid JOIN bid ON bid.bidNo = createbid.bidNo WHERE auctionNo = $auction_number) AS final);
-    INSERT INTO bid (bidAmount, bidTime, bidStatus) VALUES ('$bid', now(),1); SET @last_id_in_bid = LAST_INSERT_ID();
-    INSERT INTO createbid(bidNo, auctionNo, buyerId) VALUES (@last_id_in_bid, '$auction_number', '$buyer_id'); COMMIT;";
-
+    (SELECT bid.bidNo AS matchingBids 
+    FROM createbid JOIN bid ON bid.bidNo = createbid.bidNo WHERE auctionNo = $auction_number)AS final); 
+    INSERT INTO bid (bidAmount, bidTime, bidStatus) VALUES ('$bid', now(),1); SET @last_id_in_bid = LAST_INSERT_ID(); INSERT INTO createbid(bidNo, auctionNo, buyerId) VALUES (@last_id_in_bid, '$auction_number', '$buyer_id'); COMMIT;";
     $message = "Bid placed successfully. Redirecting you back...";
     $create_bid = mysqli_multi_query($connection, $query);
-        runModal($message, "listing.php?item_id=$auction_number", "Bidding result");
+    runModal($message,"listing.php?item_id=$auction_number","Bidding result");
+
+
 ?>
+
+

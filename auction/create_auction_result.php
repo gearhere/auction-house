@@ -95,24 +95,9 @@ function checkRepetition($item)
         if ($item['auctionTitle']==$row['title'] && $item['auctionDetails']==$row['auctionDescription'] &&$item['auctionCategory']==$row['category'] &&$item['auctionStartPrice']==$row['startingPrice'] )
         {
             #echo 'repeat, try again';
-            $message = 'repeat, try again';
-            echo "<div class=\"modal hide fade\" id=\"auctionResult\" role=\"dialog\">
-            <div class=\"modal-dialog\">
-            <div class=\"modal-content\">
-            
-            <!-- Modal Header -->
-            <div class=\"modal-header\">
-            <h4 class=\"modal-title\">repeat auction result</h4>
-            </div>
-            
-            <!-- Modal body -->
-            <div class=\"modal-body\">
-            <p>$message</p>
-            </div>
-            
-            </div>
-            </div>
-            </div>";
+            $message = 'Same auction already exists! You will be redirected back to the create auction page.';
+            runModal($message,"create_auction.php","Repeat Result");
+
             return NULL;
         }
     }
