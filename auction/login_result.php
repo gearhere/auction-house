@@ -20,11 +20,11 @@ if ($fetchBuyer) {
         $_SESSION['logged_in'] = true;
         $_SESSION['username'] = $email;
         $_SESSION['account_type'] = "buyer" ;
-        runModal('Logged in successfully! Redirecting...','browse.php');
+        runModal('Login result','Logged in successfully! Redirecting...','browse.php');
     }
 
     else {
-        runModal('Password incorrect! Redirecting...','browse.php');
+        runModal('Login result','Password incorrect! Redirecting...','browse.php');
     }
 
 }
@@ -34,16 +34,16 @@ else if ($fetchSeller) {
         $_SESSION['logged_in'] = true;
         $_SESSION['username'] = $email;
         $_SESSION['account_type'] = "seller" ;
-        runModal('Logged in successfully! Redirecting...','browse.php');
+        runModal('Login result','Logged in successfully! Redirecting...','browse.php');
 
     }
 
     else {
-        runModal('Password incorrect! Redirecting...','browse.php');
+        runModal('Login result','Password incorrect! Redirecting...','browse.php');
     }
 }
 else {
-    runModal('User not found... Redirecting...','browse.php');
+    runModal('Login result','User not found... Redirecting...','browse.php');
 }
 
 }
