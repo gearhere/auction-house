@@ -36,9 +36,9 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 
 ### Coding progress
 
-| &#9744; Feature 1  | &#9745; Feature 2 | &#9744; Feature3 | &#9744; Feature4 |
+| &#9745; Feature 1  | &#9745; Feature 2 | &#9745; Feature3 | &#9745; Feature4 |
 | -------------------------- | ----------------- | ---------------- | ---------------- |
-| &#9745; log in <br>&#9745; regirstration <br>&#9744; roles (privileges)     | &#9745; create auction <br>&#9745; input auction data <br>&#9745; store auction data | &#9745; search auction <br/>&#9745; sort <br/>&#9744; bugs | &#9744; create bid <br/>&#9744; list bids <br/>&#9744; close auction |
+| &#9745; log in <br>&#9745; regirstration <br>&#9745; roles (privileges)    | &#9745; create auction <br>&#9745; input auction data <br>&#9745; store auction data | &#9745; search auction <br/>&#9745; sort <br/> | &#9745; create bid <br/>&#9745; list bids <br/>&#9745; close auction |
 
 **Cross**
 
@@ -69,6 +69,7 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 - [x] pagination arrow wrong display when there's no result for a search
 - [x] registration password requirements wrong
 - [x] triggers
+- [ ] watching trigger
 - watchlist
   - [x] remove it from seller perspective
   - [x] existing auctions on watchlist can be seen, but they cannot be removed
