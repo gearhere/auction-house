@@ -62,14 +62,22 @@
     </li>    
     
 	<li class="nav-item mx-1">
-      <a class="nav-link" href="recommendations.php">Recommended</a>
-    </li>');
+      <a class="nav-link" href="recommendations.php">Recommendation</a>
+    </li>
+  <li class="nav-item mx-1">
+      <a class="nav-link" href="account.php">Account</a>
+  </li>'
+  );
+  
   }
   if (isset($_SESSION['logged_in']) &&  $_SESSION['logged_in'] == true && isset($_SESSION['account_type']) && $_SESSION['account_type'] == 'seller') {
   echo('
 	<li class="nav-item mx-1">
       <a class="nav-link" href="mylistings.php">My Listings</a>
     </li>
+  <li class="nav-item mx-1">
+    <a class="nav-link" href="account.php">Account</a>
+  </li>
 	<li class="nav-item ml-3">
       <a class="nav-link btn border-light" href="create_auction.php">+ Create auction</a>
     </li>');
