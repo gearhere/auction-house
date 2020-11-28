@@ -30,8 +30,11 @@
     $query = "START TRANSACTION; UPDATE bid
     SET bid.bidStatus = 0
     WHERE bid.bidNo IN
-    (SELECT bid.bidNo AS matchingBids FROM createbid JOIN bid ON bid.bidNo = createbid.bidNo WHERE auctionNo = $auction_number);
-    INSERT INTO bid (bidAmount, bidTime, bidStatus) VALUES ('$bid', now(),1); SET @last_id_in_bid = LAST_INSERT_ID(); INSERT INTO createbid(bidNo, auctionNo, buyerId) VALUES (@last_id_in_bid, '$auction_number', '$buyer_id'); COMMIT;";
+    (SELECT * FROM 
+    (SELECT bid.bidNo AS matchingBids FROM createbid JOIN bid ON bid.bidNo = createbid.bidNo WHERE auctionNo = $auction_number) AS final);
+    INSERT INTO bid (bidAmount, bidTime, bidStatus) VALUES ('$bid', now(),1); SET @last_id_in_bid = LAST_INSERT_ID();
+    INSERT INTO createbid(bidNo, auctionNo, buyerId) VALUES (@last_id_in_bid, '$auction_number', '$buyer_id'); COMMIT;";
+
     $message = "Bid placed successfully. Redirecting you back...";
     $create_bid = mysqli_multi_query($connection, $query);
         runModal("Bidding result",$message,"listing.php?item_id=$auction_number");

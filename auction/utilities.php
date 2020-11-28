@@ -79,7 +79,7 @@ function print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time,
 ?>
 <?php
 
-function runModal($title = "Registration Result",$message, $redirect) {
+function runModal($message, $redirect, $title = "Registration Result") {
   echo "<script type=\"text/javascript\">
   $(window).on('load',function(){
       $('#messageModal').modal('show');
