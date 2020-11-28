@@ -3,7 +3,7 @@
 
 <?php
 
-$title = "Registration Result";
+
 
 if (!isset($_POST['emailReg']) || //Check if all data was submitted
     !isset($_POST['passwordReg']) || 
@@ -14,7 +14,7 @@ if (!isset($_POST['emailReg']) || //Check if all data was submitted
     !isset($_POST['city']) || 
     !isset($_POST['postcode'])) 
     {
-  runModal($title,'The form has been submitted incorrectly. Some data may be missing. You will redirected back to the registration page.','register.php');
+  runModal('The form has been submitted incorrectly. Some data may be missing. You will redirected back to the registration page.','register.php');
 }
 else {
     $email = trim($_POST['emailReg']);
