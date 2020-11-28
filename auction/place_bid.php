@@ -16,18 +16,23 @@
     $auction_info = mysqli_query($connection,$auction_query);
     if (mysqli_num_rows($auction_info) != 1 || mysqli_fetch_row($auction_info)[1] != "1") {
         $message = "Fatal error - auction does not exist or has ended. ";
-        runModal($message,"listing.php?item_id=$auction_number");
+        runModal("Bidding result",$message,"listing.php?item_id=$auction_number");
     }
     $current_price = $_POST["currentPrice"];
     $buyer_username = $_SESSION['username'];
     $bid = intval($_POST["bid"]);
+    if ($bid<=$current_price) {runModal("Bidding result", "Incorrect bid amount!","listing.php?item_id=$auction_number"); exit();}
     $buyer_id_query = "SELECT buyerId FROM buyer WHERE email='$buyer_username'";
     $buyer_id = intval(mysqli_fetch_row(mysqli_query($connection, $buyer_id_query))[0]);
     
 
 
-    $query = "START TRANSACTION; INSERT INTO bid (bidAmount, bidTime) VALUES ('$bid', now()); SET @last_id_in_bid = LAST_INSERT_ID(); INSERT INTO createbid(bidNo, auctionNo, buyerId) VALUES (@last_id_in_bid, '$auction_number', '$buyer_id'); COMMIT;";
+    $query = "START TRANSACTION; UPDATE bid
+    SET bid.bidStatus = 0
+    WHERE bid.bidNo IN
+    (SELECT bid.bidNo AS matchingBids FROM createbid JOIN bid ON bid.bidNo = createbid.bidNo WHERE auctionNo = $auction_number);
+    INSERT INTO bid (bidAmount, bidTime, bidStatus) VALUES ('$bid', now(),1); SET @last_id_in_bid = LAST_INSERT_ID(); INSERT INTO createbid(bidNo, auctionNo, buyerId) VALUES (@last_id_in_bid, '$auction_number', '$buyer_id'); COMMIT;";
     $message = "Bid placed successfully. Redirecting you back...";
     $create_bid = mysqli_multi_query($connection, $query);
-        runModal($message,"listing.php?item_id=$auction_number");
+        runModal("Bidding result",$message,"listing.php?item_id=$auction_number");
 ?>
