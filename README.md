@@ -25,14 +25,12 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 ### Database progress
 
 - [x] referential integrity
-- [ ] trigger
 - [x] system event
 - [ ] complete dummy data
 - [x] engine
 - [ ] email & transaction hash
 - [x] winner
 - [ ] query optimization
-- [ ] spam
 
 ### Coding progress
 
@@ -86,9 +84,10 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
   - [x] winner event does not work
   - [x] bid status 1 to 0 when placing a new bid
 - [ ] garbled chracters
-- [ ] increment, level is not used
-- [ ] address and telNo are not inserted into the database
-
+- [ ] increment is not used
+- [ ] lack address dummy data
+- [ ] telNos are not inserted into the database
+- [ ] (optional) email is recognized as spam
 - visual style
   - [ ] search bar align to the both edge.
   - [ ] size of arrow
