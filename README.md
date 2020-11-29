@@ -34,13 +34,13 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 
 ### Coding progress
 
-| &#9745; Feature 1  | &#9745; Feature 2 | &#9745; Feature3 | &#9745; Feature4 |
-| -------------------------- | ----------------- | ---------------- | ---------------- |
-| &#9745; log in <br>&#9745; regirstration <br>&#9745; roles (privileges)    | &#9745; create auction <br>&#9745; input auction data <br>&#9745; store auction data | &#9745; search auction <br/>&#9745; sort <br/> | &#9745; create bid <br/>&#9745; list bids <br/>&#9745; close auction |
+| &#9745; Feature 1  | &#9745; Feature 2 | &#9745; Feature3 | &#9745; Feature4 | &#9745; Feature 5 & 6 |
+| -------------------------- | ----------------- | ---------------- | ---------------- | ---------------- |
+| &#9745; log in <br>&#9745; regirstration <br>&#9745; roles (privileges)    | &#9745; create auction <br>&#9745; input auction data <br>&#9745; store auction data | &#9745; search auction <br>&#9745; sort <br> | &#9745; create bid <br>&#9745; list bids <br>&#9745; close auction | &#9745; email watchlist <br>&#9745; email outbid <br>&#9745; recommendation |
 
 **Cross**
 
-
+- [x] account page
 
 **browse.php**
 
@@ -68,6 +68,7 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 - [x] registration password requirements wrong
 - [x] triggers
 - [ ] watching trigger
+- [x] garbled chracters
 - [x] Change info after placing bid. (currently shows 'registration result.')
 - watchlist
   - [x] remove it from seller perspective
@@ -79,18 +80,17 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
   - [x] error message after creating auction
   - [x] reserve price check fails when placing a new bid
   - [x] auction pass
-  - [ ] calendar language does not match with other parts and calendar does not like Safari
+  - [ ] (optional) calendar language does not match with other parts and calendar does not like Safari
 - winner & bid status
   - [x] winner event does not work
   - [x] bid status 1 to 0 when placing a new bid
-- [ ] garbled chracters
-- [ ] increment is not used
-- [ ] lack address dummy data
+- [ ] 'increment' is not used
+- [ ] some early users lack address dummy data
 - [ ] telNos are not inserted into the database
 - [ ] (optional) email is recognized as spam
 - visual style
-  - [ ] search bar align to the both edge.
-  - [ ] size of arrow
+  - [ ] (optional) search bar align to the both edge.
+  - [ ] (optional) size of arrow
 ## Tricks
 
 **1. MySQL Event Scheduler does not work**
@@ -125,7 +125,8 @@ SET GLOBAL event_scheduler = ON;
 4. subcategory
 5. combination of items
 6. dynamic page (Countdown, immediate new bid notification)
-7. current account and account data update
+7. account data update
+8. cloud server (Azure)
 
 
 ## Additional Resources
