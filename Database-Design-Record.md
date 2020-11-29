@@ -151,7 +151,7 @@ auction_house
 | firstName  | varchar(35)  |  NO  |           |         |                                              |
 |  lastName  | varchar(35)  |  NO  |           |         |                                              |
 |  ~~age~~   |   tinyint    |  NO  |           |         |                   unsigned                   |
-| ~~gender~~ |   char(1)    | YES  |           |  NULL   |                   ==M, F==                   |
+| ~~gender~~ |   char(1)    | YES  |           |  NULL   |                     M, F                     |
 |   level    |   tinyint    |  NO  |           |    0    |                   unsigned                   |
 
 ### BuyerAddress
@@ -170,7 +170,7 @@ auction_house
 | :---------: | :---------: | :--: | :--------------: | :-----: | :----------------------------------------------------------: |
 |   buyerId   |     int     |  NO  | Primary, Foreign |    -    | buyer(buyerId); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
 |    telNo    | varchar(15) | YES  |                  |  NULL   |                       10 ≦ length ≦ 15                       |
-| backupTelNo | varchar(15) | YES  |                  |  NULL   |                       10 ≦ length ≦ 15                       |
+| backupTelNo | varchar(15) | YES  |                  |  NULL   |            10 ≦ length ≦ 15, different from telNo            |
 
 ### Seller
 
@@ -200,8 +200,8 @@ auction_house
 |    Field    |    Type     | Null |       Key        | Default |                            Extra                             |
 | :---------: | :---------: | :--: | :--------------: | :-----: | :----------------------------------------------------------: |
 |  sellerId   |     int     |  NO  | Primary, Foreign |    -    | buyer(buyerId); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
-|    telNo    | varchar(15) | YES  |                  |  NULL   |                     ==10 ≦ length ≦ 15==                     |
-| backupTelNo | varchar(15) | YES  |                  |  NULL   |                     ==10 ≦ length ≦ 15==                     |
+|    telNo    | varchar(15) | YES  |                  |  NULL   |                       10 ≦ length ≦ 15                       |
+| backupTelNo | varchar(15) | YES  |                  |  NULL   |            10 ≦ length ≦ 15, different from telNo            |
 
 ### Auction
 
@@ -209,14 +209,14 @@ auction_house
 | :----------------: | :---------: | :--: | :-----: | :-------------: | :----------------------------------------------------------: |
 |     auctionNo      |     int     |  NO  | Primary |             |               unsigned; auto_increment by one                |
 |   auctionStatus    |   Boolean   |  NO  |         |      True       |                                                              |
-|      category      | varchar(35) |  NO  |         |      Other      |                         ==trigger==                          |
+|      category      | varchar(35) |  NO  |         |      Other      |                         trigger: check_cat                         |
 |       title        | varchar(100) |  NO  |         | Unnamed Auction |                                                              |
 | auctionDescription | text(2000)  | YES  |         |                 |                                                              |
 |   startingPrice    |     int     |  NO  |         |                 |                           unsigned                           |
 |    reservePrice    |     int     | YES  |         |                 |                           unsigned                           |
 |     increments     |     int     |  NO  |         |        1        |                           unsigned                           |
 |   startDate    |  datetime   |  NO  |         |      ==today==      |                                                              |
-|      endDate       |  datetime   |  NO  |         |                 |                          ==\>= today==                          |
+|      endDate       |  datetime   |  NO  |         |                 |                          \>= today                          |
 |    ~~topBidNo~~    |     int     |  NO  | Foreign |                 |            ON UPDATE CASCADE ON DELETE NO ACTION             |
 |      sellerId      |     int     |  NO  | Foreign |                 | Seller(sellerId); ON UPDATE CASCADE ON DELETE NO ACTION; unsigned |
 
@@ -227,7 +227,7 @@ auction_house
 |   bidNo   |   int    |  NO  | Primary |  NULL   | unsigned; auto_increment by one |
 | bidStatus | Boolean  |  NO  |         |  True   |                                 |
 | bidAmount |   int    |  NO  |         |         |            unsigned             |
-|  bidTime  | datetime |  NO  |         |         |        ==current time?==        |
+|  bidTime  | datetime |  NO  |         |         |          current time           |
 
 ### CreateBid
 
