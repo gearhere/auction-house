@@ -15,7 +15,7 @@
         $header = "From: ". $name . " <" . $email . ">\r\n";
         #$header = "From: ". $name .">\r\n";
         //optional headerfields
-        echo($recipient);
+        // echo($recipient);
         if(mail($recipient, $subject, $mail_body, $header))
         {
             return true;
@@ -33,7 +33,6 @@
         #$email = $_SESSION['username'] ; //sender’s e-mail address
         $email = "mailexper20@gmail.com"; //sender’s e-mail address
         $recipient = $bider; //recipient
-        #$recipient = "Jade.Wang729@gmail.com"; //recipient 
 
         $mail_body= "Dear ".$bid_name.",\r
         \tWe are here to inform you about the item in your watchlist. \r
@@ -42,7 +41,7 @@
         $header = "From: ". $name . " <" . $email . ">\r\n";
         #$header = "From: ". $name .">\r\n";
         //optional headerfields
-        echo($recipient);
+        // echo($recipient);
         if(mail($recipient, $subject, $mail_body, $header))
         {
             return true;

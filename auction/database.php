@@ -3,6 +3,6 @@
 
 $GLOBALS['connection'] = mysqli_connect('localhost','root','', 'auction_house')
              or die('Error connecting to MySQL server.' . mysql_error());
-
+mysqli_set_charset($connection, 'utf8mb4'); 
 
 ?>
