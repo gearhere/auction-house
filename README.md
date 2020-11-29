@@ -26,11 +26,13 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 
 - [x] referential integrity
 - [x] system event
-- [ ] complete dummy data
 - [x] engine
-- [ ] email & transaction hash
 - [x] winner
-- [ ] query optimization
+- [ ] complete dummy data
+- [ ] merge address and telNo as userCont
+- [ ] (optional) email & transaction hash
+- [ ] (advanced optional) query optimization
+- [ ] (advanced optional) backup and restoring database
 
 ### Coding progress
 
@@ -45,11 +47,11 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 **browse.php**
 
 - [ ] ~~the bid out of date~~
-- [ ] the way of category value: can not use blank, ',',and'&', need to change the $post[cat] because on the page after successfully create auction, it will show value like "category: SportsandHobbies"
+- [ ] (for aesthetics) category value can not use blank, ',',and'&'; need to change the $post[cat] since after successfully creating an auction, it will show value like "category: SportsandHobbies"
 - [ ] `print an informative message`
-- [ ] (change the CSS of the line showing total number of reslults )
-- [ ] user can input page number to switch
-- [ ] user can choose how many auctions listed in one page
+- [ ] (for aesthetics) change the CSS of the line showing total number of reslults
+- [ ] (optional) user can input page number to switch
+- [ ] (optional) user can choose how many auctions listed in one page
 
 **create_auction.php**
 
@@ -67,7 +69,7 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 - [x] pagination arrow wrong display when there's no result for a search
 - [x] registration password requirements wrong
 - [x] triggers
-- [ ] watching trigger
+- [ ] (optional) watching trigger
 - [x] garbled chracters
 - [x] Change info after placing bid. (currently shows 'registration result.')
 - watchlist
@@ -84,9 +86,9 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 - winner & bid status
   - [x] winner event does not work
   - [x] bid status 1 to 0 when placing a new bid
+- [ ] telNos are not inserted into the database
 - [ ] 'increment' is not used
 - [ ] some early users lack address dummy data
-- [ ] telNos are not inserted into the database
 - [ ] (optional) email is recognized as spam
 - visual style
   - [ ] (optional) search bar align to the both edge.
