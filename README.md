@@ -33,6 +33,8 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 - [ ] (optional) email & transaction hash
 - [ ] (advanced optional) query optimization
 - [ ] (advanced optional) backup and restoring database
+- [ ] (advanced optional) co-occurrence
+- [ ] (advanced optional)  safety (prevent sql-injection)
 
 ### Coding progress
 
@@ -95,7 +97,7 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
   - [ ] (optional) size of arrow
 ## Tricks
 
-**1. MySQL Event Scheduler does not work**
+1. **MySQL Event Scheduler does not work**
 
 - First check the event scheduler status:
 
@@ -118,6 +120,10 @@ SET GLOBAL event_scheduler = ON;
 - Permanent open:
 
   For **WAMP** , add `event_scheduler=on` under `[mysqld]` in `my.ini`. Restart the WAMP services, the event shall begin to execute.
+
+2. [Environment configuration for sending email  from WAMP server with fake sendmain](https://blog.techwheels.net/send-email-from-localhost-wamp-server-using-sendmail/)
+
+
 
 ## Optional Features
 
