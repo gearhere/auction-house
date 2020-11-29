@@ -1,5 +1,5 @@
 <?php require_once("header.php")?>
-<?php include_once("send_mail.php");?>
+<?php include("send_mail.php");?>
 
 <script type="text/javascript">
     $(window).on('load',function(){
@@ -27,12 +27,35 @@
     $buyer_id = intval(mysqli_fetch_row(mysqli_query($connection, $buyer_id_query))[0]);
     
     $update_query = 
-    "SELECT email FROM buyer 
+    "SELECT email,firstName FROM buyer 
     WHERE buyerId = (SELECT cb.buyerId FROM bid AS b JOIN createbid AS cb ON b.bidNo = cb.bidNo WHERE cb.auctionNo='$auction_number' AND b.bidStatus = 1 )";
     $result_update = mysqli_query($connection,$update_query) or die('result.' . mysql_error());
     $fetch_buyer = mysqli_fetch_row($result_update);
-    send_email_update($fetch_buyer[0],$bid);
+    send_email_update($fetch_buyer[0],$fetch_buyer[1],$bid);
     
+    $watch_query = 
+    "SELECT b.email,b.firstName FROM buyer AS b JOIN watching AS w ON b.buyerId = w.buyerId WHERE w.auctionNo='$auction_number'";
+
+    $result_watch = mysqli_query($connection,$watch_query) or die('result.' . mysql_error());
+
+    //$watch_row = mysqli_fetch_assoc($result_watch);
+
+    while ($watch_row = mysqli_fetch_assoc($result_watch))
+    {
+        $bid_email = $watch_row['email'];
+        $bid_name = $watch_row['firstName'];
+        send_email_watch($bid_email,$bid_name,$bid);
+    }
+
+    // while($watch_row) 
+    // {
+    //     
+    //     echo("123");
+    // }
+    
+
+
+
     
     $query = "
     START TRANSACTION; 

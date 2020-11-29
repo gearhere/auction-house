@@ -3,7 +3,7 @@
 
 <?php
 
-$title = "Registration Result";
+
 
 if (!isset($_POST['emailReg']) || //Check if all data was submitted
     !isset($_POST['passwordReg']) || 
