@@ -158,3 +158,6 @@ SET GLOBAL event_scheduler = ON;
 
 2. [Choosing a Primary Key: Natural or Surrogate?](http://www.agiledata.org/essays/keys.html)
 
+3. Connect an existing Azure App Service to Azure Database for MySQL server https://docs.microsoft.com/en-us/azure/mysql/howto-connect-webapp
+
+4. Migrate your MySQL database by using import and export https://docs.microsoft.com/en-us/azure/mysql/concepts-migrate-import-export
