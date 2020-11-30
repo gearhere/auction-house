@@ -22,7 +22,7 @@
                 WHERE buyer.buyerId='$user_id'";
 
       $user_info = mysqli_fetch_row(mysqli_query($connection, $query));
-      $user_name =  ucfirst($user_info[0]).' '.ucfirst($user_info[1]);
+      $user_name =  ucfirst($user_info[0]);
       $user_email =  $user_info[2];
       $user_level = $user_info[3];
       $user_street = $user_info[4];
@@ -43,7 +43,7 @@
                 WHERE seller.sellerId='$user_id'";
       
       $user_info = mysqli_fetch_row(mysqli_query($connection, $query));
-      $user_name =  ucfirst($user_info[0]).' '.ucfirst($user_info[1]);
+      $user_name =  ucfirst($user_info[0]);
       $user_email =  $user_info[2];
       $user_level = $user_info[3];
       $user_street = $user_info[4];
