@@ -5,6 +5,7 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 - [Auction House](#auction-house)
+  * [Code Statistics](#code-statistics)
   * [Progress](#progress)
     + [Database progress](#database-progress)
     + [Coding progress](#coding-progress)
@@ -12,6 +13,20 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
   * [Tricks](#tricks)
   * [Optional Features](#optional-features)
   * [Additional Resources](#additional-resources)
+
+## Code Statistics
+
+```shell
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+PHP                             21            360            128           1620
+Markdown                         4            164              0            423
+SQL                              1             63            107            302
+-------------------------------------------------------------------------------
+SUM:                            26            587            235           2345
+-------------------------------------------------------------------------------
+```
 
 ## Progress
 
