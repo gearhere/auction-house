@@ -38,25 +38,13 @@
 
     $result_watch = mysqli_query($connection,$watch_query) or die('result.' . mysql_error());
 
-    //$watch_row = mysqli_fetch_assoc($result_watch);
-
     while ($watch_row = mysqli_fetch_assoc($result_watch))
     {
         $bid_email = $watch_row['email'];
         $bid_name = $watch_row['firstName'];
         send_email_watch($bid_email,$bid_name,$bid);
     }
-
-    // while($watch_row) 
-    // {
-    //     
-    //     echo("123");
-    // }
-    
-
-
-
-    
+   
     $query = "
     START TRANSACTION; 
     UPDATE bid 
@@ -72,5 +60,3 @@
 
 
 ?>
-
-
