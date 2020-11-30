@@ -8,6 +8,7 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
   * [Progress](#progress)
     + [Database progress](#database-progress)
     + [Coding progress](#coding-progress)
+  * [Killing Bugs](#killing-bugs)
   * [Tricks](#tricks)
   * [Optional Features](#optional-features)
   * [Additional Resources](#additional-resources)
@@ -24,68 +25,79 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 ### Database progress
 
 - [x] referential integrity
-- [ ] trigger
 - [x] system event
-- [ ] complete dummy data
 - [x] engine
-- [ ] email & transaction hash
 - [x] winner
-- [ ] query optimization
-- [ ] spam
+- [ ] complete dummy data
+- [ ] merge address and telNo as userCont
+- [ ] (optional) email & transaction hash
+- [ ] (advanced optional) query optimization
+- [ ] (advanced optional) backup and restoring database
+- [ ] (advanced optional) co-occurrence
+- [ ] (advanced optional)  safety (prevent sql-injection)
 
 ### Coding progress
 
-| &#9744; Feature 1  | &#9745; Feature 2 | &#9744; Feature3 | &#9744; Feature4 |
-| -------------------------- | ----------------- | ---------------- | ---------------- |
-| &#9745; log in <br>&#9745; regirstration <br>&#9744; roles (privileges)     | &#9745; create auction <br>&#9745; input auction data <br>&#9745; store auction data | &#9745; search auction <br/>&#9745; sort <br/>&#9744; bugs | &#9744; create bid <br/>&#9744; list bids <br/>&#9744; close auction |
+| &#9745; Feature 1  | &#9745; Feature 2 | &#9745; Feature3 | &#9745; Feature4 | &#9745; Feature 5 & 6 |
+| -------------------------- | ----------------- | ---------------- | ---------------- | ---------------- |
+| &#9745; log in <br>&#9745; regirstration <br>&#9745; roles (privileges)    | &#9745; create auction <br>&#9745; input auction data <br>&#9745; store auction data | &#9745; search auction <br>&#9745; sort <br> | &#9745; create bid <br>&#9745; list bids <br>&#9745; close auction | &#9745; email watchlist <br>&#9745; email outbid <br>&#9745; recommendation |
 
 **Cross**
 
-- [x] session variable --> user id
-- [x] remove seller watchlist
-- [x] where to put buyer watchlist
+- [x] account page
 
 **browse.php**
 
-- [x] Keep the input and selected value
-- [x] price default value (without bid)
-- [x] Sort by None
-- [x] display total number of auctions that meet conditions
 - [ ] ~~the bid out of date~~
-- [x] the way of category value: can not use blank, ',',and'&', need to change the $post[cat] because on the page after successfully create auction, it will show value like "category: SportsandHobbies"
+- [ ] (for aesthetics) category value can not use blank, ',',and'&'; need to change the $post[cat] since after successfully creating an auction, it will show value like "category: SportsandHobbies"
 - [ ] `print an informative message`
-- [ ] pagination arrow wrong display
-- [ ] (change the CSS of the line showing total number of reslults )
-- [ ] user can input page number to switch
-- [ ] user can choose how many auctions listed in one page
-- [ ] Garbled
+- [ ] (for aesthetics) change the CSS of the line showing total number of reslults
+- [ ] (optional) user can input page number to switch
+- [ ] (optional) user can choose how many auctions listed in one page
 
 **create_auction.php**
 
-- [ ] ( can not give float when giving price )
-- [ ] (have the same "name" for category, it can work well with out this change, just may make the code looks more consistent )
-- [ ] for register and auction creating, it doesn't work smoothly for move forward and backword( sometimes the '* Required.'  doesn't  disappear)
+- [ ] (can not give float when giving price)
 
 **create_auction_result.php**
 
 - [ ] (make pop a function)
-- [ ] first insert into create auction table, then insert then auction table.
-- [ ] replace
 
-**function.php**
+## Killing Bugs
 
-- [ ] make it could be use by register and create auction
-- [x] move to create_auction_result.php
-- [x] in save_to_database, modify sellerId to real value based on session variable and connection to database.
-
-**process_registration.php**
-
-- [ ] registration detail requirements wrong
-- [ ] address and tel not inserted into database.
-
+- [x] fail to place a bid (fixed by change "require 'utilities.php'" to "require_once")
+- [x] recommend page `redeclare runModal()`
+- [x] missing bids for buyer 1 & 2
+- [x] pagination arrow wrong display when there's no result for a search
+- [x] registration password requirements wrong
+- [x] triggers
+- [ ] (optional) watching trigger
+- [x] garbled chracters
+- [x] Change info after placing bid. (currently shows 'registration result.')
+- watchlist
+  - [x] remove it from seller perspective
+  - [x] existing auctions on watchlist can be seen, but they cannot be removed
+  - [x] auctions cannot be added into watchlist
+  - [ ] (optional) once bid for an auction on watchlist, it should be removed from the list
+- auction
+  - [x] missing auctions on mylisting
+  - [x] error message after creating auction
+  - [x] reserve price check fails when placing a new bid
+  - [x] auction pass
+  - [ ] (optional) calendar language does not match with other parts and calendar does not like Safari
+- winner & bid status
+  - [x] winner event does not work
+  - [x] bid status 1 to 0 when placing a new bid
+- [ ] telNos are not inserted into the database
+- [ ] 'increment' is not used
+- [ ] some early users lack address dummy data
+- [ ] (optional) email is recognized as spam
+- visual style
+  - [ ] (optional) search bar align to the both edge.
+  - [ ] (optional) size of arrow
 ## Tricks
 
-**1. MySQL Event Scheduler does not work**
+1. **MySQL Event Scheduler does not work**
 
 - First check the event scheduler status:
 
@@ -109,6 +121,10 @@ SET GLOBAL event_scheduler = ON;
 
   For **WAMP** , add `event_scheduler=on` under `[mysqld]` in `my.ini`. Restart the WAMP services, the event shall begin to execute.
 
+2. [Environment configuration for sending email  from WAMP server with fake sendmain](https://blog.techwheels.net/send-email-from-localhost-wamp-server-using-sendmail/)
+
+
+
 ## Optional Features
 
 1. ratings
@@ -117,10 +133,13 @@ SET GLOBAL event_scheduler = ON;
 4. subcategory
 5. combination of items
 6. dynamic page (Countdown, immediate new bid notification)
-7. current account and account data update
+7. account data update
+8. cloud server (Azure)
 
 
 ## Additional Resources
 
 1. [What attributes should be assigned to relationships and what for entities?](https://www.geeksforgeeks.org/attributes-to-relationships-in-er-model/#:~:text=In%20ER%20model%2C%20entities%20have,have%20attributes%20associated%20to%20them.)
+
 2. [Choosing a Primary Key: Natural or Surrogate?](http://www.agiledata.org/essays/keys.html)
+
