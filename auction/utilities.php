@@ -50,7 +50,7 @@ function print_listing_li($item_id, $title, $desc, $price, $num_bids, $end_time,
 
 
   if ($now > $end_time && $auction_status == 0 ) { //These two conditions should by definition be equivalent but this offers additional check for any data inconsistencies
-    $fetch_winner_query = "SELECT email FROM buyer WHERE buyerId = (SELECT buyerId FROM auctionwinner WHERE auctionNo = '$item_id') ";
+    $fetch_winner_query = "SELECT email FROM buyer WHERE buyerId = (SELECT buyerId FROM winner WHERE auctionNo = '$item_id') ";
     $fetch_winner = mysqli_fetch_row(mysqli_query($GLOBALS['connection'], $fetch_winner_query));
     if (!$fetch_winner) {
       $time_remaining = "<h6 style=\"color:red\">This auction had no winner</h6>";

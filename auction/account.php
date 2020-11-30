@@ -15,10 +15,10 @@
       $user_id_query = "SELECT buyerId FROM buyer WHERE email='$user_username'";
       $user_id = intval(mysqli_fetch_row(mysqli_query($connection, $user_id_query))[0]);
 
-      $query = "SELECT firstName, lastName, email, level, street, city, postcode
+      $query = "SELECT firstName, lastName, email, level, street, city, postcode, telNo, backupTelNo
                 FROM buyer
-                LEFT JOIN buyerAddress
-                ON buyer.buyerId=buyerAddress.buyerId
+                LEFT JOIN buyerCont
+                ON buyer.buyerId=buyerCont.buyerId
                 WHERE buyer.buyerId='$user_id'";
 
       $user_info = mysqli_fetch_row(mysqli_query($connection, $query));
@@ -28,17 +28,18 @@
       $user_street = $user_info[4];
       $user_city = $user_info[5];
       $user_postcode = $user_info[6];
-
+      $user_tel = $user_info[7];
+      $user_backuptel = $user_info[8];
     //   $bid_cat_query = "";
   }
   elseif ($_SESSION['account_type'] == 'seller') {
       $user_id_query = "SELECT sellerId FROM seller WHERE email='$user_username'";
       $user_id = intval(mysqli_fetch_row(mysqli_query($connection, $user_id_query))[0]);
       
-      $query = "SELECT firstName, lastName, email, level, street, city, postcode
+      $query = "SELECT firstName, lastName, email, level, street, city, postcode, telNo, backupTelNo
                 FROM seller
-                LEFT JOIN sellerAddress
-                ON seller.sellerId=sellerAddress.sellerId
+                LEFT JOIN sellerCont
+                ON seller.sellerId=sellerCont.sellerId
                 WHERE seller.sellerId='$user_id'";
       
       $user_info = mysqli_fetch_row(mysqli_query($connection, $query));
@@ -48,6 +49,8 @@
       $user_street = $user_info[4];
       $user_city = $user_info[5];
       $user_postcode = $user_info[6];
+      $user_tel = $user_info[7];
+      $user_backuptel = $user_info[8];
   }
 
 ?>
@@ -57,10 +60,12 @@
 <h2 class="my-3">Welcome, <span class='blue'><?php echo $user_name ?></span>! You are using a <span class='blue'><?php echo strtoupper($_SESSION['account_type']) ?></span> account.<br><br></h2>
 <h4>- Email: <?php echo $user_email ?><br><br></h4>
 <h4>- User level: <?php echo $user_level ?><br><br></h4>
-<h4>- Address: <br><h4>
+<h4>- Contact Information: <br><h4>
 <h5 class="address-detail">&boxbox; Street: <?php echo $user_street ?><br><h5>
 <h5 class="address-detail">&boxbox; City: <?php echo $user_city ?><br><h5>
 <h5 class="address-detail">&boxbox; Postcode: <?php echo $user_postcode ?><h5>
+<h5 class="address-detail">&boxbox; Telephone number: <?php echo $user_tel ?><h5>
+<h5 class="address-detail">&boxbox; Backup telephone number: <?php echo $user_backuptel ?><h5>
 
 <br>
 

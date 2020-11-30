@@ -108,14 +108,14 @@ WHERE b.bidNo = c.bidNo and a.auctionNo = c.auctionNo and a.auctionNo = '$item_i
 
     <p>
 <?php if ($now > $end_time && $auction_status == 0): ?>
-<?php $fetch_winner_query = "SELECT email FROM buyer WHERE buyerId = (SELECT buyerId FROM auctionwinner WHERE auctionNo = '$item_id') ";
+<?php $fetch_winner_query = "SELECT email FROM buyer WHERE buyerId = (SELECT buyerId FROM winner WHERE auctionNo = '$item_id') ";
       $fetch_winner = mysqli_fetch_row(mysqli_query($connection, $fetch_winner_query)); ?>
      <h5>This auction ended <?php echo(date_format($end_time, 'j M H:i')) ?></h5><hr>
      <?php if (!$fetch_winner) {
         echo "<h6 style=\"color:red\">This auction had no winner - either there were no valid bids, or the reserve price wasn't reached.</h6>";
       }
       else {
-        if ($fetch_winner[0]==$_SESSION['username']) {$fetch_winner[0] = "you";}
+        if (isset($_SESSION['username']) && $fetch_winner[0]==$_SESSION['username']) {$fetch_winner[0] = "you";}
         echo "<h6 style=\"color:green\">This auction was won by $fetch_winner[0].";
 
       }
