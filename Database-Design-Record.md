@@ -154,23 +154,16 @@ auction_house
 | ~~gender~~ |   char(1)    | YES  |           |  NULL   |                     M, F                     |
 |   level    |   tinyint    |  NO  |           |    0    |                   unsigned                   |
 
-### BuyerAddress
-
-|   Field   |    Type     | Null |   Key   | Default |                            Extra                             |
-| :-------: | :---------: | :--: | :-----: | :-----: | :----------------------------------------------------------: |
-| addressId |     int     |  NO  | Primary |         |               unsigned; auto_increment by one                |
-|  street   | varchar(35) |  NO  |         |         |                                                              |
-|   city    | varchar(35) |  NO  |         |         |                                                              |
-| postcode  | varchar(8)  |  NO  |         |         |                      ==6 ≦ length ≦ 8==                      |
-|  buyerId  |     int     |  NO  | Foreign |    -    | buyer(buyerId); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
-
-### BuyerTel
+### BuyerCont
 
 |    Field    |    Type     | Null |       Key        | Default |                            Extra                             |
 | :---------: | :---------: | :--: | :--------------: | :-----: | :----------------------------------------------------------: |
 |   buyerId   |     int     |  NO  | Primary, Foreign |    -    | buyer(buyerId); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
-|    telNo    | varchar(15) | YES  |                  |  NULL   |                       10 ≦ length ≦ 15                       |
-| backupTelNo | varchar(15) | YES  |                  |  NULL   |            10 ≦ length ≦ 15, different from telNo            |
+|   street    | varchar(35) |  NO  |                  |         |                                                              |
+|    city     | varchar(35) |  NO  |                  |         |                                                              |
+|  postcode   | varchar(8)  |  NO  |                  |         |                      ==6 ≦ length ≦ 8==                      |
+|    telNo    | varchar(15) | YES  |                  |         |                       10 ≦ length ≦ 15                       |
+| backupTelNo | varchar(15) | YES  |                  |         |            10 ≦ length ≦ 15, different from telNo            |
 
 ### Seller
 
@@ -185,23 +178,16 @@ auction_house
 | ~~gender~~ |   char(1)    | YES  |           |  NULL   |              M, F               |
 |   level    |   tinyint    |  NO  |           |    0    |            unsigned             |
 
-### SellerAddress
-
-|   Field   |    Type     | Null |   Key   | Default |                            Extra                             |
-| :-------: | :---------: | :--: | :-----: | :-----: | :----------------------------------------------------------: |
-| addressId |     int     |  NO  | Primary |         |               unsigned; auto_increment by one                |
-|  street   | varchar(35) |  NO  |         |         |                                                              |
-|   city    | varchar(35) |  NO  |         |         |                                                              |
-| postcode  | varchar(8)  |  NO  |         |         |                      ==6 ≦ length ≦ 8==                      |
-| sellerId  |     int     |  NO  | Foreign |    -    | seller(sellerId); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
-
-### SellerTel
+### SellerCont
 
 |    Field    |    Type     | Null |       Key        | Default |                            Extra                             |
 | :---------: | :---------: | :--: | :--------------: | :-----: | :----------------------------------------------------------: |
-|  sellerId   |     int     |  NO  | Primary, Foreign |    -    | buyer(buyerId); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
-|    telNo    | varchar(15) | YES  |                  |  NULL   |                       10 ≦ length ≦ 15                       |
-| backupTelNo | varchar(15) | YES  |                  |  NULL   |            10 ≦ length ≦ 15, different from telNo            |
+|  sellerId   |     int     |  NO  | Primary, Foreign |    -    | seller(sellerId); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
+|   street    | varchar(35) |  NO  |                  |         |                                                              |
+|    city     | varchar(35) |  NO  |                  |         |                                                              |
+|  postcode   | varchar(8)  |  NO  |                  |         |                      ==6 ≦ length ≦ 8==                      |
+|    telNo    | varchar(15) | YES  |                  |         |                       10 ≦ length ≦ 15                       |
+| backupTelNo | varchar(15) | YES  |                  |         |            10 ≦ length ≦ 15, different from telNo            |
 
 ### Auction
 
@@ -244,7 +230,7 @@ auction_house
 |  buyerId  | int  |  NO  | Primary, Foreign |    -    | buyer(buyerId); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
 | auctionNo | int  |  NO  | Primary, Foreign |    -    | auctionNo(auctionNo); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
 
-### AuctionWinner
+### Winner
 
 |   Field   | Type | Null |       Key        | Default |                            Extra                             |
 | :-------: | :--: | :--: | :--------------: | :-----: | :----------------------------------------------------------: |
