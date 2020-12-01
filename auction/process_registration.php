@@ -3,8 +3,6 @@
 
 <?php
 
-
-
 if (!isset($_POST['emailReg']) || //Check if all data was submitted
     !isset($_POST['passwordReg']) || 
     !isset($_POST['passwordConfirmationReg']) || 
@@ -12,7 +10,8 @@ if (!isset($_POST['emailReg']) || //Check if all data was submitted
     !isset($_POST['lastName']) || 
     !isset($_POST['streetAddress']) || 
     !isset($_POST['city']) || 
-    !isset($_POST['postcode'])) 
+    !isset($_POST['postcode']) ||
+    !isset($_POST['phoneNo']))
     {
   runModal('The form has been submitted incorrectly. Some data may be missing. You will redirected back to the registration page.','register.php');
 }
@@ -28,6 +27,8 @@ else {
     $uppercase = preg_match('@[A-Z]@', $password);
     $lowercase = preg_match('@[a-z]@', $password);
     $number    = preg_match('@[0-9]@', $password);
+    $phoneNo = trim($_POST['phoneNo']);
+    $secPhoneNo = $_POST['secondaryPhoneNo'] ? trim($_POST['secondaryPhoneNo']) : "n/a";
 
 }
 
@@ -51,8 +52,8 @@ else if($password !== $passwordConf) { //Check if passwords match
     runModal('The entered passwords don\'t match. You will be redirected back to the registration page.','register.php');
 }
 
-else if(empty($firstName) || empty($lastName) || empty($street) || empty($city) || empty($postcode)) { //Check if any remaining data is missing
-    runModal('One of the following personal information missing or incorrect: first name, last name, address, city, postcode. You will be redirected back to the registration page.','register.php');
+else if(empty($firstName) || empty($lastName) || empty($street) || empty($city) || empty($postcode) || empty($phoneNo)) { //Check if any remaining data is missing
+    runModal('One of the following personal information missing or incorrect: first name, last name, address, city, postcode, phone number. You will be redirected back to the registration page.','register.php');
 
 }
 
@@ -62,7 +63,7 @@ else if ($_POST['accountType'] == 'buyer') { //Process registration for a buyer 
     $result = mysqli_fetch_array(mysqli_query($connection, $checkSeller)) ? true : false; //check if there is already an account under this name
 
     if (!$result) {
-    $addUser = "START TRANSACTION; INSERT INTO buyer(email,password,firstName,lastName) VALUES ('$email','$hash','$firstName','$lastName'); SET @last_id = LAST_INSERT_ID(); INSERT INTO buyeraddress(street,city,postcode,buyerId) VALUES('$street','$city','$postcode',@last_id); COMMIT;";
+    $addUser = "START TRANSACTION; INSERT INTO buyer(email,password,firstName,lastName) VALUES ('$email','$hash','$firstName','$lastName'); SET @last_id = LAST_INSERT_ID(); INSERT INTO buyercont(street,city,postcode, telNo, backupTelNo, buyerId) VALUES('$street','$city','$postcode','$phoneNo','$secPhoneNo',@last_id); COMMIT;";
     $processRegistration = mysqli_multi_query($connection, $addUser); 
         if(!empty(mysqli_error($connection))) { //check if database rejects based on duplicate email
           runModal('User under this e-mail already exists! You will be redirected back to the registration page.','register.php');
@@ -85,7 +86,7 @@ else if ($_POST['accountType'] == 'seller') {
     $result = mysqli_fetch_array(mysqli_query($connection, $checkBuyer)) ? true : false; //check if there is already an account under this name
 
     if (!$result) {
-    $addUser = "START TRANSACTION; INSERT INTO seller(email,password,firstName,lastName) VALUES ('$email','$hash','$firstName','$lastName'); SET @last_id = LAST_INSERT_ID(); INSERT INTO selleraddress(street,city,postcode,sellerId) VALUES('$street','$city','$postcode',@last_id); COMMIT;";
+    $addUser = "START TRANSACTION; INSERT INTO seller(email,password,firstName,lastName) VALUES ('$email','$hash','$firstName','$lastName'); SET @last_id = LAST_INSERT_ID(); INSERT INTO sellercont(street,city,postcode, telNo, backupTelNo, sellerId) VALUES('$street','$city','$postcode','$phoneNo','$secPhoneNo',@last_id); COMMIT;";
     $processRegistration = mysqli_multi_query($connection, $addUser);
         if(!empty(mysqli_error($connection))) { //check if database rejects based on duplicate email
           runModal('User under this e-mail already exists! You will be redirected back to the registration page.','register.php');
