@@ -10,7 +10,7 @@
      (GET method of passing data to a page). -->
 <form method="get" action="browse.php">
   <div class="row">
-    <div class="col-md-3 pr-0">
+    <div class="col-md-5 pr-0">
       <div class="form-group">
         <label for="keyword" class="sr-only" >Search keyword:</label>
 	    <div class="input-group">
@@ -24,7 +24,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-2 pr-0">
+    <div class="col-md-3 pr-0">
       <div class="form-group">
         <label for="cat" class="sr-only">Search within:</label>
         <?php

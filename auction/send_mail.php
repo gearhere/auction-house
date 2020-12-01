@@ -8,7 +8,7 @@
         $recipient = $bider; //recipient
 
         $mail_body= "Dear ". $bid_name .",\r
-        \tWe are sorry to inform you that you are out bid. \r
+        \tWe are sorry to inform you that you are outbid. \r
         \tThe price is £".$price." now. "; //mail body
         $subject = "AUCTION SITUATION UPDATE"; //subject
         $header = "From: ". $name . " <" . $email . ">\r\n";

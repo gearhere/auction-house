@@ -29,7 +29,7 @@
     $update_query = 
     "SELECT email,firstName FROM buyer 
     WHERE buyerId = (SELECT cb.buyerId FROM bid AS b JOIN createbid AS cb ON b.bidNo = cb.bidNo WHERE cb.auctionNo='$auction_number' AND b.bidStatus = 1 )";
-    $result_update = mysqli_query($connection,$update_query) or die('result.' . mysql_error());
+    $result_update = mysqli_query($connection, $update_query) or die('result.' . mysql_error());
     $fetch_buyer = mysqli_fetch_row($result_update);
     send_email_update($fetch_buyer[0],$fetch_buyer[1],$bid);
     
