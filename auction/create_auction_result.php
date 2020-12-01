@@ -40,7 +40,7 @@ function getItem()
     $item['auctionDetails'] = $_POST['auctionDetails'];
     $item['auctionCategory'] = $_POST['auctionCategory'];
     $item['auctionStartPrice'] = $_POST['auctionStartPrice'];
-    $item['auctionReservePrice'] = $_POST['auctionReservePrice'];
+    $item['auctionReservePrice'] = empty($_POST['auctionReservePrice']) ? $_POST['auctionStartPrice'] :  $_POST['auctionReservePrice'];
     $item['auctionEndDate'] = $_POST['auctionEndDate'];
 
     $item['auctionStartDate'] = date("Y-m-d H:i:s");
@@ -51,15 +51,17 @@ function getItem()
 function printItem($item)
 {
     $item_cat_print= '';
-    if ($item['auctionCategory'] == 'SportsandHobbies')
-        $item_cat_print = 'Sports, Hobbies & Leisure';
-    if ($item['auctionCategory'] == 'HomeandGarden')
-        $item_cat_print = 'Home & Garden';    
-    if ($item['auctionCategory'] == 'CollectablesandArt')
-        $item_cat_print = 'Collectables & Art';     
-    if ($item['auctionCategory'] == 'BusiandIndu')
-        $item_cat_print = 'Business, Office & Industrial Supplies';     
-
+    if ($item['auctionCategory'] == 'SportsandHobbies') { 
+        $item_cat_print = 'Sports, Hobbies & Leisure'; }
+    else if ($item['auctionCategory'] == 'HomeandGarden') {
+        $item_cat_print = 'Home & Garden';     }
+    else if ($item['auctionCategory'] == 'CollectablesandArt') { 
+        $item_cat_print = 'Collectables & Art';     }
+    else if ($item['auctionCategory'] == 'BusiandIndu') {
+        $item_cat_print = 'Business, Office & Industrial Supplies';     }
+    else {
+        $item_cat_print = $item['auctionCategory'];
+        }
     echo "<p>auctionTitle: ${item['auctionTitle']}</p>";
     echo "<p>auctionDetails: ${item['auctionDetails']}</p>";
     echo "<p>auctionCategory:". $item_cat_print."</p>";
@@ -80,10 +82,9 @@ function saveToDatabase($item){
         '${item['auctionStartPrice']}','{$item['auctionReservePrice']}','${item['auctionStartDate']}',
         '${item['auctionEndDate']}','$sellerId')";
 
-    $result = mysqli_query($GLOBALS['connection'],$query)
-    or die('Error connecting to MySQL server.' . mysql_error());
+    $result = mysqli_query($GLOBALS['connection'],$query);
+    var_dump(mysqli_error($GLOBALS['connection']));
 }
-
 function checkRepetition($item)
 {
 
