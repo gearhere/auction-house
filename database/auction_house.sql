@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 30, 2020 at 05:17 PM
+-- Generation Time: Dec 01, 2020 at 03:25 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -57,7 +57,7 @@ INSERT INTO `auction` (`auctionNo`, `auctionStatus`, `category`, `title`, `aucti
 (6, 1, 'HomeandGarden', 'Memory Foam Mattress', 'Brand: bed-world\r\nMPN: does not apply\r\nHeadboard Height: 20 inch\r\nRequired Tools:	ScrewdriverManufacturer Warranty: 1 year', 108, 400, 1, '2020-11-09 19:11:19', '2020-12-01 19:11:19', 1),
 (7, 1, 'Motors', 'TDI V6 Automatic', 'This jeep has only ever had 2 owners and its all been my family\r\nWas my uncles at first then my dads then my brothers then myself. I know the jeep inside out\r\nAny questions please ask\r\n', 35000, NULL, 1, '2020-11-22 19:11:19', '2021-04-01 19:11:19', 1),
 (8, 1, 'BusiandIndu', 'Pallet Collars X 10 (1200 X 1000mm)', 'Wooden collars great for raised garden beds. These are not new, in good used condition, colours vary. Sizes 1200 x 1000mm 10 for 65 approx 7 high. Can be stacked up on top of each other for required height. Collection Banbury or can be delivered for fuel cost. More than 10 available if required.', 70, 150, 1, '2020-11-21 19:40:19', '2020-12-25 23:00:00', 2),
-(9, 1, 'Health', 'Oral-B Toothbrush Heads Pack ', 'Oral-B CrossAction Black Toothbrush Heads Pack Of 4 Replacement Refills', 15, NULL, 1, '2020-11-22 19:11:19', '2020-11-30 19:11:19', 3),
+(9, 0, 'Health', 'Oral-B Toothbrush Heads Pack ', 'Oral-B CrossAction Black Toothbrush Heads Pack Of 4 Replacement Refills', 15, NULL, 1, '2020-11-22 19:11:19', '2020-11-30 19:11:19', 3),
 (10, 1, 'Media', 'Last Christmas [DVD]', 'Format: DVD\r\nStyle: Cult\r\nActor: Emilia Clarke\r\nGenre: Comedy\r\nSub-Genre: Christmas\r\nLanguage: English', 7, NULL, 1, '2020-11-10 19:11:19', '2020-12-03 19:11:19', 4),
 (11, 1, 'Others', '4 Bedroom House In France', 'The floor was an old-fashioned parquet with a blend of deep homely browns and the walls were the greens of summer gardens meeting a bold white baseboard. The banister was a twirl of a branch.', 32500, NULL, 1, '2020-11-17 19:44:21', '2021-08-01 00:00:00', 5),
 (12, 0, 'Others', 'Unnamed Auction', '', 100, 110, 1, '2020-11-27 17:04:00', '2020-11-28 17:04:00', 2),
@@ -179,7 +179,7 @@ INSERT INTO `buyer` (`buyerId`, `email`, `password`, `firstName`, `lastName`, `l
 (1, 'yang.zou@ucl.ac.uk', '$2y$10$Ni40b6/zoCXiRtxG6.x07e7QPvNS1aboQT7aDvmPr7vSzKa/3h7X6', 'yang', 'zou', 1),
 (2, 'ex@qq.com', '$2y$10$Ni40b6/zoCXiRtxG6.x07e7QPvNS1aboQT7aDvmPr7vSzKa/3h7X6', 'John', 'Joe', 0),
 (3, '285@gmail.com', '$2y$10$Ni40b6/zoCXiRtxG6.x07e7QPvNS1aboQT7aDvmPr7vSzKa/3h7X6', 'yyy', 'zzz', 0),
-(6, 'kaka@outlook.com', '$2y$10$7wRwaxilzO8H9ChLLYcDHuijEhnd2U2/y3fsRgn8QbfiABtv54.Yi', 'kela', 'tata', 0);
+(6, 'zongyue@outlook.com', '$2y$10$7wRwaxilzO8H9ChLLYcDHuijEhnd2U2/y3fsRgn8QbfiABtv54.Yi', 'Zongyue', 'Hou', 0);
 
 -- --------------------------------------------------------
 
@@ -193,7 +193,7 @@ CREATE TABLE IF NOT EXISTS `buyercont` (
   `street` varchar(35) COLLATE utf8mb4_unicode_ci NOT NULL,
   `city` varchar(35) COLLATE utf8mb4_unicode_ci NOT NULL,
   `postcode` varchar(35) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `telNo` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telNo` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `backupTelNo` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`buyerId`),
   KEY `buyerId` (`buyerId`)
@@ -206,7 +206,7 @@ CREATE TABLE IF NOT EXISTS `buyercont` (
 INSERT INTO `buyercont` (`buyerId`, `street`, `city`, `postcode`, `telNo`, `backupTelNo`) VALUES
 (1, 'Oxford Street', 'London', 'W1D 1BS', '1122334455', '2233445566'),
 (2, 'Queen Victoria St', 'London', 'EC4N 4TQ', '88888888888', ''),
-(6, 'UCL', 'London', 'UKL', '', '');
+(6, 'UCL', 'London', 'WC1E 6BT', '+44 2076792000', '');
 
 --
 -- Triggers `buyercont`
@@ -317,7 +317,7 @@ CREATE TABLE IF NOT EXISTS `sellercont` (
   `street` varchar(35) COLLATE utf8mb4_unicode_ci NOT NULL,
   `city` varchar(35) COLLATE utf8mb4_unicode_ci NOT NULL,
   `postcode` varchar(35) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `telNo` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telNo` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
   `backupTelNo` varchar(15) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`sellerId`),
   KEY `sellerId` (`sellerId`)
@@ -328,7 +328,7 @@ CREATE TABLE IF NOT EXISTS `sellercont` (
 --
 
 INSERT INTO `sellercont` (`sellerId`, `street`, `city`, `postcode`, `telNo`, `backupTelNo`) VALUES
-(1, 'Buckingham Palace Road', 'London', 'SW1W 9TQ', NULL, NULL);
+(1, 'Buckingham Palace Road', 'London', 'SW1W 9TQ', '', NULL);
 
 --
 -- Triggers `sellercont`

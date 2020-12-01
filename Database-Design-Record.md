@@ -24,7 +24,7 @@ Check the simplest version of ERD on develop branch on GitHub. This ERD is based
 
 # Logical Design
 
-## STEP 1 Derive Relation s for Logical Data Model
+## STEP 1 Derive Relations for Logical Data Model
 
 ### Strong Entities
 
@@ -232,10 +232,10 @@ auction_house
 
 ### Winner
 
-|   Field   | Type | Null |       Key        | Default |                            Extra                             |
-| :-------: | :--: | :--: | :--------------: | :-----: | :----------------------------------------------------------: |
-| auctionNo | int  |  NO  | Primary, Foreign |    -    | auctionNo(auctionNo); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
-|  buyerId  | int  |  NO  | Primary, Foreign |    -    | buyer(buyerId); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
+|   Field   | Type | Null |        Key         | Default |                            Extra                             |
+| :-------: | :--: | :--: | :----------------: | :-----: | :----------------------------------------------------------: |
+| auctionNo | int  |  NO  |  Primary, Foreign  |    -    | auctionNo(auctionNo); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
+|  buyerId  | int  |  NO  | Alternate, Foreign |    -    | buyer(buyerId); ON UPDATE CASCADE ON DELETE NO ACTION;unsigned |
 
 # MySQL Examples
 
