@@ -61,6 +61,19 @@
       <input type="text" class="form-control" id="postcode" name="postcode" placeholder="Postcode">
       <small id="postcodeHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
 	</div>
+	   <div class="form-group row">
+    <label for="phoneNo" class="col-sm-2 col-form-label text-right">Phone number</label>
+	<div class="col-sm-10">
+      <input type="text" class="form-control" id="phoneNo" name="phoneNo" placeholder="Phone number">
+      <small id="phoneNoHelp" class="form-text text-muted"><span class="text-danger">* Required.</span></small>
+	</div>
+  </div>
+  <div class="form-group row">
+    <label for="secondaryPhoneNo" class="col-sm-2 col-form-label text-right">Secondary phone number</label>
+	<div class="col-sm-10">
+      <input type="text" class="form-control" id="secondaryPhoneNo" name="secondaryPhoneNo" placeholder="Phone number">
+      <small id="secondaryPhoneNoHelp" class="form-text text-muted">Optional</span></small>
+	</div>
   </div>
   <div class="form-group row">
     <label for="passwordReg" class="col-sm-2 col-form-label text-right">Password</label>
@@ -87,6 +100,8 @@
 <script>
 
 inputs = document.getElementsByTagName('input');
+	document.getElementById("phoneNo").addEventListener("keyup",checkForm);
+
 
 for (i = 0; i<inputs.length; ++i ) {
   inputs[i].addEventListener("keyup",checkForm);
@@ -101,6 +116,13 @@ function checkEmail() {
   else {document.getElementById("emailHelp").style.display = "block"; return false}
 
 }
+	function checkNumber() {
+  var phoneNumber = inputs.namedItem("phoneNo").value;
+  if ((typeof Number(phoneNumber)) == 'number' && phoneNumber.length>8) {document.getElementById("phoneNoHelp").style.display="none";return true;}
+  else {document.getElementById("phoneNoHelp").style.display="block";return false;}
+
+}
+
 
 function checkOther(element) {
 if (element.value.length >= 3) {
@@ -166,6 +188,7 @@ function checkForm() {
   checkMatch();
   checkEmail();
   checkRadio();
+  checkNumber();
   checkOther(inputs.namedItem("firstName"));
   checkOther(inputs.namedItem("lastName"));
   checkOther(inputs.namedItem("streetAddress"));
@@ -175,6 +198,7 @@ function checkForm() {
                         checkMatch() &&
                         checkEmail() &&
                         checkRadio() &&
+			checkNumber() &&
                         checkOther(inputs.namedItem("firstName")) &&
                         checkOther(inputs.namedItem("lastName")) &&
                         checkOther(inputs.namedItem("streetAddress")) &&
