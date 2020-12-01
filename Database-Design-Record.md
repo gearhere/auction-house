@@ -162,7 +162,7 @@ auction_house
 |   street    | varchar(35) |  NO  |                  |         |                                                              |
 |    city     | varchar(35) |  NO  |                  |         |                                                              |
 |  postcode   | varchar(8)  |  NO  |                  |         |                      ==6 ≦ length ≦ 8==                      |
-|    telNo    | varchar(15) | YES  |                  |         |                       10 ≦ length ≦ 15                       |
+|    telNo    | varchar(15) |  NO  |                  |         |                       10 ≦ length ≦ 15                       |
 | backupTelNo | varchar(15) | YES  |                  |         |            10 ≦ length ≦ 15, different from telNo            |
 
 ### Seller
@@ -186,7 +186,7 @@ auction_house
 |   street    | varchar(35) |  NO  |                  |         |                                                              |
 |    city     | varchar(35) |  NO  |                  |         |                                                              |
 |  postcode   | varchar(8)  |  NO  |                  |         |                      ==6 ≦ length ≦ 8==                      |
-|    telNo    | varchar(15) | YES  |                  |         |                       10 ≦ length ≦ 15                       |
+|    telNo    | varchar(15) |  NO  |                  |         |                       10 ≦ length ≦ 15                       |
 | backupTelNo | varchar(15) | YES  |                  |         |            10 ≦ length ≦ 15, different from telNo            |
 
 ### Auction
@@ -199,7 +199,7 @@ auction_house
 |       title        | varchar(100) |  NO  |         | Unnamed Auction |                                                              |
 | auctionDescription | text(2000)  | YES  |         |                 |                                                              |
 |   startingPrice    |     int     |  NO  |         |                 |                           unsigned                           |
-|    reservePrice    |     int     | YES  |         |                 |                           unsigned                           |
+|    reservePrice    |     int     | NO |         | 0 |                           unsigned                           |
 |     increments     |     int     |  NO  |         |        1        |                           unsigned                           |
 |   startDate    |  datetime   |  NO  |         |      ==today==      |                                                              |
 |      endDate       |  datetime   |  NO  |         |                 |                          \>= today                          |
