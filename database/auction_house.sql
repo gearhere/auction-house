@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 01, 2020 at 03:33 PM
+-- Generation Time: Dec 01, 2020 at 05:02 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `buyer` (
   `level` tinyint(3) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`buyerId`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `buyer`
@@ -179,7 +179,9 @@ INSERT INTO `buyer` (`buyerId`, `email`, `password`, `firstName`, `lastName`, `l
 (1, 'yang.zou@ucl.ac.uk', '$2y$10$Ni40b6/zoCXiRtxG6.x07e7QPvNS1aboQT7aDvmPr7vSzKa/3h7X6', 'yang', 'zou', 1),
 (2, 'ex@qq.com', '$2y$10$Ni40b6/zoCXiRtxG6.x07e7QPvNS1aboQT7aDvmPr7vSzKa/3h7X6', 'John', 'Joe', 0),
 (3, '285@gmail.com', '$2y$10$Ni40b6/zoCXiRtxG6.x07e7QPvNS1aboQT7aDvmPr7vSzKa/3h7X6', 'yyy', 'zzz', 0),
-(6, 'zhduis@outlook.com', '$2y$10$7wRwaxilzO8H9ChLLYcDHuijEhnd2U2/y3fsRgn8QbfiABtv54.Yi', 'adwr', 'dawr', 0);
+(6, 'zhduis@outlook.com', '$2y$10$7wRwaxilzO8H9ChLLYcDHuijEhnd2U2/y3fsRgn8QbfiABtv54.Yi', 'adwr', 'dawr', 0),
+(8, 'guagua@gmail.com', '$2y$10$XyCf6tDyJRxtoDDE46ik8uOXNCURbCPe.JxylkxE8OPuLl.fGbd4.', 'gua', 'gua', 0),
+(12, 'yingying@m.com', '$2y$10$BHIsoeQjIRCe3hWlxu2x6uV2RhEetVBT0B10hY0xark1l9ZCV3WQq', 'yingying', 'guai', 0);
 
 -- --------------------------------------------------------
 
@@ -206,7 +208,9 @@ CREATE TABLE IF NOT EXISTS `buyercont` (
 INSERT INTO `buyercont` (`buyerId`, `street`, `city`, `postcode`, `telNo`, `backupTelNo`) VALUES
 (1, 'Oxford Street', 'London', 'W1D 1BS', '1122334455', '2233445566'),
 (2, 'Queen Victoria St', 'London', 'EC4N 4TQ', '88888888888', ''),
-(6, 'UCL', 'London', 'WC1E 6BT', '+44 2076792000', '');
+(6, 'UCL', 'London', 'WC1E 6BT', '+44 2076792000', ''),
+(8, 'gulugulu', 'watai', 'dsahe', '462644124654', '462644124653'),
+(12, 'dsda', 'giuo', 'uiui', '1234565431', '1234565432');
 
 --
 -- Triggers `buyercont`
@@ -462,7 +466,7 @@ auctionStatus = false
 WHERE UNIX_TIMESTAMP(endDate) < UNIX_TIMESTAMP()$$
 
 DROP EVENT `UPDATE WINNER`$$
-CREATE DEFINER=`root`@`localhost` EVENT `UPDATE WINNER` ON SCHEDULE EVERY 10 SECOND STARTS '2020-11-25 19:12:53' ON COMPLETION NOT PRESERVE ENABLE DO INSERT INTO auctionwinner SELECT createbid.auctionNo, createbid.buyerId FROM auction,bid,createbid WHERE createbid.auctionNo NOT in (SELECT auctionNo FROM auctionwinner) AND auction.auctionNo = createbid.auctionNo AND bid.bidNo = createbid.bidNo AND auctionStatus = 0 AND bid.bidStatus = 1 AND bid.bidAmount >= auction.reservePrice$$
+CREATE DEFINER=`root`@`localhost` EVENT `UPDATE WINNER` ON SCHEDULE EVERY 10 SECOND STARTS '2020-11-25 19:12:53' ON COMPLETION NOT PRESERVE ENABLE DO INSERT INTO winner SELECT createbid.auctionNo, createbid.buyerId FROM auction,bid,createbid WHERE createbid.auctionNo NOT in (SELECT auctionNo FROM winner) AND auction.auctionNo = createbid.auctionNo AND bid.bidNo = createbid.bidNo AND auctionStatus = 0 AND bid.bidStatus = 1 AND bid.bidAmount >= auction.reservePrice$$
 
 DELIMITER ;
 COMMIT;
