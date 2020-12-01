@@ -65,13 +65,12 @@ else if ($_POST['accountType'] == 'buyer') { //Process registration for a buyer 
     if (!$result) {
     $addUser = "START TRANSACTION; INSERT INTO buyer(email,password,firstName,lastName) VALUES ('$email','$hash','$firstName','$lastName'); SET @last_id = LAST_INSERT_ID(); INSERT INTO buyercont(street,city,postcode, telNo, backupTelNo, buyerId) VALUES('$street','$city','$postcode','$phoneNo','$secPhoneNo',@last_id); COMMIT;";
     $processRegistration = mysqli_multi_query($connection, $addUser); 
-    var_dump(mysqli_error($connection));
-        // if(!empty(mysqli_error($connection))) { //check if database rejects based on duplicate email
-        //   runModal('User under this e-mail already exists! You will be redirected back to the registration page.','register.php');
-        // }
-        // else { 
-        //   runModal('You have registered successfully! Redirecting...','browse.php');
-        // }
+        if(!empty(mysqli_error($connection))) { //check if database rejects based on duplicate email
+          runModal('User under this e-mail already exists! You will be redirected back to the registration page.','register.php');
+        }
+        else { 
+          runModal('You have registered successfully! Redirecting...','browse.php');
+        }
     }
     
     else { //If there is already seller account under this name to ensure data consistency
