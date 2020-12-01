@@ -102,7 +102,7 @@ DELIMITER ;
 DROP TRIGGER IF EXISTS `check_reservePrice`;
 DELIMITER $$
 CREATE TRIGGER `check_reservePrice` BEFORE INSERT ON `auction` FOR EACH ROW BEGIN 
-	IF NEW.reservePrice <= NEW.startingPrice
+	IF NEW.reservePrice < NEW.startingPrice
     THEN signal sqlstate '45000'
     SET MESSAGE_TEXT = "Reserve price should be higher than the starting price!";
     end if;
