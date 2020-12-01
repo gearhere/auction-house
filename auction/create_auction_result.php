@@ -83,7 +83,6 @@ function saveToDatabase($item){
         '${item['auctionEndDate']}','$sellerId')";
 
     $result = mysqli_query($GLOBALS['connection'],$query);
-    var_dump(mysqli_error($GLOBALS['connection']));
 }
 function checkRepetition($item)
 {
