@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Dec 01, 2020 at 03:25 PM
+-- Generation Time: Dec 01, 2020 at 03:33 PM
 -- Server version: 5.7.31
 -- PHP Version: 7.3.21
 
@@ -179,7 +179,7 @@ INSERT INTO `buyer` (`buyerId`, `email`, `password`, `firstName`, `lastName`, `l
 (1, 'yang.zou@ucl.ac.uk', '$2y$10$Ni40b6/zoCXiRtxG6.x07e7QPvNS1aboQT7aDvmPr7vSzKa/3h7X6', 'yang', 'zou', 1),
 (2, 'ex@qq.com', '$2y$10$Ni40b6/zoCXiRtxG6.x07e7QPvNS1aboQT7aDvmPr7vSzKa/3h7X6', 'John', 'Joe', 0),
 (3, '285@gmail.com', '$2y$10$Ni40b6/zoCXiRtxG6.x07e7QPvNS1aboQT7aDvmPr7vSzKa/3h7X6', 'yyy', 'zzz', 0),
-(6, 'zongyue@outlook.com', '$2y$10$7wRwaxilzO8H9ChLLYcDHuijEhnd2U2/y3fsRgn8QbfiABtv54.Yi', 'Zongyue', 'Hou', 0);
+(6, 'zhduis@outlook.com', '$2y$10$7wRwaxilzO8H9ChLLYcDHuijEhnd2U2/y3fsRgn8QbfiABtv54.Yi', 'adwr', 'dawr', 0);
 
 -- --------------------------------------------------------
 
@@ -214,7 +214,7 @@ INSERT INTO `buyercont` (`buyerId`, `street`, `city`, `postcode`, `telNo`, `back
 DROP TRIGGER IF EXISTS `check_bTel_length`;
 DELIMITER $$
 CREATE TRIGGER `check_bTel_length` BEFORE INSERT ON `buyercont` FOR EACH ROW BEGIN 
-	IF LENGTH(NEW.telNo) < 10 OR LENGTH(NEW.telNo) > 15 OR LENGTH(NEW.backupTelNo) < 10 OR LENGTH(NEW.backupTelNo) > 15
+	IF LENGTH(NEW.telNo) < 10 OR LENGTH(NEW.telNo) > 15
     THEN signal sqlstate '45000'
     SET MESSAGE_TEXT = "Telephone number too short or too long!";
     end if;
@@ -336,7 +336,7 @@ INSERT INTO `sellercont` (`sellerId`, `street`, `city`, `postcode`, `telNo`, `ba
 DROP TRIGGER IF EXISTS `check_sTel_length`;
 DELIMITER $$
 CREATE TRIGGER `check_sTel_length` BEFORE INSERT ON `sellercont` FOR EACH ROW BEGIN 
-	IF LENGTH(NEW.telNo) < 10 OR LENGTH(NEW.telNo) > 15 OR LENGTH(NEW.backupTelNo) < 10 OR LENGTH(NEW.backupTelNo) > 15
+	IF LENGTH(NEW.telNo) < 10 OR LENGTH(NEW.telNo) > 15
     THEN signal sqlstate '45000'
     SET MESSAGE_TEXT = "Telephone number too short or too long!";
     end if;
