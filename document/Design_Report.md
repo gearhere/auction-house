@@ -11,7 +11,7 @@
 
 ## Entity Relationship Diagram
 
-<img src="C:\tools\wamp64\www\auction-house-g13\document\ERD_Simplest.png" style="zoom:67%;" />
+<img src="https://github.com/gearhere/auction-house-g13/blob/main/document/ERD_Simplest.png" style="zoom:67%;" />
 
 ### Summary of the ER diagram
 There are
