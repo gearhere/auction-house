@@ -30,7 +30,7 @@ There are two kinds of users: buyer and seller. Attributes are divided into two 
 
 #### Data used for a buyer’s privilege
 
-A buyer can browse the auctions and search for matching results. <font color='blue'>[auctionNo]</font> and other relevant attributes are used to support the search. Then he can bid on an auction and update the bid before the auction ends. Every time when the buyer places a new bid, he needs to input <font color='blue'>[bidAmount]</font>. An <font color='blue'>[bidNo]</font> will be generated automatically. The buyer can watch an auction where <font color='blue'>[auctionNo]</font> and <font color='blue'>[buyerId]</font> are used. When he is outbid or there is an update on what he is watching, an email including the information of the highest bid will be sent to the buyer. By using the bid history and the current bids of other buyers, the system can get the recommended item's <font color='blue'>[bidNo]</font> and push the item's other attributes to the buyer.
+A buyer can browse the auctions and search for matching results. <font color='blue'>[auctionNo]</font> and other relevant attributes are used to support the search. Then he can bid on an auction and update the bid before the auction ends. Every time when the buyer places a new bid, he needs to input <font color='blue'>[bidAmount]</font>. An <font color='blue'>[bidNo]</font> will be generated automatically. The buyer can watch an auction where <font color='blue'>[auctionNo]</font> and <font color='blue'>[buyerId]</font> are used. When he is outbid or there is an update on what he is watching, an email including the information of the highest bid will be sent to the buyer. By using the bid history and the current bids of other buyers, the system can get the recommended item's <font color='blue'>[auctionNo]</font> and push the item's other attributes to the buyer.
 
 #### Data used for a seller’s privilege
 A seller can also browse the auctions and search for matching results. Besides, he can create auctions by inputting <font color='blue'>[title]</font>, <font color='blue'>[category]</font>, <font color='blue'>[description]</font>, <font color='blue'>[price]</font>, <font color='blue'>[time]</font>. There is an auto-incremented <font color='blue'>[auctionNo]</font>. The number is also used when the seller checks his listings of auctions. 
@@ -125,7 +125,7 @@ Finally, for createBid schema, its primary key is bidNo and the rest attributes 
 
 ## Physical Design
 
-Based on the schema, we further consider the usage of them in terms of frequency and resource. As the contacting method of buyer or seller is relatively less used during daily operations, we would like to separate them from the Buyer and Seller schema. Meanwhile, a foreign key ‘buyerId’ is used to connect buyer and buyerContact. In the same way, we have the Winner table. After the split, some of our tables have been changed and some new tables have been added, as follows:
+Based on the schema, we further consider the usage of them in terms of frequency and resource. As the contacting method of buyer or seller is relatively less used during daily operations, we would like to separate them from the Buyer and Seller schema. Meanwhile, a foreign key ‘buyerId’ is used to connect buyer and buyerContact. Following the same logic, we create Winner table for quicker update on the result of auction. After the split, some of our tables have been changed and some new tables have been added, as follows:
 
 - **Buyer**(<u>buyerId</u>, <u>email</u>, password, firstName, lastName)
 **Primary Key** buyerId
@@ -149,9 +149,9 @@ Based on the schema, we further consider the usage of them in terms of frequency
 **Foreign Key** auctionNo **references** Auction(auctionNo)
 **Foreign Key** buyerId **references** Buyer(buyerId)
 
-After deciding every table and its columns, We choose `InnoDB` as the engine and `utf8mb4_unicode_ci` as the collation. For each attribute, we consider its data types, length and the default value. For attributes whose data type is int, if there is a need, we set `UNSIGNED`. Similar to the logical design, we documented everything into the data dictionary for further reference.
+After deciding every table and its columns, We choose `InnoDB` as the engine and `utf8mb4_unicode_ci` as the collation. For each attribute, we consider its data types, length and the default value. For attributes whose data type is int, when the int needs to be positive, we set `UNSIGNED`. Similar to the logical design, we documented everything into the data dictionary for further reference.
 
-***Note: Details of each table on the physical level are illustrated by the database generation SQL script which is submitted alongside the code.***
+***Note: Details of each table on the physical level are illustrated by the database generation SQL script which is submitted alongside the code. We only submit the script instead of the data dictionary since they have the same contents. The data dictionary is the document for developing.***
 
 ## Database Queries & Explanation
 1. Account-related queries:
@@ -468,7 +468,7 @@ $max_price_query =
 ```
 5. Recommendation-related queries:
 
-- Select the auctions bidden by other buyers who have bid the same auction as you, and show them in recommendation page, in recommendation.php:
+- Select the auctions bid by other buyers who have bid the same auction as you, and show them in recommendation page, in recommendation.php:
 ```php
 $buyer_id_query = "SELECT buyerId FROM buyer WHERE email='$buyer_username'";
 ```
@@ -500,6 +500,9 @@ $query =
 ```php
 $bid_num_query = "SELECT COUNT(bidNo) FROM createbid WHERE auctionNo='$listing[0]'";
 ```
+
+- Find the current price of the recommended auction
+
 ```php
 $price_query = 
 "SELECT auctionNo,
@@ -516,8 +519,9 @@ $price_query =
  WHERE auction.auctionNo='$auction_no') AS comprehensive";
 ```
 6. System Events:
+-  Update auction status based on end date and current time
+
 ```sql
- Update auction status based on end date and current time.
  CREATE EVENT `UPDATE WINNER` 
  ON SCHEDULE EVERY 10 SECOND 
  DO
@@ -533,8 +537,10 @@ $price_query =
  AND bid.bidStatus = 1 
  AND bid.bidAmount >= auction.reservePrice
 ```
+
+- Update winner status
+
 ```sql
- Update winner status.
  CREATE EVENT `UPDATE AUCTION STATUS` 
  ON SCHEDULE EVERY 10 SECOND 
  DO
