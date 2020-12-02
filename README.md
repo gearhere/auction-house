@@ -20,11 +20,11 @@ This is the UCL COMP0022 group database project. Keep calm and bid high!
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
-PHP                             21            360            128           1620
-Markdown                         4            164              0            423
-SQL                              1             63            107            302
+PHP                             21            356            128           1647
+Markdown                         5            243              0            981
+SQL                              1             63            107            308
 -------------------------------------------------------------------------------
-SUM:                            26            587            235           2345
+SUM:                            27            662            235           2936
 -------------------------------------------------------------------------------
 ```
 
@@ -34,7 +34,8 @@ SUM:                            26            587            235           2345
 - [x] Attribute list
 - [x] Revision of ER diagram
 - [x] Database first design
-- [ ] report
+- [x] Azure (except sending email)
+- [x] report
 - [ ] demo video
 
 ### Database progress
@@ -43,8 +44,8 @@ SUM:                            26            587            235           2345
 - [x] system event
 - [x] engine
 - [x] winner
-- [ ] complete dummy data
-- [ ] merge address and telNo as userCont
+- [x] complete and consistent dummy data
+- [x] merge address and telNo as userCont
 - [ ] (optional) email & transaction hash
 - [ ] (advanced optional) query optimization
 - [ ] (advanced optional) backup and restoring database
@@ -103,12 +104,12 @@ SUM:                            26            587            235           2345
 - winner & bid status
   - [x] winner event does not work
   - [x] bid status 1 to 0 when placing a new bid
-- [ ] telNos are not inserted into the database
+- [x] telNos are not inserted into the database
 - [ ] 'increment' is not used
 - [ ] some early users lack address dummy data
 - [ ] (optional) email is recognized as spam
 - visual style
-  - [ ] (optional) search bar align to the both edge.
+  - [x] (optional) search bar align to the both edge.
   - [ ] (optional) size of arrow
 ## Tricks
 
@@ -136,7 +137,7 @@ SET GLOBAL event_scheduler = ON;
 
   For **WAMP** , add `event_scheduler=on` under `[mysqld]` in `my.ini`. Restart the WAMP services, the event shall begin to execute.
 
-2. [Environment configuration for sending email  from WAMP server with fake sendmain](https://blog.techwheels.net/send-email-from-localhost-wamp-server-using-sendmail/)
+2. [Environment configuration for sending email  from WAMP server with fake sendmail](https://blog.techwheels.net/send-email-from-localhost-wamp-server-using-sendmail/)
 
 
 
@@ -149,7 +150,6 @@ SET GLOBAL event_scheduler = ON;
 5. combination of items
 6. dynamic page (Countdown, immediate new bid notification)
 7. account data update
-8. cloud server (Azure)
 
 
 ## Additional Resources
@@ -158,6 +158,6 @@ SET GLOBAL event_scheduler = ON;
 
 2. [Choosing a Primary Key: Natural or Surrogate?](http://www.agiledata.org/essays/keys.html)
 
-3. Connect an existing Azure App Service to Azure Database for MySQL server https://docs.microsoft.com/en-us/azure/mysql/howto-connect-webapp
+3. [Connect an existing Azure App Service to Azure Database for MySQL server]( https://docs.microsoft.com/en-us/azure/mysql/howto-connect-webapp)
 
-4. Migrate your MySQL database by using import and export https://docs.microsoft.com/en-us/azure/mysql/concepts-migrate-import-export
+4. [Migrate your MySQL database by using import and export](https://docs.microsoft.com/en-us/azure/mysql/concepts-migrate-import-export)
